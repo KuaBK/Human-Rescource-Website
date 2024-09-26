@@ -1,23 +1,26 @@
 import React from 'react';
-import './Dashboard.css';
+import './Dashboard.scss';
 
 const Dashboard = () => {
   return (
     <div className="dashboard">
       <div className="welcome-section">
-        <h2>Hello Arpita 👋</h2>
-        <p>You can manage your things from here</p>
+        <div className="left-section">
+          <h1>Hello Arpita <span role="img" aria-label="wave">👋</span></h1>
+          <p>You can manage your things from here</p>
+        </div>
+        <div className="right-section">
+          <h1>Welcome</h1>
+        </div>
       </div>
       <div className="widget-grid">
-        <div className="widget">Notice</div>
-        <div className="widget">Apply for Leave</div>
-        <div className="widget">Access/Assets</div>
-        <div className="widget">Salary Slip</div>
-        <div className="widget">Attendance</div>
-        <div className="widget">Holiday</div>
-        <div className="widget">Employee Detail</div>
-        <div className="widget">Resign</div>
-        <div className="widget">Calendar</div>
+          <div className="frame employee">Nhân viên</div>
+          <div className="frame attendance">Chấm công</div>
+          <div className="frame salary">Tiền lương và phúc lợi</div>
+          <div className="frame department">Phòng ban</div>
+          <div className="frame project">Dự án</div>
+          <div className="frame training">Đào tạo và phát triển</div>
+          <div className="frame statistic">Thống kê</div>
       </div>
     </div>
   );
