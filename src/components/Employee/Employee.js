@@ -1,6 +1,23 @@
+import ModalCreateEmployee from "./ModalCreateEmployee";
+import './Employee.scss';
+
 const Employee = (props) => {
     return (
-        <div>employee page</div>
+        <div className="manage-emp-container">
+            <div className="title">
+                Manage Personel
+            </div> 
+
+            <div className="emp-content">
+                <div>
+                    <button>Add new employee</button>
+                </div>
+                <div>
+                    table users
+                </div>
+                <ModalCreateEmployee/>
+            </div>
+        </div>
     )
 }
 
