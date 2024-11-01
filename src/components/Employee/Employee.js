@@ -14,7 +14,7 @@ const Employee = (props) => {
                 </div>
                 <div>
                     table users
-                    123lyquang
+                    123
                 </div>
                 <ModalCreateEmployee/>
             </div>
