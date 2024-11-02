@@ -1,0 +1,50 @@
+.employee-profile-modal .modal-dialog {
+    max-width: 500px;
+    width: 100%;
+}
+
+.employee-profile-modal .modal-content {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.employee-profile-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.employee-profile-form .form-group {
+    margin-bottom: 15px;
+}
+
+.employee-profile-form input,
+.employee-profile-form select,
+.employee-profile-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.employee-profile-form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.employee-profile-form button:hover {
+    background-color: #218838;
+}
