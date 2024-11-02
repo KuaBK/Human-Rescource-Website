@@ -16,7 +16,7 @@ const Employee = (props) => {
                     table users
         
                     ly quang 12:00 jkjlksjdf
-                    chilling sang
+                    chilling sang moi     
                 </div>
                 <ModalCreateEmployee/>
             </div>
