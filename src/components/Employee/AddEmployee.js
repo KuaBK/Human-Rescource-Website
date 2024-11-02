@@ -22,7 +22,10 @@ const AddEmployee = ({ onAddEmployee, x }) => {
     phoneNumber: '',
     gender: 'Male',
     email: '',
+<<<<<<< HEAD
     status: 'Active', // Default to "Active"
+=======
+>>>>>>> 95d15daef6d009b1683e94aaaa22fde705893ac8
     address: '',
     avatar: '',
     tasks: 0,
@@ -56,6 +59,7 @@ const AddEmployee = ({ onAddEmployee, x }) => {
   return (
     <div className="add-employee-container">
       <form className="add-employee-form">
+<<<<<<< HEAD
         <input type="text" name="lastName" placeholder="Họ" value={newEmployee.lastName} onChange={handleChange} /><br />
         <input type="text" name="firstName" placeholder="Tên" value={newEmployee.firstName} onChange={handleChange} /><br />
         <input type="text" name="department" placeholder="Phòng ban" value={newEmployee.department} onChange={handleChange} /><br />
@@ -84,14 +88,45 @@ const AddEmployee = ({ onAddEmployee, x }) => {
         </select><br />
 
         <input type="text" name="address" placeholder="Địa chỉ" value={newEmployee.address} onChange={handleChange} /><br />
+=======
+        <input type="text" name="lastName" placeholder="Last Name" value={newEmployee.lastName} onChange={handleChange} /><br />
+        <input type="text" name="firstName" placeholder="First Name" value={newEmployee.firstName} onChange={handleChange} /><br />
+        <input type="text" name="department" placeholder="Department" value={newEmployee.department} onChange={handleChange} /><br />
+        <input type="text" name="position" placeholder="Position" value={newEmployee.position} onChange={handleChange} /><br />
+        <input type="text" name="job" placeholder="Job" value={newEmployee.job} onChange={handleChange} /><br />
+        <input type="date" name="dateOfHire" value={newEmployee.dateOfHire} onChange={handleChange} /><br />
+        <input type="number" name="baseSalary" placeholder="Base Salary" value={newEmployee.baseSalary} onChange={handleChange} /><br />
+        <input type="number" name="projectsCount" placeholder="Projects Count" value={newEmployee.projectsCount} onChange={handleChange} /><br />
+        <select name="role" value={newEmployee.role} onChange={handleChange}>
+          <option value="Employee">Employee</option>
+          <option value="Manager">Manager</option>
+        </select><br />
+        <input type="text" name="currentProject" placeholder="Current Project" value={newEmployee.currentProject} onChange={handleChange} /><br />
+        <input type="text" name="phoneNumber" placeholder="Phone Number" value={newEmployee.phoneNumber} onChange={handleChange} /><br />
+        <select name="gender" value={newEmployee.gender} onChange={handleChange}>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select><br />
+        <input type="email" name="email" placeholder="Email" value={newEmployee.email} onChange={handleChange} /><br />
+        <input type="text" name="address" placeholder="Address" value={newEmployee.address} onChange={handleChange} /><br />
+>>>>>>> 95d15daef6d009b1683e94aaaa22fde705893ac8
 
         {/* Input file for avatar upload */}
         <input type="file" accept="image/*" onChange={handleAvatarChange} /><br />
 
+<<<<<<< HEAD
         <button type="button" onClick={handleAddClick}>Thêm nhân viên</button>
+=======
+        <button type="button" onClick={handleAddClick}>Add Employee</button>
+>>>>>>> 95d15daef6d009b1683e94aaaa22fde705893ac8
       </form>
     </div>
   );
 };
 
 export default AddEmployee;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 95d15daef6d009b1683e94aaaa22fde705893ac8
