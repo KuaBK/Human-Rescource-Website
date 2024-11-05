@@ -1,35 +1,68 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+
 import reportWebVitals from './reportWebVitals';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Employee from './components/Employee/Employee';
-import Attendance from './components/Attendance/Attendance';
+import Attendance from './components/Attendance/EmployeeAttendance';
 import Salary from './components/Salary/Salary';
 import Department from './components/Department/Department';
 import Project from './components/Project/Project';
 import Training from './components/Training/Training';
 import Statistic from './components/Statistic/Statistic';
-import Dashboard from './components/Dashboard';
+import Dashboard from './Page/AdminPage/Dashboard';
+import Home from './components/Authentication/Home';
+import Login from './components/Authentication/Login';
+import Signup from './components/Authentication/Signup';
+
+import EmployeePage from './Page/EmployeePage/EmployeePage';
+import AdminPage from './Page/AdminPage/AdminPage';
+import EmployeeInfor from './components/Information/EmployeeInfor';
+import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
+import EmployeeTraining from './components/Training/EmployeeTraining';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-          <Route path="/" element={<App />}> 
-            <Route index element={<Dashboard />}></Route>
-            <Route path="employee" element={<Employee />}/>
-            <Route path="attendance" element={<Attendance />}/>
-            <Route path="salary" element={<Salary />}/>
-            <Route path="department" element={<Department />}/>
-            <Route path="project" element={<Project />}/>
-            <Route path="training" element={<Training />}/>
-            <Route path="statistic" element={<Statistic />}/>
-          </Route>
+
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/signup" element={<Signup/>}/>
+
+          <Route exact path="/login/admin" element={<AdminPage/>}> 
+                   
+                    <Route index element={<Dashboard />}></Route> 
+                    <Route path="employee" element={<Employee />}/>
+                    <Route path="attendance" element={<Attendance />}/>
+                    <Route path="salary" element={<Salary />}/>
+                    <Route path="department" element={<Department />}/>
+                    <Route path="project" element={<Project />}/>
+                    <Route path="training" element={<Training />}/>
+                    <Route path="statistic" element={<Statistic />}/>
+            </Route>
+
+            <Route exact path="/login/employee" element={<EmployeePage />}> 
+                   
+                    <Route index element={<Dashboard />}></Route> 
+                    <Route path="infor" element={<EmployeeInfor />}/>
+                    <Route path="attendance" element={<EmployeeAttendance/>}/>
+                    <Route path="salary" element={<Salary />}/>
+                    <Route path="department" element={<Department />}/>
+                    <Route path="project" element={<Project />}/>
+                    <Route path="training" element={<EmployeeTraining />}/>
+                    <Route path="statistic" element={<Statistic />}/>
+            </Route>
+                   
+                    
+
       </Routes>
     </BrowserRouter>
     

@@ -1,0 +1,76 @@
+.employee-profile {
+    max-width: 1000px;
+    margin-left: 200px;
+    //margin: 0 auto;
+    padding: 100px;
+    background: linear-gradient(135deg, #e0e7ff, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    color: #333;
+  
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid #ddd;
+  
+      .editable-input {
+        border: none;
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        width: 100%;
+        text-align: center;
+      }
+    }
+  
+    .profile-details {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+  
+      .info-group {
+        text-align: left;
+        flex: 1;
+        padding: 0 20px;
+        h3 {
+          font-size: 1.4rem;
+          color: #333;
+          border-bottom: 2px solid #01008a;
+          margin-bottom: 15px;
+          padding-bottom: 5px;
+        }
+      }
+    }
+  
+    .button-group {
+      margin-top: 20px;
+      
+      .edit-button, .save-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        &:hover {
+          background-color: #7676dc;
+        }
+      }
+      
+      .edit-button {
+        background-color: #6a72c7;
+        color: white;
+      }
+  
+      .save-button {
+        background-color: #00b300;
+        color: white;
+      }
+    }
+  }
+  

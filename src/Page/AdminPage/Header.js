@@ -33,28 +33,7 @@ const Header = () => {
           </Container>
       </Navbar>
     );
-
-  // return (
-  //   <header className="header">
-  //     <div className="logo">BK Manarate</div>
-  //     <nav className="nav-menu">
-  //       <a href="#dashboard">Dashboard</a>
-  //       <a href="#notice">Notice</a>
-  //       <a href="#leave">Apply for leave</a>
-  //       <a href="#assets">Access/Assets</a>
-  //       <a href="#salary">Salary Slip</a>
-  //     </nav>
-  //     <div className="header-icons">
-  //       <span className="icon-notification">🔔</span>
-  //       <span className="icon-settings">⚙️</span>
-  //       {/* <div className="profile-icon">AR</div> */}
-  //       <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-  //         <NavDropdown.Item href="#action/3.1">Hồ sơ</NavDropdown.Item>
-  //         <NavDropdown.Item href="#action/3.2">Đăng xuất</NavDropdown.Item>         
-  //       </NavDropdown>
-  //     </div>
-  //   </header>
-  // );
+    
 };
 
 export default Header;
