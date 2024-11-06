@@ -13,6 +13,7 @@ const EmployeeInfor = () => {
     department: 'Technology',
     officeLocation: 'H6- BK',
     employeeID: '12345',
+    profileImage: '', // New state for the profile image
   });
 
   // State to track if in edit mode
@@ -25,6 +26,18 @@ const EmployeeInfor = () => {
       ...prevProfile,
       [name]: value,
     }));
+  };
+
+  // Function to handle profile image upload
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file); // Create a local URL for the image
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        profileImage: imageUrl,
+      }));
+    }
   };
 
   // Function to toggle edit mode
@@ -44,7 +57,7 @@ const EmployeeInfor = () => {
       {/* Profile Header */}
       <div className="profile-header">
         <img
-          src=""
+          src={profile.profileImage || "default_profile_picture.png"} // Use a default image if none is uploaded
           alt="Employee Profile"
           className="profile-image"
         />
@@ -73,6 +86,22 @@ const EmployeeInfor = () => {
           )}
         </div>
       </div>
+
+      {/* Profile Image Upload */}
+      {isEditing && (
+        <div className="image-upload">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="file-upload"
+            id="file-upload"
+          />
+          <label htmlFor="file-upload" className="upload-button">
+            <i className="fas fa-upload"></i> Upload Profile Picture
+          </label>
+        </div>
+      )}
 
       {/* Profile Details */}
       <div className="profile-details">
