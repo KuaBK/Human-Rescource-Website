@@ -25,7 +25,7 @@ import AdminPage from './Page/AdminPage/AdminPage';
 import EmployeeInfor from './components/Information/EmployeeInfor';
 import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
 import EmployeeTraining from './components/Training/EmployeeTraining';
-import AdminAttendance from './components/Attendance/AdminAttendance'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
