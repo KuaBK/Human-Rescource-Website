@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
-import './EmployeeProfileModal.css'; 
+import './EmployeeProfileModal.css';
 
 const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
     const [editEmployee, setEditEmployee] = React.useState(employee);
@@ -24,25 +24,51 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                 <Modal.Title>Thông tin nhân viên</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+
                 <Form className="employee-profile-form">
-                    <Form.Group controlId="formFirstName">
-                        <Form.Label>Tên</Form.Label>
+
+                    <div className="row g-3 mb-0">
+                        <div className="col-sm-6">
+                            <Form.Group controlId="formFirstName">
+                                <Form.Label>Tên</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="firstName"
+                                    value={editEmployee.firstName}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                        </div>
+
+                        <div className="col-sm-6">
+
+
+
+                            <Form.Group controlId="formLastName" >
+                                <Form.Label>Họ</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="lastName"
+                                    value={editEmployee.lastName}
+                                    onChange={handleChange}
+                                />
+
+
+                            </Form.Group>
+                        </div>
+                    </div>
+
+
+                    <Form.Group controlId="formDepartment" className="mt-2">
+                        <Form.Label>Phòng ban</Form.Label>
                         <Form.Control
                             type="text"
-                            name="firstName"
-                            value={editEmployee.firstName}
-                            onChange={handleChange}
+                            name="department"
+                            value={editEmployee.department}
+                            readOnly
                         />
                     </Form.Group>
-                    <Form.Group controlId="formLastName" className="mt-2">
-                        <Form.Label>Họ</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="lastName"
-                            value={editEmployee.lastName}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+
                     <Form.Group controlId="formPosition" className="mt-2">
                         <Form.Label>Chức vụ</Form.Label>
                         <Form.Control
@@ -59,15 +85,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             name="job"
                             value={editEmployee.job}
                             onChange={handleChange}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formDepartment" className="mt-2">
-                        <Form.Label>Phòng ban</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="department"
-                            value={editEmployee.department}
-                            readOnly
                         />
                     </Form.Group>
                     <Form.Group controlId="formDateOfHire" className="mt-2">
@@ -88,15 +105,41 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formCurrentProject" className="mt-2">
-                        <Form.Label>Dự án hiện tại</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="currentProject"
-                            value={editEmployee.currentProject}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+
+                    <div className="row g-3 mb-0">
+                        <div className="col-sm-6">
+                            <Form.Group controlId="formNumberOfProject">
+                                <Form.Label>Số lượng dự án đang làm</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="numberProject"
+                                    value={editEmployee.projectsCount}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                        </div>
+
+                        <div className="col-sm-6">
+
+
+
+
+                            <Form.Group controlId="formCurrentProject">
+                                <Form.Label>Dự án hiện tại</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="currentProject"
+                                    value={editEmployee.currentProject}
+                                    onChange={handleChange}
+                                />
+
+
+                            </Form.Group>
+
+
+                        </div>
+                    </div>
+
                     <Form.Group controlId="formPhoneNumber" className="mt-2">
                         <Form.Label>Số điện thoại</Form.Label>
                         <Form.Control

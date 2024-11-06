@@ -36,7 +36,7 @@ const EmployeeCard = ({ employee, onProfileClick, index }) => {
     return (
         <div className="col" style={{ animationDelay: `${index * 0.2}s` }}>
             <div className="card">
-                <div className='row no-gutters'>
+                <div className='row no-gutters employee-list-row'>
                     <div className='col-3 d-flex flex-column align-items-center' style={{ height: '100%' }}>
                         {/* Phần Avatar chiếm 2/3 */}
                         <div className="d-flex flex-column align-items-center flex-grow-2">
@@ -137,7 +137,7 @@ const Employee = ({ x }) => {
             job: 'Phát triển ứng dụng và hệ thống phần mềm.',
             dateOfHire: '2020-01-15',
             baseSalary: '1000 USD',
-            projectsCount: 5,
+            projectsCount: 4,
             role: 'Employee',
             currentProject: 'Project A',
             phoneNumber: '0123456789',
@@ -393,7 +393,7 @@ const Employee = ({ x }) => {
                     />
                 )}
             </div>
-            <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered className="custom-modal">
+            <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered className="custom-modal modal-lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm Nhân Viên Mới</Modal.Title>
                 </Modal.Header>
