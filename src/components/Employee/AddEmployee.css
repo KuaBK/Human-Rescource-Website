@@ -1,0 +1,54 @@
+.add-employee-form input[type="text"],
+.add-employee-form input[type="number"],
+.add-employee-form input[type="date"],
+.add-employee-form input[type="email"],
+.add-employee-form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.add-employee-form input[type="file"] {
+    margin-top: 10px;
+}
+
+.add-employee-form {
+    width: 100%;
+    /* max-width: 500px; */
+    /* Giới hạn chiều rộng form */
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    /* Bo góc */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Bóng đổ */
+}
+
+.add-employee-form button {
+    background-color: #4CAF50;
+    /* Màu nút thêm */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.add-employee-form button:hover {
+    background-color: #45a049;
+}
+
+.avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 10px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}

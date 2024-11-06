@@ -1,0 +1,100 @@
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #0f6cbf;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.nav-menu a:hover {
+  color: #cce7ff; /* Light blue color on hover */
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-icons .icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.header-icons .icon:hover {
+  color: #cce7ff; /* Light blue on hover */
+}
+
+.profile-icon {
+  background-color: white;
+  color: #003366;
+  padding: 10px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.custom-navbar {
+  background-color: #0f6cbf;
+  padding: 15px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.navbar-brand {
+  font-weight: bold;
+  padding-right: 80px;
+  font-size: 24px;
+  color: white !important;
+  text-transform: uppercase; /* Adds modern look */
+}
+
+.custom-navbar .nav-link {
+  color: white !important;
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 20px;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .nav-link:hover {
+  color: #cce7ff !important;
+}
+
+.custom-navbar .nav-dropdown {
+  color: white !important;
+}
+
+.custom-navbar .dropdown-item {
+  color: #333 !important; /* Dark text for contrast */
+  font-weight: 500;
+}
+
+.custom-navbar .dropdown-item:hover {
+  color: #0f6cbf !important;
+  background-color: #e0f0ff !important; /* Light blue background on hover */
+}
+
+
