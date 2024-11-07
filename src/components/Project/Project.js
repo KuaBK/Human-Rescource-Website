@@ -57,10 +57,7 @@ const Project = () => {
         setIsEditOpen(false);
     };
 
-    const handleAddEmployee = (newEmployee) => {
-        setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
-        setShowAddModal(false);
-    };
+
 
 
     const deleteProject = (projectId) => {
@@ -138,14 +135,6 @@ const Project = () => {
                 ))}
             </div>
 
-            <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered className="custom-modal modal-lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Project</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <AddEmployee onAddEmployee={handleAddEmployee} />
-                </Modal.Body>
-            </Modal>
 
             {/* {isEditOpen && (
                 <EditTask

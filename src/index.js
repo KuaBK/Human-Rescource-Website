@@ -26,6 +26,11 @@ import EmployeeInfor from './components/Information/EmployeeInfor';
 import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
 import EmployeeTraining from './components/Training/EmployeeTraining';
 
+import AdminAttendance from './components/Attendance/AdminAttendance'
+import AdminTraining from './components/Training/AdminTraining'
+
+
+import Chat from './components/Chat/EmployeeChat'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -48,6 +53,7 @@ root.render(
           <Route path="training" element={<Training />} />
           <Route path="statistic" element={<Statistic />} />
           <Route path="admin-attendance" element={<AdminAttendance />} />
+          <Route path="admin-training" element={<AdminTraining />} />
 
 
         </Route>
@@ -62,6 +68,7 @@ root.render(
           <Route path="project" element={<Project />} />
           <Route path="training" element={<EmployeeTraining />} />
           <Route path="statistic" element={<Statistic />} />
+          <Route path="chat" element={<Chat />} />
         </Route>
 
 
