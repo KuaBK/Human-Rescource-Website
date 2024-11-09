@@ -60,9 +60,6 @@ root.render(
                     <Route path="project" element={<Project />}/>
                     <Route path="training" element={<EmployeeTraining />}/>
                     <Route path="chat" element={<EmployeeChat />}/>
-
-                   
-
             </Route>
                    
                     
