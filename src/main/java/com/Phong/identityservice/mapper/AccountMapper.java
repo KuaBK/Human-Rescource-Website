@@ -6,15 +6,15 @@ import org.mapstruct.MappingTarget;
 
 import com.Phong.identityservice.dto.request.UserCreationRequest;
 import com.Phong.identityservice.dto.request.UserUpdateRequest;
-import com.Phong.identityservice.dto.response.UserResponse;
+import com.Phong.identityservice.dto.response.AccountResponse;
 import com.Phong.identityservice.entity.Account;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface AccountMapper {
     Account toUser(UserCreationRequest request);
 
-    UserResponse toUserResponse(Account account);
+    AccountResponse toUserResponse(Account account);
 
-    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "role", ignore = true)
     void updateUser(@MappingTarget Account account, UserUpdateRequest request);
 }

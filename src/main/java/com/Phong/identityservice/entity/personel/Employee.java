@@ -2,6 +2,7 @@ package com.Phong.identityservice.entity.personel;
 
 import java.util.Set;
 
+import com.Phong.identityservice.entity.departments.Department;
 import jakarta.persistence.*;
 
 import com.Phong.identityservice.entity.projects.Projects;
@@ -26,4 +27,8 @@ public class Employee extends Personel {
             joinColumns = @JoinColumn(name = "EmployeeCode"),
             inverseJoinColumns = @JoinColumn(name = "ProjectId"))
     Set<Projects> projectList;
+
+    @ManyToOne
+    @JoinColumn(name = "departmentID")
+    Department department;
 }

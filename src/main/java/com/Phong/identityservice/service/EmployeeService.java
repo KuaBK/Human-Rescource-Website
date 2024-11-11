@@ -2,6 +2,7 @@ package com.Phong.identityservice.service;
 
 import java.util.Optional;
 
+import com.Phong.identityservice.entity.departments.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class EmployeeService {
             employee.setPhone(employeeDetails.getPhone());
             employee.setAddress(employeeDetails.getAddress());
             employee.setPosition(employeeDetails.getPosition());
+            employee.setDepartment(employeeDetails.getDepartment());
             return employeeRepository.save(employee);
         }
         return null;

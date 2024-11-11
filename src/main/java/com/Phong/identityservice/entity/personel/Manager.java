@@ -1,10 +1,10 @@
 package com.Phong.identityservice.entity.personel;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.Phong.identityservice.entity.departments.Department;
+import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,5 +18,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Manager extends Personel {
     @Column(name = "ManageDate")
-    LocalDateTime manageDate;
+    LocalDate manageDate;
+
+    @OneToOne
+    @JoinColumn(name = "departmentID")
+    Department department;
 }

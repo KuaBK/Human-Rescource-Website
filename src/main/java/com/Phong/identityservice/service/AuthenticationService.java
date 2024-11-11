@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import com.Phong.identityservice.dto.request.AuthenticationRequest;
 import com.Phong.identityservice.dto.request.IntrospectRequest;
@@ -23,8 +22,8 @@ import com.Phong.identityservice.entity.Account;
 import com.Phong.identityservice.entity.InvalidatedToken;
 import com.Phong.identityservice.exception.AppException;
 import com.Phong.identityservice.exception.ErrorCode;
+import com.Phong.identityservice.repository.AccountRepository;
 import com.Phong.identityservice.repository.InvalidatedTokenRepository;
-import com.Phong.identityservice.repository.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -42,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
-    UserRepository userRepository;
+    AccountRepository accountRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
 
     @NonFinal
@@ -72,7 +71,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        var user = userRepository
+        var user = accountRepository
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
@@ -82,7 +81,11 @@ public class AuthenticationService {
 
         var token = generateToken(user);
 
-        return AuthenticationResponse.builder().token(token).authenticated(true).build();
+        return AuthenticationResponse.builder()
+                .token(token.token)
+                .expiryTime(token.expiryDate)
+                .authenticated(true)
+                .build();
     }
 
     public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
@@ -96,24 +99,33 @@ public class AuthenticationService {
         invalidatedTokenRepository.save(invalidatedToken);
 
         var username = signJWT.getJWTClaimsSet().getSubject();
-        var user =
-                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+        var user = accountRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         var token = generateToken(user);
 
-        return AuthenticationResponse.builder().token(token).authenticated(true).build();
+        return AuthenticationResponse.builder()
+                .token(token.token)
+                .expiryTime(expirationTime)
+                .authenticated(true)
+                .build();
     }
 
-    private String generateToken(Account account) {
+    private TokenInfo generateToken(Account account) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+        Date issueTime = new Date();
+        Date expiryTime = new Date(Instant.ofEpochMilli(issueTime.getTime())
+                .plus(1, ChronoUnit.HOURS)
+                .toEpochMilli());
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(account.getUsername())
                 .issuer("Phong.com")
-                .issueTime(new Date())
-                .expirationTime(new Date(
-                        Instant.now().plus(validDuration, ChronoUnit.SECONDS).toEpochMilli()))
+                .issueTime(issueTime)
+                .expirationTime(expiryTime)
                 .jwtID(UUID.randomUUID().toString())
+                .claim("accountId", account.getId())
                 .claim("scope", buildScope(account))
                 .build();
 
@@ -123,7 +135,7 @@ public class AuthenticationService {
 
         try {
             jwsObject.sign(new MACSigner(signerKey.getBytes()));
-            return jwsObject.serialize();
+            return new TokenInfo(jwsObject.serialize(), expiryTime);
         } catch (JOSEException e) {
             log.error("Cannot create token", e);
             throw new IllegalArgumentException(e);
@@ -174,10 +186,11 @@ public class AuthenticationService {
 
     private String buildScope(Account account) {
         StringJoiner stringJoiner = new StringJoiner(" ");
-        if (!CollectionUtils.isEmpty(account.getRoles()))
-            account.getRoles().forEach(role -> {
-                stringJoiner.add("ROLE_" + role.getName());
-            });
+        if (account.getRole() != null) {
+            stringJoiner.add("ROLE_" + account.getRole().name());
+        }
         return stringJoiner.toString();
     }
+
+    private record TokenInfo(String token, Date expiryDate) {}
 }

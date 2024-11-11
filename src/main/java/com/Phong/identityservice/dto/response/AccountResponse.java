@@ -1,4 +1,4 @@
-package com.Phong.identityservice.dto.request;
+package com.Phong.identityservice.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleRequest {
-    String name;
+public class AccountResponse {
+    String id;
+    String username;
 }

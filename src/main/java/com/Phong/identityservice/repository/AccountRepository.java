@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.Phong.identityservice.entity.Account;
 
 @Repository
-public interface UserRepository extends JpaRepository<Account, String> {
+public interface AccountRepository extends JpaRepository<Account, String> {
     boolean existsByUsername(String username);
 
     Optional<Account> findByUsername(String username);

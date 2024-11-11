@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.Phong.identityservice.dto.request.ApiResponse;
 import com.Phong.identityservice.dto.request.UserCreationRequest;
 import com.Phong.identityservice.dto.request.UserUpdateRequest;
-import com.Phong.identityservice.dto.response.UserResponse;
-import com.Phong.identityservice.service.UserService;
+import com.Phong.identityservice.dto.response.AccountResponse;
+import com.Phong.identityservice.service.AccountService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,52 +23,52 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class UserController {
-    UserService userService;
+public class AccountController {
+    AccountService accountService;
 
     @PostMapping
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.createUser(request))
+    ApiResponse<AccountResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+        return ApiResponse.<AccountResponse>builder()
+                .result(accountService.createUser(request))
                 .build();
     }
 
     @GetMapping
-    ApiResponse<List<UserResponse>> getAllUsers() {
+    ApiResponse<List<AccountResponse>> getAllUsers() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
         log.info("Username: {}", authentication.getName());
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
-        return ApiResponse.<List<UserResponse>>builder()
-                .result(userService.getAllUsers())
+        return ApiResponse.<List<AccountResponse>>builder()
+                .result(accountService.getAllUsers())
                 .build();
     }
 
     @GetMapping("/{userId}")
-    ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getUser(userId))
+    ApiResponse<AccountResponse> getUser(@PathVariable("userId") String userId) {
+        return ApiResponse.<AccountResponse>builder()
+                .result(accountService.getUser(userId))
                 .build();
     }
 
     @GetMapping("/myInfo") // get my info by token
-    ApiResponse<UserResponse> getMyInfo() {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getMyInfo())
+    ApiResponse<AccountResponse> getMyInfo() {
+        return ApiResponse.<AccountResponse>builder()
+                .result(accountService.getMyInfo())
                 .build();
     }
 
     @DeleteMapping("/{userId}")
     ApiResponse<String> deleteUser(@PathVariable String userId) {
-        userService.deleteUser(userId);
+        accountService.deleteUser(userId);
         return ApiResponse.<String>builder().result("User has been deleted").build();
     }
 
     @PutMapping("/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.updateUser(userId, request))
+    ApiResponse<AccountResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+        return ApiResponse.<AccountResponse>builder()
+                .result(accountService.updateUser(userId, request))
                 .build();
     }
 }

@@ -31,6 +31,8 @@ public class Department {
     @Column(updatable = false)
     LocalDate establishmentDate;
 
+    String address;
+
     @OneToOne
     @JoinColumn(name = "ManagerCode")
     Manager manager;

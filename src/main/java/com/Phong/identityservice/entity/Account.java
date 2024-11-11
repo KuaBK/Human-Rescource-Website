@@ -1,7 +1,5 @@
 package com.Phong.identityservice.entity;
 
-import java.util.Set;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -28,6 +26,6 @@ public class Account {
     @NotNull
     String password;
 
-    @ManyToMany
-    Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    Role role;
 }
