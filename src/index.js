@@ -27,6 +27,9 @@ import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
 import EmployeeTraining from './components/Training/EmployeeTraining';
 import EmployeeChat from './components/Chat/EmployeeChat';
 import ManagerPage from './Page/ManagerPage/ManagerPage';
+import DevideTask from './components/Project/DevideTask';
+import SubmitTask from './components/Project/SubmitTask';
+import Participation from './components/Project/Participation';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -59,6 +62,9 @@ root.render(
                     <Route path="salary" element={<Salary />}/>
                     <Route path="department" element={<Department />}/>
                     <Route path="project" element={<Project />}/>
+                    <Route path="participation" element={<Participation />}/>
+                     <Route path="submittask" element={<SubmitTask/>}/>
+                    
                     <Route path="training" element={<EmployeeTraining />}/>
                     <Route path="chat" element={<EmployeeChat />}/>
             </Route>
@@ -68,6 +74,8 @@ root.render(
                     <Route index element={<Dashboard />}></Route> 
                     <Route path="infor" element={<EmployeeInfor />}/>
                     <Route path="attendance" element={<EmployeeAttendance/>}/>
+                    <Route path="devidetask" element={<DevideTask/>}/>
+                    
                     <Route path="salary" element={<Salary />}/>
                     <Route path="department" element={<Department />}/>
                     <Route path="project" element={<Project />}/>

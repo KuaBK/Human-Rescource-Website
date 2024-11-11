@@ -1,15 +1,18 @@
-// ESidebar.js
-
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { PiNotePencilDuotone } from 'react-icons/pi';
 import { FaProjectDiagram, FaRegUser } from 'react-icons/fa';
 import { GiTeamUpgrade } from 'react-icons/gi';
-import { BiLogOut, BiChat, BiX, BiChevronRight } from 'react-icons/bi';
+import { BiLogOut, BiChat, BiX, BiChevronRight, BiChevronDown } from 'react-icons/bi';
 import './ESidebar.scss';
 
 function ESidebar() {
   const [expanded, setExpanded] = useState(true);
+  const [projectDropdown, setProjectDropdown] = useState(false);
+
+  const toggleProjectDropdown = () => {
+    setProjectDropdown((prev) => !prev);
+  };
 
   return (
     <div className={`sidebar ${expanded ? 'expanded' : 'collapsed'}`}>
@@ -32,10 +35,24 @@ function ESidebar() {
           <PiNotePencilDuotone />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
         </NavLink>
-        <NavLink to="project" className="nav-link-side" activeClassName="active-link">
+
+        {/* Project Dropdown */}
+        <div className="nav-link-side dropdown" onClick={toggleProjectDropdown}>
           <FaProjectDiagram />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
-        </NavLink>
+          {expanded && <BiChevronDown className={`dropdown-icon ${projectDropdown ? 'open' : ''}`} />}
+        </div>
+        {expanded && projectDropdown && (
+          <div className="dropdown-content">
+            <NavLink to="participation" className="dropdown-item" activeClassName="active-link">
+              Các dự án tham gia
+            </NavLink>
+            <NavLink to="submittask" className="dropdown-item" activeClassName="active-link">
+              Nộp task
+            </NavLink>
+          </div>
+        )}
+
         <NavLink to="training" className="nav-link-side" activeClassName="active-link">
           <GiTeamUpgrade />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
