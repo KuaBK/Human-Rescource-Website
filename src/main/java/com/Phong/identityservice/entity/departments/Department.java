@@ -2,6 +2,7 @@ package com.Phong.identityservice.entity.departments;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,13 +19,15 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "department")
+@Table(name = "department", uniqueConstraints = {@UniqueConstraint(columnNames = "departmentName")})
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long departmentId;
 
+    @Column(unique = true)
     String departmentName;
+
     int employeeNumber;
 
     @CreationTimestamp
@@ -34,6 +37,7 @@ public class Department {
     String address;
 
     @OneToOne
+    @JsonManagedReference
     @JoinColumn(name = "ManagerCode")
     Manager manager;
 }

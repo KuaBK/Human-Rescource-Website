@@ -26,10 +26,8 @@ public class DepartmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) {
-        return departmentService
-                .getDepartmentById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Department department = departmentService.getDepartmentById(id);
+        return ResponseEntity.ok(department);
     }
 
     @PostMapping
@@ -49,3 +47,4 @@ public class DepartmentController {
         return ResponseEntity.noContent().build();
     }
 }
+

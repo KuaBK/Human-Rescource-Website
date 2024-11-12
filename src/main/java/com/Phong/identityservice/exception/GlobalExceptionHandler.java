@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import jakarta.validation.ConstraintViolation;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,21 +26,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handlingRuntimeException(Exception exception) {
         log.error("Exception: ", exception);
         ApiResponse apiResponse = new ApiResponse();
-
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
-
-        return ResponseEntity.badRequest().body(apiResponse);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }
 
     @ExceptionHandler(value = AppException.class)
-    ResponseEntity<ApiResponse> handlingAppException(AppException exception) {
+    public ResponseEntity<ApiResponse> handlingAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();
         ApiResponse apiResponse = new ApiResponse();
-
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
-
         return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
     }
 

@@ -21,21 +21,21 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/account")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class AccountController {
     AccountService accountService;
 
-    @PostMapping
+    @PostMapping("/create")
     ApiResponse<AccountResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         return ApiResponse.<AccountResponse>builder()
                 .result(accountService.createUser(request))
                 .build();
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     ApiResponse<List<AccountResponse>> getAllUsers() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -54,7 +54,7 @@ public class AccountController {
                 .build();
     }
 
-    @PostMapping("/myInfo")  // Nhận token từ request body
+    @PostMapping("/myInfo")
     public ApiResponse<AccountResponse> getMyInfo(@RequestBody TokenRequest Request) {
         return ApiResponse.<AccountResponse>builder()
                 .result(accountService.getMyInfo(Request.getToken()))

@@ -1,5 +1,6 @@
 package com.Phong.identityservice.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,11 +20,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
-        "/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/users/myInfo"
+            "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh",
+            "/account/myInfo","/account",
+            "/attendance/checkIn/{employeeId}",  "/attendance/checkOut/{employeeId}",
     };
 
     private final CustomJwtDecoder customJwtDecoder;
 
+    @Autowired
     public SecurityConfig(CustomJwtDecoder customJwtDecoder) {
         this.customJwtDecoder = customJwtDecoder;
     }

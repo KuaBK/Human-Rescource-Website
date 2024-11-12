@@ -8,7 +8,7 @@ import com.Phong.identityservice.entity.personel.Employee;
 import com.Phong.identityservice.service.EmployeeService;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
