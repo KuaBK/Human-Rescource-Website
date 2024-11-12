@@ -82,12 +82,8 @@ root.render(
                     <Route path="training" element={<EmployeeTraining />}/>
                     <Route path="chat" element={<EmployeeChat />}/>
             </Route>
-                   
-                    
-
       </Routes>
     </BrowserRouter>
-    
   </React.StrictMode>
 );
 
