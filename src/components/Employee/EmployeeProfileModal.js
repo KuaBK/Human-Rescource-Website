@@ -96,6 +96,19 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             readOnly
                         />
                     </Form.Group>
+
+                    {editEmployee.role == 'Manager' && (<>
+                        <Form.Group controlId="formManagerDate" className="mt-2">
+                            <Form.Label> Ngày bắt đầu quản lý </Form.Label>
+                            <Form.Control
+                                type="date"
+                                name="manageDate"
+                                value={editEmployee.manageDate || ''}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                    </>)}
+
                     <Form.Group controlId="formBaseSalary" className="mt-2">
                         <Form.Label>Lương cơ bản</Form.Label>
                         <Form.Control
@@ -109,11 +122,11 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                     <div className="row g-3 mb-0">
                         <div className="col-sm-6">
                             <Form.Group controlId="formNumberOfProject">
-                                <Form.Label>Số lượng dự án đang làm</Form.Label>
+                                <Form.Label>Số lượng task hoàn thành</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="numberProject"
-                                    value={editEmployee.projectsCount}
+                                    value={editEmployee.tasksCount}
                                     onChange={handleChange}
                                 />
                             </Form.Group>

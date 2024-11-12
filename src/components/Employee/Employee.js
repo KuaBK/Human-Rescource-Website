@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react'
 import './Employee.css'
-import { Star, Files, Plus, User } from 'phosphor-react';
+import { Star, Files, Plus, User, Trash } from 'phosphor-react';
 import { Link } from 'react-router-dom';
 import EmployeeProfileModal from './EmployeeProfileModal';
 import AddEmployee from './AddEmployee';
@@ -31,8 +31,15 @@ function getPositionColor(position) {
     }
 }
 
+function getRoleColor(role) {
+    switch (role) {
+        case "Employee": return "#0004fc";
+        default: return "#fc0000";
+    }
+}
 
-const EmployeeCard = ({ employee, onProfileClick, index }) => {
+
+const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
     return (
         <div className="col" style={{ animationDelay: `${index * 0.2}s` }}>
             <div className="card">
@@ -72,10 +79,15 @@ const EmployeeCard = ({ employee, onProfileClick, index }) => {
                         <div className='card-body d-flex flex-column' style={{ height: '100%' }}>
 
                             {/* Phần tên chiếm 1/5 */}
-                            <div className='d-flex align-items-center' style={{ flex: '1' }}>
+                            <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>
                                 <h5 className='card-title mb-0'>
                                     {employee.firstName} {employee.lastName}
                                 </h5>
+
+
+                                <button className='btn btn-danger' onClick={onDeleteClick}>
+                                    <Trash size={16} className="me-1" />
+                                </button>
                             </div>
 
                             {/* Phần chức vụ chiếm 1/5, chỉ tô màu nền trong phạm vi chữ */}
@@ -91,7 +103,27 @@ const EmployeeCard = ({ employee, onProfileClick, index }) => {
                                     >
                                         {employee.position}
                                     </span>
+
+
                                 </h6>
+
+                                <h6 className='card-subtitle mb-0 custom-ml'>
+                                    <span
+                                        style={{
+                                            backgroundColor: getRoleColor(employee.role),
+                                            color: 'white',
+                                            borderRadius: '4px',
+                                            padding: '2px 8px',
+                                        }}
+                                    >
+                                        {employee.role}
+                                    </span>
+
+
+                                </h6>
+
+
+
                             </div>
 
                             {/* Đường kẻ ngăn cách */}
@@ -103,15 +135,20 @@ const EmployeeCard = ({ employee, onProfileClick, index }) => {
                             </div>
 
                             {/* Phần nút chiếm 1/5 */}
-                            <div className='d-flex justify-content-start mt-auto' style={{ flex: '1' }}>
-                                <button className='btn btn-primary me-1'>
-                                    <Plus size={16} className="me-1" /> {/* Biểu tượng Plus */}
+                            <div className='d-flex justify-content-between mt-auto' style={{ flex: '1' }}>
+                                {/* <button className='btn btn-primary me-1'>
+                                    <Plus size={16} className="me-1" /> 
                                     Thêm Task
+                                </button> */}
+
+
+                                <button className='btn bg-success text-white me-1' onClick={onProfileClick}>
+                                    <User size={16} className="me-1" /> Hồ sơ
                                 </button>
-                                <button className='btn btn-secondary' onClick={onProfileClick}>
-                                    <User size={16} className="me-1" /> {/* Biểu tượng User */}
-                                    Profile
-                                </button>
+                                {/* <button className='btn btn-danger' onClick={onDeleteClick}>
+                                    <Trash size={16} className="me-1" /> Xóa
+                                </button> */}
+
                             </div>
                         </div>
                     </div>
@@ -147,6 +184,7 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
         },
         {
             id: 2,
@@ -167,6 +205,7 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
         },
         {
             id: 3,
@@ -178,7 +217,7 @@ const Employee = ({ x }) => {
             dateOfHire: '2020-01-15',
             baseSalary: '1000 USD',
             projectsCount: 5,
-            role: 'Employee',
+            role: 'Manager',
             currentProject: 'Project A',
             phoneNumber: '0123456789',
             gender: 'Male',
@@ -187,6 +226,8 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
+            manageDate: '2021-05-14',
         }, {
             id: 4,
             lastName: 'Doe',
@@ -197,7 +238,7 @@ const Employee = ({ x }) => {
             dateOfHire: '2020-01-15',
             baseSalary: '1000 USD',
             projectsCount: 5,
-            role: 'Employee',
+            role: 'Manager',
             currentProject: 'Project A',
             phoneNumber: '0123456789',
             gender: 'Male',
@@ -206,6 +247,8 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
+            manageDate: '2021-05-14',
         },
         {
             id: 5,
@@ -217,7 +260,7 @@ const Employee = ({ x }) => {
             dateOfHire: '2020-01-15',
             baseSalary: '1000 USD',
             projectsCount: 5,
-            role: 'Employee',
+            role: 'Manager',
             currentProject: 'Project A',
             phoneNumber: '0123456789',
             gender: 'Male',
@@ -226,6 +269,8 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
+            manageDate: '2021-05-14',
         }, {
             id: 6,
             lastName: 'Doe',
@@ -236,7 +281,7 @@ const Employee = ({ x }) => {
             dateOfHire: '2020-01-15',
             baseSalary: '1000 USD',
             projectsCount: 5,
-            role: 'Employee',
+            role: 'Manager',
             currentProject: 'Project A',
             phoneNumber: '0123456789',
             gender: 'Male',
@@ -245,6 +290,7 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/6.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
         }, {
             id: 7,
             lastName: 'Doe',
@@ -264,6 +310,7 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/7.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
         },
         {
             id: 8,
@@ -284,6 +331,7 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/8.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
         },
         {
             id: 9,
@@ -304,6 +352,7 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/9.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
         },
         {
             id: 10,
@@ -324,6 +373,7 @@ const Employee = ({ x }) => {
             avatar: 'https://randomuser.me/api/portraits/men/10.jpg',
             tasks: 10,
             stars: 5,
+            tasksCount: 10,
         },
 
 
@@ -360,6 +410,11 @@ const Employee = ({ x }) => {
         setShowModal(true);
     };
 
+    const handleDeleteClick = (employeeId) => {
+        setEmployees(prevEmployees => prevEmployees.filter(emp => emp.id !== employeeId));
+    };
+
+
     return (
         <div>
             <div className='d-flex justify-content-between align-items-center mb-0'>
@@ -380,6 +435,8 @@ const Employee = ({ x }) => {
                         key={employee.id}
                         employee={employee}
                         onProfileClick={() => handleProfileClick(employee)}
+                        onDeleteClick={() => handleDeleteClick(employee.id)}
+
                         index={index} // Thêm index tại đây
 
                     />

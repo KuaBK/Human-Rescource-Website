@@ -38,7 +38,7 @@ const employeesData = [
         name: 'Nhân viên 1',
         avatar: 'path/to/avatar/employee1.png',
         workingDaysData: [
-            { date: 'Tháng 1', workingDays: 23 },
+            { date: 'Tháng 1', workingDays: 0 },
             { date: 'Tháng 2', workingDays: 28 },
             { date: 'Tháng 3', workingDays: 31 },
             { date: 'Tháng 4', workingDays: 30 },

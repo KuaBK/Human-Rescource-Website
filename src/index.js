@@ -10,7 +10,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
-import Salary from './components/Salary/Salary';
+
+// import Salary from './components/Salary/AdminSalary';
+
 import Department from './components/Department/Department';
 import Project from './components/Project/Project';
 import Training from './components/Training/Training';
@@ -28,6 +30,8 @@ import EmployeeTraining from './components/Training/EmployeeTraining';
 
 import AdminAttendance from './components/Attendance/AdminAttendance'
 import AdminTraining from './components/Training/AdminTraining'
+
+import AdminSalary from './components/Salary/AdminSalary';
 
 
 import Chat from './components/Chat/EmployeeChat'
@@ -47,7 +51,9 @@ root.render(
           <Route index element={<Dashboard />}></Route>
           <Route path="employee" element={<Employee />} />
           <Route path="attendance" element={<Attendance />} />
-          <Route path="salary" element={<Salary />} />
+
+          <Route path="salary" element={<AdminSalary />} />
+
           <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
           <Route path="training" element={<Training />} />
@@ -63,7 +69,10 @@ root.render(
           <Route index element={<Dashboard />}></Route>
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
-          <Route path="salary" element={<Salary />} />
+
+          {/* <Route path="salary" element={<Salary />} />
+           */}
+
           <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
           <Route path="training" element={<EmployeeTraining />} />

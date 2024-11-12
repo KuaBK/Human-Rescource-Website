@@ -54,7 +54,7 @@ const AdminCertificateModal = ({ show, handleClose, employee, handleSave }) => {
 
                                 {/* Hiển thị nút "Duyệt" và "Từ chối" chỉ khi chưa có lựa chọn */}
                                 {(!training.accepted && !training.rejected) && (
-                                    <div>
+                                    <div className="button-group">
                                         <button
                                             className="accept-button"
                                             onClick={() => handleAcceptClick(index)}
@@ -72,6 +72,7 @@ const AdminCertificateModal = ({ show, handleClose, employee, handleSave }) => {
                                         </button>
                                     </div>
                                 )}
+
 
                                 {/* Hiển thị biểu tượng "Check" khi được Duyệt */}
                                 {training.accepted && (
