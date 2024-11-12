@@ -10,7 +10,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
-import Salary from './components/Salary/Salary';
+
+// import Salary from './components/Salary/Salary';
+
+
 import Department from './components/Department/Department';
 import Project from './components/Project/Project';
 import Training from './components/Training/Training';
@@ -83,7 +86,7 @@ root.render(
           <Route path="attendance" element={<EmployeeAttendance />} />
           <Route path="devidetask" element={<DevideTask />} />
 
-          <Route path="salary" element={<Salary />} />
+          {/* <Route path="salary" element={<Salary />} /> */}
 
           <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
