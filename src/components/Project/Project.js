@@ -58,6 +58,8 @@ const Project = () => {
     };
 
 
+
+
     const deleteProject = (projectId) => {
         setProjects((prevProjects) =>
             prevProjects.filter((project) => project.id !== projectId)
@@ -132,6 +134,7 @@ const Project = () => {
                     </div>
                 ))}
             </div>
+
 
             {isEditOpen && (
                 <EditTask
