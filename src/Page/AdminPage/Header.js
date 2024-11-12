@@ -16,9 +16,6 @@ const Header = () => {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
                   <NavLink to="/" className='nav-link'>Trang chủ</NavLink>
-                  <NavLink to="/list" className='nav-link'>Danh sách</NavLink>
-                  <NavLink to="/attendance" className='nav-link'>Chấm công</NavLink>
-                  <NavLink to="/statistic" className='nav-link'>Thống kê</NavLink>
               </Nav>
 
               <Nav>

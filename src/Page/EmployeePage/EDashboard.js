@@ -1,7 +1,7 @@
 import React from 'react';
 import './EDashboard.scss';
 
-const Dashboard = () => {
+const EDashboard = () => {
   return (
     <div className="dashboard">
       <div className="welcome-section">
@@ -26,4 +26,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default EDashboard;

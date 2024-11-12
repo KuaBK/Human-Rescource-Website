@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './Project.css';
-import EditTask from './EditTask';
+import './ManagerProject.scss';
+import './ManagerDivideTask.js'
+import ManagerDevideTask from './ManagerDivideTask.js';
 
-
-const Project = () => {
+const ManagerProject = () => {
     const initialProjects = [
         {
             id: 1,
@@ -44,32 +44,23 @@ const Project = () => {
     ];
 
     const [projects, setProjects] = useState(initialProjects);
-    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
     const [currentProject, setCurrentProject] = useState(null);
 
-    const handleEditClick = (project) => {
+    const handleDivideTaskClick = (project) => {
         setCurrentProject(project);
-        setIsEditOpen(true);
+        setIsTaskFormOpen(true);
     };
 
-    const handleSave = (updatedProject) => {
-        // Cập nhật dự án trong danh sách với thông tin mới
-        setIsEditOpen(false);
-    };
-
-
-
-
-    const deleteProject = (projectId) => {
-        setProjects((prevProjects) =>
-            prevProjects.filter((project) => project.id !== projectId)
-        );
+    const handleTaskSave = (newTask) => {
+        // Logic to save the new task
+        setIsTaskFormOpen(false);
     };
 
     return (
-        <div className="projects">
+        <div className="manager-projects">
             <div className="header d-flex align-items-center justify-content-between">
-                <h2>Projects</h2>
+                <h2>Manager Projects</h2>
                 <div className="filter-buttons">
                     <button>All</button>
                     <button>Started</button>
@@ -90,8 +81,7 @@ const Project = () => {
                                 <div className="d-flex align-items-center justify-content-between mt-5">
                                     <h5 className="project-position">{project.name}</h5>
                                     <div className="action-buttons">
-                                        <button onClick={() => handleEditClick(project)}>✏️ Edit</button>
-                                        <button className="delete" onClick={() => deleteProject(project.id)}>🗑️</button>
+                                        <button onClick={() => handleDivideTaskClick(project)}>Divide Task</button>
                                     </div>
                                 </div>
 
@@ -135,16 +125,15 @@ const Project = () => {
                 ))}
             </div>
 
-
-            {isEditOpen && (
-                <EditTask
+            {isTaskFormOpen && (
+                <ManagerDevideTask
                     project={currentProject}
-                    onClose={() => setIsEditOpen(false)}
-                    onSave={handleSave}
+                    onClose={() => setIsTaskFormOpen(false)}
+                    onSave={handleTaskSave}
                 />
             )}
         </div>
     );
 };
 
-export default Project;
+export default ManagerProject;

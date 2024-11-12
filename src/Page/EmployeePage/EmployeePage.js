@@ -1,7 +1,6 @@
 import React from 'react';
 
-//import './Page.scss';
-
+import './Page.scss';
 import { Outlet} from 'react-router-dom';
 import EHeader from './EHeader';
 import ESidebar from './ESidebar';

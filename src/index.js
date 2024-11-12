@@ -10,7 +10,7 @@ import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
 
 import Department from './components/Department/Department';
-import Project from './components/Project/Project';
+import Project from './components/Project/Admin/AdminProject';
 import Training from './components/Training/Training';
 import Statistic from './components/Statistic/Statistic';
 import Dashboard from './Page/AdminPage/Dashboard';
@@ -25,12 +25,14 @@ import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
 import EmployeeTraining from './components/Training/EmployeeTraining';
 import EmployeeChat from './components/Chat/EmployeeChat';
 import ManagerPage from './Page/ManagerPage/ManagerPage';
-import DevideTask from './components/Project/DevideTask';
-import SubmitTask from './components/Project/SubmitTask';
-import Participation from './components/Project/Participation';
+import SubmitTask from './components/Project/Employee/SubmitTask';
+import Participation from './components/Project/Employee/Participation';
 import AdminAttendance from './components/Attendance/AdminAttendance';
 
 import AdminSalary from './components/Salary/AdminSalary';
+import AdminTraining from './components/Training/AdminTraining';
+import ManagerProject from './components/Project/Manager/ManagerProject';
+import EDashboard from './Page/EmployeePage/EDashboard';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -48,12 +50,12 @@ root.render(
           <Route path="admin-salary" element={<AdminSalary />} />
           <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
-          <Route path="training" element={<Training />} />
+          <Route path="admin-training" element={<AdminTraining/>} />
           <Route path="statistic" element={<Statistic />} />
         </Route>
 
         <Route exact path="/login/employee" element={<EmployeePage />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<EDashboard />} />
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
           <Route path="project" element={<Project />} />
@@ -67,9 +69,8 @@ root.render(
           <Route index element={<Dashboard />} />
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
-          <Route path="devidetask" element={<DevideTask />} />
           <Route path="department" element={<Department />} />
-          <Route path="project" element={<Project />} />
+          <Route path="project" element={<ManagerProject />} />
           <Route path="training" element={<EmployeeTraining />} />
           <Route path="chat" element={<EmployeeChat />} />
         </Route>

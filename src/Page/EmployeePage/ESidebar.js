@@ -21,7 +21,7 @@ function ESidebar() {
           onClick={() => setExpanded((prev) => !prev)}
           className="toggle-btn"
           aria-label="Toggle Sidebar"
-        >
+        > 
           {expanded ? <BiX /> : <BiChevronRight />}
         </button>
       </div>
