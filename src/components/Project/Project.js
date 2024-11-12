@@ -136,13 +136,13 @@ const Project = () => {
             </div>
 
 
-            {/* {isEditOpen && (
+            {isEditOpen && (
                 <EditTask
                     project={currentProject}
                     onClose={() => setIsEditOpen(false)}
                     onSave={handleSave}
                 />
-            )} */}
+            )}
         </div>
     );
 };

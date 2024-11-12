@@ -1,20 +1,20 @@
 import React from 'react';
 
-//import './Page.scss';
+import './Page.scss';
 
 import { Outlet} from 'react-router-dom';
-import EHeader from './EHeader';
-import ESidebar from './ESidebar';
+import MHeader from './MHeader';
+import MSidebar from './MSidebar';
 
-const EmployeePage = () => {
+const ManagerPage = () => {
   return (
     <div className="app-container">
       <div className='header-container'>
-        <EHeader/>
+        <MHeader/>
       </div>
       <div className="main-container">
         <div className='sidenav-container'>
-          <ESidebar/>
+          <MSidebar/>
         </div>
         <div className='app-container'>
           <Outlet/>
@@ -24,4 +24,4 @@ const EmployeePage = () => {
   );
 }
 
-export default EmployeePage;
+export default ManagerPage;

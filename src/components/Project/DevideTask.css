@@ -1,0 +1,130 @@
+/* Main container styling */
+.devide-task-page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  font-size: 2rem;
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Project grid layout */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+/* Individual project box */
+.project-box {
+  background-color: #edf2f7;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.project-box h2 {
+  font-size: 1.25rem;
+  color: #2d3748;
+}
+
+.project-box p {
+  color: #4a5568;
+}
+
+.divide-task-button {
+  background-color: #3182ce;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.divide-task-button:hover {
+  background-color: #2b6cb0;
+}
+
+/* Task form modal styling */
+.task-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-form {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.task-form h2 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.task-form label {
+  display: block;
+  color: #4a5568;
+  font-weight: bold;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.input.description {
+  height: 100px;
+  resize: vertical;
+}
+
+.add-button,
+.cancel-button {
+  padding: 0.8rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 48%;
+}
+
+.add-button {
+  background-color: #3182ce;
+  color: white;
+  margin-right: 4%;
+}
+
+.add-button:hover {
+  background-color: #2b6cb0;
+}
+
+.cancel-button {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c53030;
+}
