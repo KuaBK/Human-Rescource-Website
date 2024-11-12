@@ -11,14 +11,23 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
 
+
+import AdminAttendance from './components/Attendance/AdminAttendance';
+
 // import Salary from './components/Salary/Salary';
 
 
 import Department from './components/Department/Department';
 import Project from './components/Project/Project';
+
+
 import Training from './components/Training/Training';
+
+
 import Statistic from './components/Statistic/Statistic';
-import Dashboard from './Page/AdminPage/Dashboard';
+import ADashboard from './Page/AdminPage/ADashboard';
+import EDashboard from './Page/EmployeePage/EDashboard';
+
 import Home from './components/Authentication/Home';
 import Login from './components/Authentication/Login';
 import Signup from './components/Authentication/Signup';
@@ -34,6 +43,9 @@ import DevideTask from './components/Project/DevideTask';
 import SubmitTask from './components/Project/SubmitTask';
 import Participation from './components/Project/Participation';
 
+
+
+import AdminTraining from './components/Training/AdminTraining';
 
 import AdminSalary from './components/Salary/AdminSalary';
 
@@ -51,26 +63,31 @@ root.render(
 
         <Route exact path="/login/admin" element={<AdminPage />}>
 
-          <Route index element={<Dashboard />}></Route>
+          <Route index element={<ADashboard />}></Route>
           <Route path="employee" element={<Employee />} />
-          <Route path="attendance" element={<Attendance />} />
+
+          <Route path="admin-attendance" element={<AdminAttendance />} />
           {/* <Route path="salary" element={<Salary />}/> */}
 
-          <Route path="salary" element={<AdminSalary />} />
+          <Route path="admin-salary" element={<AdminSalary />} />
 
           <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
-          <Route path="training" element={<Training />} />
+
+          <Route path="admin-training" element={<AdminTraining />} />
+
           <Route path="statistic" element={<Statistic />} />
         </Route>
 
         <Route exact path="/login/employee" element={<EmployeePage />}>
 
-          <Route index element={<Dashboard />}></Route>
+          <Route index element={<EDashboard />}></Route>
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
-          {/* <Route path="salary" element={<Salary />}/>
-                    <Route path="department" element={<Department />}/> */}
+
+          {/* <Route path="salary" element={<Salary />} />
+     */}
+          <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
           <Route path="participation" element={<Participation />} />
           <Route path="submittask" element={<SubmitTask />} />
@@ -81,12 +98,14 @@ root.render(
 
         <Route exact path="/login/manager" element={<ManagerPage />}>
 
-          <Route index element={<Dashboard />}></Route>
+          {/* <Route index element={<Dashboard />}></Route> */}
+
+
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
           <Route path="devidetask" element={<DevideTask />} />
-
-          {/* <Route path="salary" element={<Salary />} /> */}
+          {/* 
+          <Route path="salary" element={<Salary />} /> */}
 
           <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
