@@ -28,6 +28,7 @@ import ManagerPage from './Page/ManagerPage/ManagerPage';
 import DevideTask from './components/Project/DevideTask';
 import SubmitTask from './components/Project/SubmitTask';
 import Participation from './components/Project/Participation';
+import AdminAttendance from './components/Attendance/AdminAttendance';
 
 import AdminSalary from './components/Salary/AdminSalary';
 
@@ -43,8 +44,8 @@ root.render(
         <Route exact path="/login/admin" element={<AdminPage />}>
           <Route index element={<Dashboard />} />
           <Route path="employee" element={<Employee />} />
-          <Route path="attendance" element={<Attendance />} />
-          <Route path="salary" element={<AdminSalary />} />
+          <Route path="admin-attendance" element={<AdminAttendance/>} />
+          <Route path="admin-salary" element={<AdminSalary />} />
           <Route path="department" element={<Department />} />
           <Route path="project" element={<Project />} />
           <Route path="training" element={<Training />} />
