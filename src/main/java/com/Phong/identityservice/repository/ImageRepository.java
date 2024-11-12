@@ -3,7 +3,7 @@ package com.Phong.identityservice.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Phong.identityservice.entity.personel.Manager;
+import com.Phong.identityservice.entity.images.Image;
 
 @Repository
-public interface ManagerRepository extends JpaRepository<Manager, Long> {}
+public interface ImageRepository extends JpaRepository<Image, Long> {}

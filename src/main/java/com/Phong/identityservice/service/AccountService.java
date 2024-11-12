@@ -2,10 +2,10 @@ package com.Phong.identityservice.service;
 
 import java.util.List;
 
+import com.Phong.identityservice.utils.JwtUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +30,8 @@ public class AccountService {
     AccountRepository accountRepository;
     AccountMapper accountMapper;
     PasswordEncoder passwordEncoder;
+
+    JwtUtils jwtUtils;
 
     public AccountResponse createUser(UserCreationRequest request) {
 
@@ -75,11 +77,12 @@ public class AccountService {
                 accountRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
-    public AccountResponse getMyInfo() {
-        var context = SecurityContextHolder.getContext();
-        String name = context.getAuthentication().getName();
-        Account account =
-                accountRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    public AccountResponse getMyInfo(String token) {
+        String username = jwtUtils.getUsernameFromToken(token);
+
+        Account account = accountRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
         return accountMapper.toUserResponse(account);
     }
 }

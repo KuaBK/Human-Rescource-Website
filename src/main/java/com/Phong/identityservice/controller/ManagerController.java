@@ -1,12 +1,13 @@
 package com.Phong.identityservice.controller;
 
-import com.Phong.identityservice.entity.personel.Manager;
-import com.Phong.identityservice.service.ManagerService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.Phong.identityservice.entity.personel.Manager;
+import com.Phong.identityservice.service.ManagerService;
 
 @RestController
 @RequestMapping("/api/managers")
@@ -29,7 +30,8 @@ public class ManagerController {
     // Get a manager by ID
     @GetMapping("/{id}")
     public ResponseEntity<Manager> getManagerById(@PathVariable Long id) {
-        return managerService.getManagerById(id)
+        return managerService
+                .getManagerById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -2,9 +2,9 @@ package com.Phong.identityservice.entity.personel;
 
 import java.util.Set;
 
-import com.Phong.identityservice.entity.departments.Department;
 import jakarta.persistence.*;
 
+import com.Phong.identityservice.entity.departments.Department;
 import com.Phong.identityservice.entity.projects.Projects;
 
 import lombok.*;

@@ -19,4 +19,7 @@ jwt:
   valid-duration: 36000 #seconds
   refreshable-duration: 360000 #seconds
 
-
+cloudinary:
+  cloud_name: "dkamugos5"
+  api_key: "699183452242579"
+  api_secret: "1pFbBUoout8BGSR0jf2zidml8s8"

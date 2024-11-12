@@ -1,7 +1,9 @@
 package com.Phong.identityservice.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.Phong.identityservice.dto.request.TokenRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,10 +54,10 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/myInfo") // get my info by token
-    ApiResponse<AccountResponse> getMyInfo() {
+    @PostMapping("/myInfo")  // Nhận token từ request body
+    public ApiResponse<AccountResponse> getMyInfo(@RequestBody TokenRequest Request) {
         return ApiResponse.<AccountResponse>builder()
-                .result(accountService.getMyInfo())
+                .result(accountService.getMyInfo(Request.getToken()))
                 .build();
     }
 

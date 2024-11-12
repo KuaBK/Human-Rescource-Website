@@ -1,12 +1,13 @@
 package com.Phong.identityservice.service;
 
-import com.Phong.identityservice.entity.departments.Department;
-import com.Phong.identityservice.repository.DepartmentRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.Phong.identityservice.entity.departments.Department;
+import com.Phong.identityservice.repository.DepartmentRepository;
 
 @Service
 public class DepartmentService {
@@ -30,7 +31,8 @@ public class DepartmentService {
     }
 
     public Department updateDepartment(Long id, Department departmentDetails) {
-        return departmentRepository.findById(id)
+        return departmentRepository
+                .findById(id)
                 .map(department -> {
                     department.setDepartmentName(departmentDetails.getDepartmentName());
                     department.setEmployeeNumber(departmentDetails.getEmployeeNumber());

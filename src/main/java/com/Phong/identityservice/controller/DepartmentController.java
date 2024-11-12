@@ -1,12 +1,13 @@
 package com.Phong.identityservice.controller;
 
-import com.Phong.identityservice.entity.departments.Department;
-import com.Phong.identityservice.service.DepartmentService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.Phong.identityservice.entity.departments.Department;
+import com.Phong.identityservice.service.DepartmentService;
 
 @RestController
 @RequestMapping("/api/departments")
@@ -25,7 +26,8 @@ public class DepartmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) {
-        return departmentService.getDepartmentById(id)
+        return departmentService
+                .getDepartmentById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
