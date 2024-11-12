@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react'
-import { Star, Files, Plus, User } from 'phosphor-react';
+import { Star, Files, Plus, User, Medal } from 'phosphor-react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap'; // Nhập Modal từ react-bootstrap
 import AdminCertificateModal from './AdminCertificateModal.js'
-
+import './AdminTraining.scss'
+import ConfirmationPopup from './ComfirmationPopup.js';
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
@@ -29,54 +30,78 @@ function getPositionColor(position) {
     }
 }
 
-
 const EmployeeCard = ({ employee, onProfileClick, index }) => {
+    const [showPopup, setShowPopup] = useState(false);
+    const [actionType, setActionType] = useState(''); // "approve" hoặc "reject" để xác định hành động
+
+    const handleApprove = () => {
+        setActionType('approve');
+        setShowPopup(true);
+    };
+
+    const handleReject = () => {
+        setActionType('reject');
+        setShowPopup(true);
+    };
+
+    const handleConfirm = () => {
+        setShowPopup(false);
+        if (actionType === 'approve') {
+            // Thực hiện logic cho duyệt
+            console.log("Duyệt:", employee);
+        } else if (actionType === 'reject') {
+            // Thực hiện logic cho từ chối
+            console.log("Từ chối:", employee);
+        }
+    };
+
+    const handleCancel = () => {
+        setShowPopup(false);
+    };
+
     return (
         <div className="col" style={{ animationDelay: `${index * 0.2}s` }}>
-            <div className="card">
-                <div className='row no-gutters employee-list-row'>
-                    <div className='col-3 d-flex flex-column align-items-center' style={{ height: '100%' }}>
-                        {/* Phần Avatar chiếm 2/3 */}
-                        <div className="d-flex flex-column align-items-center flex-grow-2">
-                            <img
-                                src={employee.avatar}
-                                className='card-img rounded-circle mt-3'
-                                alt='Avatar'
-                                style={{
-                                    objectFit: 'cover',
-                                    height: '100px',
-                                    width: '100px',
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                                }}
-                            />
-                        </div>
-
-                        {/* Phần Icons chiếm 1/3 */}
-                        <div className='d-flex justify-content-around align-items-center mt-2 w-100 flex-grow-1'>
-                            <div className='text-center'>
-                                <Files size={30} weight="bold" />
-                                <p className='mb-0'>{employee.tasks} Tasks</p>
-                            </div>
-                            <div className='text-center'>
-                                <Star size={30} weight="bold" />
-                                <p className='mb-0'>{employee.stars} Stars</p>
+            <div
+                className="card"
+                style={{
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                }}
+            >
+                <div className='row no-gutters employee-list-row' style={{ height: '100%' }}>
+                    <div className='col-3'>
+                        <div className='card-body flex-column' style={{ height: '100%' }}>
+                            <div className="align-items-center" style={{ flexGrow: 1, height: '100%' }}>
+                                <img
+                                    src={employee.avatar}
+                                    className='card-img rounded-circle mt-3'
+                                    alt='Avatar'
+                                    style={{
+                                        objectFit: 'cover',
+                                        height: '100px',
+                                        width: '100px',
+                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
 
-
-
                     <div className='col-9'>
                         <div className='card-body d-flex flex-column' style={{ height: '100%' }}>
-
-                            {/* Phần tên chiếm 1/5 */}
                             <div className='d-flex align-items-center' style={{ flex: '1' }}>
                                 <h5 className='card-title mb-0'>
                                     {employee.firstName} {employee.lastName}
                                 </h5>
                             </div>
 
-                            {/* Phần chức vụ chiếm 1/5, chỉ tô màu nền trong phạm vi chữ */}
                             <div className='d-flex align-items-center mt-2' style={{ flex: '1' }}>
                                 <h6 className='card-subtitle mb-0'>
                                     <span
@@ -92,40 +117,37 @@ const EmployeeCard = ({ employee, onProfileClick, index }) => {
                                 </h6>
                             </div>
 
-                            {/* Đường kẻ ngăn cách */}
                             <hr className='my-2' style={{ flex: '0 0 1px', width: '100%' }} />
 
-                            {/* Phần mô tả công việc chiếm 2/5 */}
                             <div className='d-flex' style={{ flex: '2' }}>
                                 <p className='card-text'>{employee.job}</p>
                             </div>
 
-                            {/* Phần nút chiếm 1/5 */}
-                            <div className='d-flex justify-content-start mt-auto' style={{ flex: '1' }}>
-
-                                {/*                                 
-                                <button className='btn btn-primary me-1'>
-                                    <Plus size={16} className="me-1" /> 
-                                    Thêm Task
-                                </button> */}
-
-
-                                <button className='btn btn-primary me-1' onClick={onProfileClick}>
-                                    <User size={16} className="me-1" /> {/* Biểu tượng User */}
+                            <div className='d-flex justify-content-between mt-auto' style={{ flex: '1' }}>
+                                <button className='btn btn-success me-1' onClick={onProfileClick}>
+                                    <Medal size={16} className="me-1" /> {/* Biểu tượng Certificate */}
                                     Chứng chỉ
                                 </button>
+                                <div>
+                                    <button className="btn btn-primary me-1" onClick={handleApprove}>Duyệt</button>
+                                    <button className="btn btn-danger" onClick={handleReject}>Từ chối</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {showPopup && (
+                <ConfirmationPopup onConfirm={handleConfirm} onCancel={handleCancel} />
+            )}
         </div>
     );
 };
 
 
 
-const Employee = ({ x }) => {
+const AdminTraining = ({ x }) => {
     console.log('x ở trang employee, x = ', x)
     x = x + 1;
     console.log('x ở trang employee lần 2, x = ', x)
@@ -417,4 +439,4 @@ const Employee = ({ x }) => {
     );
 };
 
-export default Employee;
+export default AdminTraining;
