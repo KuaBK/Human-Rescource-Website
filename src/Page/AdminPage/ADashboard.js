@@ -1,5 +1,5 @@
 import React from 'react';
-import './Dashboard.scss';
+import './ADashboard.scss';
 
 const Dashboard = () => {
   return (
@@ -14,13 +14,13 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="widget-grid">
-          <div className="frame employee">Nhân viên</div>
-          <div className="frame attendance">Chấm công</div>
-          <div className="frame salary">Tiền lương và phúc lợi</div>
-          <div className="frame department">Phòng ban</div>
-          <div className="frame project">Dự án</div>
-          <div className="frame training">Đào tạo và phát triển</div>
-          <div className="frame statistic">Thống kê</div>
+        <div className="frame employee">Nhân viên</div>
+        <div className="frame attendance">Chấm công</div>
+        <div className="frame salary">Tiền lương và phúc lợi</div>
+        <div className="frame department">Phòng ban</div>
+        <div className="frame project">Dự án</div>
+        <div className="frame training">Đào tạo và phát triển</div>
+        <div className="frame statistic">Thống kê</div>
       </div>
     </div>
   );

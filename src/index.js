@@ -9,11 +9,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
 
+// import Salary from './components/Salary/Salary';
+
+
 import Department from './components/Department/Department';
-import Project from './components/Project/Admin/AdminProject';
 import Training from './components/Training/Training';
+
+
 import Statistic from './components/Statistic/Statistic';
-import Dashboard from './Page/AdminPage/Dashboard';
+import ADashboard from './Page/AdminPage/ADashboard';
+import EDashboard from './Page/EmployeePage/EDashboard';
+
 import Home from './components/Authentication/Home';
 import Login from './components/Authentication/Login';
 import Signup from './components/Authentication/Signup';
@@ -25,15 +31,17 @@ import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
 import EmployeeTraining from './components/Training/EmployeeTraining';
 import EmployeeChat from './components/Chat/EmployeeChat';
 import ManagerPage from './Page/ManagerPage/ManagerPage';
-import SubmitTask from './components/Project/Employee/SubmitTask';
+
 import Participation from './components/Project/Employee/Participation';
-import AdminAttendance from './components/Attendance/AdminAttendance';
+
 
 import AdminSalary from './components/Salary/AdminSalary';
 import AdminTraining from './components/Training/AdminTraining';
 import ManagerProject from './components/Project/Manager/ManagerProject';
-import EDashboard from './Page/EmployeePage/EDashboard';
+import ManagerDevideTask from './components/Project/Manager/ManagerDivideTask';
 
+// employee
+import SubmitTask from './components/Project/Employee/SubmitTask';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -44,31 +52,43 @@ root.render(
         <Route path="/signup" element={<Signup />} />
 
         <Route exact path="/login/admin" element={<AdminPage />}>
-          <Route index element={<Dashboard />} />
+
+          <Route index element={<ADashboard />}></Route>
           <Route path="employee" element={<Employee />} />
-          <Route path="admin-attendance" element={<AdminAttendance/>} />
-          <Route path="admin-salary" element={<AdminSalary />} />
+          <Route path="attendance" element={<Attendance />} />
+          {/* <Route path="salary" element={<Salary />}/> */}
+
+          <Route path="salary" element={<AdminSalary />} />
+
           <Route path="department" element={<Department />} />
-          <Route path="project" element={<Project />} />
-          <Route path="admin-training" element={<AdminTraining/>} />
+          {/* <Route path="project" element={<Project />} /> */}
+          <Route path="training" element={<Training />} />
           <Route path="statistic" element={<Statistic />} />
         </Route>
 
         <Route exact path="/login/employee" element={<EmployeePage />}>
-          <Route index element={<EDashboard />} />
+
+          <Route index element={<EDashboard />}></Route>
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
-          <Route path="project" element={<Project />} />
-          <Route path="participation" element={<Participation />} />
-          <Route path="submittask" element={<SubmitTask />} />
+          {/* <Route path="salary" element={<Salary />}/>
+                    <Route path="department" element={<Department />}/> */}
+          {/* <Route path="project" element={<Project />} /> */}
+          <Route path="participation" element={<Participation/>} />
+          <Route path="submittask" element={<SubmitTask/>} />
           <Route path="training" element={<EmployeeTraining />} />
           <Route path="chat" element={<EmployeeChat />} />
         </Route>
 
         <Route exact path="/login/manager" element={<ManagerPage />}>
-          <Route index element={<Dashboard />} />
+
+          {/* <Route index element={<Dashboard />}></Route> */}
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
+          <Route path="devidetask" element={<ManagerDevideTask/>} />
+
+          {/* <Route path="salary" element={<Salary />} /> */}
+
           <Route path="department" element={<Department />} />
           <Route path="project" element={<ManagerProject />} />
           <Route path="training" element={<EmployeeTraining />} />

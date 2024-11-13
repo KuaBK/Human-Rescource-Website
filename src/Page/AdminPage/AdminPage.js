@@ -1,23 +1,23 @@
 import React from 'react';
-import './Page.scss';
+import './APage.scss';
 
-import { Outlet} from 'react-router-dom';
-import Header from './Header';
-import Sidebar from './Sidebar';
+import { Outlet } from 'react-router-dom';
+import AHeader from './AHeader';
+import ASidebar from './ASidebar';
 
 const AdminPage = () => {
   return (
     <div className="app-container">
       <div className='header-container'>
-        <Header/>
+        <AHeader />
       </div>
       <div className="main-container">
         <div className='sidenav-container'>
-          <Sidebar/>
+          <ASidebar />
         </div>
         <div className='app-container'>
-          <Outlet/>
-        </div>  
+          <Outlet />
+        </div>
       </div>
     </div>
   );
