@@ -34,7 +34,7 @@ import ManagerPage from './Page/ManagerPage/ManagerPage';
 
 import Participation from './components/Project/Employee/Participation';
 
-
+import AdminProject from './components/Project/Admin/AdminProject';
 import AdminSalary from './components/Salary/AdminSalary';
 import AdminTraining from './components/Training/AdminTraining';
 import ManagerProject from './components/Project/Manager/ManagerProject';
@@ -52,17 +52,14 @@ root.render(
         <Route path="/signup" element={<Signup />} />
 
         <Route exact path="/login/admin" element={<AdminPage />}>
-
           <Route index element={<ADashboard />}></Route>
           <Route path="employee" element={<Employee />} />
-          <Route path="attendance" element={<Attendance />} />
-          {/* <Route path="salary" element={<Salary />}/> */}
-
-          <Route path="salary" element={<AdminSalary />} />
-
+          <Route path="admin-attendance" element={<Attendance />} />
+          <Route path="admin-salary" element={<AdminSalary />} />
           <Route path="department" element={<Department />} />
-          {/* <Route path="project" element={<Project />} /> */}
-          <Route path="training" element={<Training />} />
+          <Route path="project" element={<AdminProject/>} />
+          <Route path="admin-training" element={<AdminTraining />} />
+          <Route path="chat" element={<EmployeeChat />} />
           <Route path="statistic" element={<Statistic />} />
         </Route>
 
@@ -85,7 +82,7 @@ root.render(
           {/* <Route index element={<Dashboard />}></Route> */}
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
-          <Route path="devidetask" element={<ManagerDevideTask/>} />
+          {/* <Route path="devidetask" element={<ManagerDevideTask/>} /> */}
 
           {/* <Route path="salary" element={<Salary />} /> */}
 
