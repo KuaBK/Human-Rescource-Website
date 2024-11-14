@@ -7,13 +7,14 @@ import { TfiStatsUp } from 'react-icons/tfi';
 import { FaProjectDiagram, FaRegUser } from 'react-icons/fa';
 import { GiTeamUpgrade } from 'react-icons/gi';
 import { BiLogOut, BiChat, BiX, BiChevronRight, BiChevronDown } from 'react-icons/bi';
+import { FaHome } from "react-icons/fa";
 import './ASidebar.scss';
 
-function ASidebar() {
-  const [expanded, setExpanded] = useState(() => {
-    const savedState = localStorage.getItem('sidebarExpanded');
-    return savedState === null ? true : JSON.parse(savedState);
-  });
+function ASidebar({ expanded, toggleSidebar }) {
+  // const [expanded, setExpanded] = useState(() => {
+  //   const savedState = localStorage.getItem('sidebarExpanded');
+  //   return savedState === null ? true : JSON.parse(savedState);
+  // });
 
 
   const [projectDropdown, setProjectDropdown] = useState(false);
@@ -34,21 +35,25 @@ function ASidebar() {
     setProjectDropdown((prev) => !prev);
   };
 
-  const toggleSidebar = () => {
-    setExpanded((prev) => {
-      const newExpandedState = !prev;
-      localStorage.setItem('sidebarExpanded', JSON.stringify(newExpandedState)); // Lưu vào localStorage
-      return newExpandedState;
-    });
-  };
+  // const toggleSidebar = () => {
+  //   setExpanded((prev) => {
+  //     const newExpandedState = !prev;
+  //     localStorage.setItem('sidebarExpanded', JSON.stringify(newExpandedState)); // Lưu vào localStorage
+  //     return newExpandedState;
+  //   });
+  // };
   return (
     <div className={`sidebar ${expanded ? 'expanded' : 'collapsed'}`}>
       <div className="sidebar-header">
         <div className="header-row">
           <span className={`logo ${isLogoHidden ? 'hide-text' : ''}`}>BK-MANARATE</span>
-          <button onClick={() => setExpanded((prev) => !prev)} className="toggle-btn" aria-label="Toggle Sidebar">
+          {/* <button onClick={() => setExpanded((prev) => !prev)} className="toggle-btn" aria-label="Toggle Sidebar">
+            {expanded ? 'X' : '>'}
+          </button> */}
+          <button onClick={toggleSidebar} className="toggle-btn" aria-label="Toggle Sidebar">
             {expanded ? 'X' : '>'}
           </button>
+
         </div>
         <div className="user-info">
           <img className="avatar rounded-circle" src="https://randomuser.me/api/portraits/women/1.jpg" alt="User Avatar" />
@@ -58,6 +63,12 @@ function ASidebar() {
 
       {/* Navigation Links */}
       <div className="nav-links">
+
+        <NavLink to="" className="nav-link-side" activeClassName="active-link">
+          <FaHome />
+          <span className={`link-text ${expanded ? 'show' : ''}`}>Trang chủ</span>
+        </NavLink>
+
         <NavLink to="employee" className="nav-link-side" activeClassName="active-link">
           <FaRegUser />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Nhân viên</span>

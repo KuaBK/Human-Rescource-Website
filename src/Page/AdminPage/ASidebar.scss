@@ -5,7 +5,9 @@
   display: flex;
   flex-direction: column;
   transition: width 0.3s;
-  height: 550px;
+  height: 100vhs;
+  position: fixed;
+  margin: 5px 5px;
 
   &.collapsed {
     width: 80px;
@@ -18,6 +20,9 @@
 
     .link-text {
       display: none; // Ẩn chữ khi sidebar thu hẹp
+      opacity: 0;
+      transition: opacity .1s;
+
     }
 
     .user-name {
@@ -28,6 +33,7 @@
       font-size: 0.9 rem;
       padding: 8px 10px;
       justify-content: center;
+      transition: opacity .1s;
     }
 
     .nav-link-side .icon {

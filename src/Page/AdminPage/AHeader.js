@@ -1,39 +1,49 @@
 import React from 'react';
 import './AHeader.scss';
 
-import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
+import { Navbar, NavDropdown, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-
-import { IoNotificationsOutline } from "react-icons/io5";
-import { FaRegMessage } from "react-icons/fa6";
 
 const Header = () => {
   return (
     <Navbar className="custom-navbar" expand="lg">
       <Container>
-        <NavLink to="/" className='navbar-brand'>BK-Manarate</NavLink>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavLink to="/" className='nav-link'>Trang chủ</NavLink>
-            <NavLink to="/list" className='nav-link'>Danh sách</NavLink>
-            <NavLink to="/attendance" className='nav-link'>Chấm công</NavLink>
-            <NavLink to="/statistic" className='nav-link'>Thống kê</NavLink>
-          </Nav>
+        <NavLink to="/" className="navbar-brand">
+          {/* Logo text or image */}
+        </NavLink>
 
-          <Nav>
-            <IoNotificationsOutline />
-            <FaRegMessage />
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
-              <NavDropdown.Item>Đăng xuất</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
+        <div className="header-icons">
+          {/* Notification icon with shake effect */}
+          <div className="bell">
+            <span className="material-icons layer-1">notifications_active</span>
+            <span className="material-icons layer-2">notifications</span>
+            <span className="material-icons layer-3">notifications</span>
+          </div>
+
+          {/* Message icon from Material Icons */}
+          <span className="material-icons icon">message</span>
+
+          <NavDropdown
+            title={
+              <>
+                <img
+                  className="avatar rounded-circle"
+                  src="https://randomuser.me/api/portraits/women/1.jpg"
+                  alt="User Avatar"
+                  style={{ width: '30px', height: '30px', marginRight: '8px' }}
+                />
+                <span className="profile-name">John Doe</span>
+              </>
+            }
+            id="profile-dropdown"
+          >
+            <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
+            <NavDropdown.Item>Đăng xuất</NavDropdown.Item>
+          </NavDropdown>
+        </div>
       </Container>
     </Navbar>
   );
-
 };
 
 export default Header;
