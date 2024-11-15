@@ -1,30 +1,46 @@
 import React from 'react';
 import './MHeader.scss';
+
+import { Navbar, NavDropdown, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { IoNotificationsOutline } from "react-icons/io5";
-import { FaRegMessage } from "react-icons/fa6";
-import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
 
 const MHeader = () => {
   return (
     <Navbar className="custom-navbar" expand="lg">
       <Container>
-        <NavLink to="/" className="navbar-brand">BK-Manarate</NavLink>
-        <Navbar.Toggle aria-controls="navbar-nav" />
-        <Navbar.Collapse id="navbar-nav">
-          <Nav className="me-auto">
-            <NavLink to="/" className="nav-link">Trang chủ</NavLink>
-          </Nav>
-          <Nav className="header-icons">
-            <IoNotificationsOutline className="icon" />
-            <FaRegMessage className="icon" />
-            <NavDropdown title="Profile" id="profile-dropdown">
-              {/* Change href to 'to' and use 'NavLink' for navigation */}
-              <NavDropdown.Item as={NavLink} to="/infor">Hồ sơ</NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/logout">Đăng xuất</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
+        <NavLink to="/" className="navbar-brand">
+          {/* Logo text or image */}
+        </NavLink>
+
+        <div className="header-icons">
+          {/* Notification icon with shake effect */}
+          <div className="bell">
+            <span className="material-icons layer-1">notifications_active</span>
+            <span className="material-icons layer-2">notifications</span>
+            <span className="material-icons layer-3">notifications</span>
+          </div>
+
+          {/* Message icon from Material Icons */}
+          <span className="material-icons icon">message</span>
+
+          <NavDropdown
+            title={
+              <>
+                <img
+                  className="avatar rounded-circle"
+                  src="https://randomuser.me/api/portraits/women/1.jpg"
+                  alt="User Avatar"
+                  style={{ width: '30px', height: '30px', marginRight: '8px' }}
+                />
+                <span className="profile-name">John Doe</span>
+              </>
+            }
+            id="profile-dropdown"
+          >
+            <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
+            <NavDropdown.Item>Đăng xuất</NavDropdown.Item>
+          </NavDropdown>
+        </div>
       </Container>
     </Navbar>
   );

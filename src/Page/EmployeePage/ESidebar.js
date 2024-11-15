@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { PiNotePencilDuotone } from 'react-icons/pi';
-import { FaProjectDiagram, FaRegUser } from 'react-icons/fa';
+import { FaProjectDiagram, FaRegUser, FaHome  } from 'react-icons/fa';
+
 import { GiTeamUpgrade } from 'react-icons/gi';
 import { BiLogOut, BiChat, BiX, BiChevronRight, BiChevronDown } from 'react-icons/bi';
 import './ESidebar.scss';
 
 function ESidebar() {
   const [expanded, setExpanded] = useState(true);
+
   const [projectDropdown, setProjectDropdown] = useState(false);
+
+  const [isLogoHidden, setIsLogoHidden] = useState(false); // Trạng thái checkbox để ẩn logo
 
   const toggleProjectDropdown = () => {
     setProjectDropdown((prev) => !prev);
@@ -16,17 +20,28 @@ function ESidebar() {
 
   return (
     <div className={`sidebar ${expanded ? 'expanded' : 'collapsed'}`}>
-      <div className="sidebar-header">
-        <button
-          onClick={() => setExpanded((prev) => !prev)}
-          className="toggle-btn"
-          aria-label="Toggle Sidebar"
-        > 
-          {expanded ? <BiX /> : <BiChevronRight />}
-        </button>
+     <div className="sidebar-header">
+        <div className="header-row">
+          <span className={`logo ${isLogoHidden ? 'hide-text' : ''}`}>BK-MANARATE</span>
+          <button onClick={() => setExpanded((prev) => !prev)} className="toggle-btn" aria-label="Toggle Sidebar">
+            {expanded ? 'X' : '>'}
+          </button>
+        </div>
+        <div className="user-info">
+          <img className="avatar rounded-circle" src="https://randomuser.me/api/portraits/women/1.jpg" alt="User Avatar" />
+          {expanded && <span className="user-name">Employee</span>}
+        </div>
       </div>
 
+
       <div className="nav-links">
+
+      <NavLink to="/" className="nav-link-side" activeClassName="active-link">
+    <FaHome />
+    <span className={`link-text ${expanded ? 'show' : ''}`}>Trang chủ</span>
+</NavLink>
+
+
         <NavLink to="infor" className="nav-link-side" activeClassName="active-link">
           <FaRegUser />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Thông tin</span>

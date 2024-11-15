@@ -9,17 +9,24 @@ import './MSidebar.scss';
 function MSidebar() {
   const [expanded, setExpanded] = useState(true);
 
+  const [isLogoHidden, setIsLogoHidden] = useState(false); // Trạng thái checkbox để ẩn logo
+
   return (
     <div className={`sidebar ${expanded ? 'expanded' : 'collapsed'}`}>
-      <div className="sidebar-header">
-        <button
-          onClick={() => setExpanded((prev) => !prev)}
-          className="toggle-btn"
-          aria-label="Toggle Sidebar"
-        >
-          {expanded ? <BiX /> : <BiChevronRight />}
-        </button>
+
+     <div className="sidebar-header">
+        <div className="header-row">
+          <span className={`logo ${isLogoHidden ? 'hide-text' : ''}`}>BK-MANARATE</span>
+          <button onClick={() => setExpanded((prev) => !prev)} className="toggle-btn" aria-label="Toggle Sidebar">
+            {expanded ? 'X' : '>'}
+          </button>
+        </div>
+        <div className="user-info">
+          <img className="avatar rounded-circle" src="https://randomuser.me/api/portraits/women/1.jpg" alt="User Avatar" />
+          {expanded && <span className="user-name">Manager</span>}
+        </div>
       </div>
+
 
       <div className="nav-links">
         <Link to="infor" className="nav-link-side">
