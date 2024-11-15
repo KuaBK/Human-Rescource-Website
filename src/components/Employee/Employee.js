@@ -64,8 +64,11 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                         <div className='d-flex justify-content-around align-items-center mt-2 w-100 flex-grow-1'>
                             <div className='text-center'>
                                 <Files size={30} weight="bold" />
-                                <p className='mb-0'>{employee.tasks} Tasks</p>
+
+                                <p className='mb-0'>{employee.task} Tasks</p>  {/*taskcomplete*/}
+
                             </div>
+
                             <div className='text-center'>
                                 <Star size={30} weight="bold" />
                                 <p className='mb-0'>{employee.stars} Stars</p>
@@ -93,7 +96,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                             {/* Phần chức vụ chiếm 1/5, chỉ tô màu nền trong phạm vi chữ */}
                             <div className='d-flex align-items-center mt-2' style={{ flex: '1' }}>
                                 <h6 className='card-subtitle mb-0'>
-                                    <span
+                                    {/* <span
                                         style={{
                                             backgroundColor: getPositionColor(employee.position),
                                             color: 'white',
@@ -102,7 +105,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                         }}
                                     >
                                         {employee.position}
-                                    </span>
+                                    </span> */}
 
 
                                 </h6>
@@ -167,214 +170,61 @@ const Employee = ({ x }) => {
     const [employees, setEmployees] = useState([
         {
             id: 1,
+
+            account_id: 12000,
+            personel_code: 1,
+            password: '2004',
             lastName: 'Doe',
             firstName: 'John',
-            department: 'Development',
-            position: 'Software Engineer',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 4,
-            role: 'Employee',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
+            role: 'Manager',
             gender: 'Male',
             email: 'john.doe@example.com',
-            address: '123 Main St',
+            city: 'HCM',
+            street: 'Ly Thuong Kiet',
+            phoneNumber: '0123456789',
+            account_id: '1311',
+            manageDate: '2024-11-15', // Đổi từ 'manage_date' thành 'manageDate'
+            department: 'IT',
             avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-        },
+            // tasks: 10,
+            // stars: 5,
+            deptId: 1, // Đổi từ 'dept_id' thành 'deptId'
+            street: ' Ly Thuong Kiet', // Địa chỉ thêm vào nếu cần
+            city: "HCM",
+            job: 'chán',
+            username: 'nghiavo',
+        }
+        ,
         {
+
             id: 2,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Mobile Developer',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
+            account_id: 11000,
+            personel_code: 2,
+            password: '2004',
+            lastName: 'Cra',
+            firstName: 'Jay',
             role: 'Employee',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
+            gender: 'Female',
+            email: 'cra.jay@example.com',
+            city: 'HCM',
+            street: 'Hai Ba Trung',
+            phoneNumber: '01313131313',
+            account_id: '1312',
+            taskComplete: '10',
             avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
+            project: 'lam viec',
+            // tasks: 10,
+            // stars: 5,
+            deptId: 1,
+            street: 'HCM, Hai Ba Trung',
+            city: 'HCM',
+            username: 'nghiavo',
+            job: 'vui',
+
         },
-        {
-            id: 3,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'UI/UX Designer',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Manager',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-            manageDate: '2021-05-14',
-        }, {
-            id: 4,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Quality Assurance',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Manager',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-            manageDate: '2021-05-14',
-        },
-        {
-            id: 5,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Employee',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Manager',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-            manageDate: '2021-05-14',
-        }, {
-            id: 6,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Employee',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Manager',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/6.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-        }, {
-            id: 7,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Employee',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Employee',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/7.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-        },
-        {
-            id: 8,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Employee',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Employee',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/8.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-        },
-        {
-            id: 9,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Employee',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Employee',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/9.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-        },
-        {
-            id: 10,
-            lastName: 'Doe',
-            firstName: 'John',
-            department: 'Development',
-            position: 'Employee',
-            job: 'Phát triển ứng dụng và hệ thống phần mềm.',
-            dateOfHire: '2020-01-15',
-            baseSalary: '1000 USD',
-            projectsCount: 5,
-            role: 'Employee',
-            currentProject: 'Project A',
-            phoneNumber: '0123456789',
-            gender: 'Male',
-            email: 'john.doe@example.com',
-            address: '123 Main St',
-            avatar: 'https://randomuser.me/api/portraits/men/10.jpg',
-            tasks: 10,
-            stars: 5,
-            tasksCount: 10,
-        },
+
+
+
 
 
 
@@ -418,7 +268,7 @@ const Employee = ({ x }) => {
     return (
         <div>
             <div className='d-flex justify-content-between align-items-center mb-0'>
-                <h2 className='mb-0'>Employee List</h2>
+                <h2 className='mb-0'>Danh sách nhân viên</h2>
                 <button className='btn btn-success' onClick={handleAddModalShow}>
                     <Plus size={16} className="me-1" /> {/* Biểu tượng Plus */}
 
@@ -445,7 +295,12 @@ const Employee = ({ x }) => {
                     <EmployeeProfileModal
                         show={showModal}
                         handleClose={handleModalClose}
+
                         employee={selectedEmployee}
+
+
+                        // employee={JSON.parse(JSON.stringify(employee))}  // Truyền bản sao của đối tượng
+
                         handleSave={handleSave}
                     />
                 )}
