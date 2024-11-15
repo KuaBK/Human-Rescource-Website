@@ -36,50 +36,50 @@ function ESidebar() {
 
       <div className="nav-links">
 
-      <NavLink to="/" className="nav-link-side" activeClassName="active-link">
-    <FaHome />
-    <span className={`link-text ${expanded ? 'show' : ''}`}>Trang chủ</span>
-</NavLink>
+                        <NavLink to="/" className="nav-link-side" activeClassName="active-link">
+                      <FaHome />
+                      <span className={`link-text ${expanded ? 'show' : ''}`}>Trang chủ</span>
+                  </NavLink>
 
 
-        <NavLink to="infor" className="nav-link-side" activeClassName="active-link">
-          <FaRegUser />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Thông tin</span>
-        </NavLink>
-        <NavLink to="attendance" className="nav-link-side" activeClassName="active-link">
-          <PiNotePencilDuotone />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
-        </NavLink>
-
-        {/* Project Dropdown */}
-        <div className="nav-link-side dropdown" onClick={toggleProjectDropdown}>
-          <FaProjectDiagram />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
-          {expanded && <BiChevronDown className={`dropdown-icon ${projectDropdown ? 'open' : ''}`} />}
-        </div>
-        {expanded && projectDropdown && (
-          <div className="dropdown-content">
-            <NavLink to="participation" className="dropdown-item" activeClassName="active-link">
-              Các dự án tham gia
+            <NavLink to="infor" className="nav-link-side" activeClassName="active-link">
+              <FaRegUser />
+              <span className={`link-text ${expanded ? 'show' : ''}`}>Thông tin</span>
             </NavLink>
-            <NavLink to="submittask" className="dropdown-item" activeClassName="active-link">
-              Nộp task
+            <NavLink to="attendance" className="nav-link-side" activeClassName="active-link">
+              <PiNotePencilDuotone />
+              <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
             </NavLink>
-          </div>
-        )}
 
-        <NavLink to="training" className="nav-link-side" activeClassName="active-link">
-          <GiTeamUpgrade />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
-        </NavLink>
-        <NavLink to="chat" className="nav-link-side" activeClassName="active-link">
-          <BiChat />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Tin nhắn</span>
-        </NavLink>
-        <NavLink to="logout" className="nav-link-side" activeClassName="active-link">
-          <BiLogOut />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Đăng xuất</span>
-        </NavLink>
+            {/* Project Dropdown */}
+            <div className="nav-link-side dropdown" onClick={toggleProjectDropdown}>
+              <FaProjectDiagram />
+              <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
+              {expanded && <BiChevronDown className={`dropdown-icon ${projectDropdown ? 'open' : ''}`} />}
+            </div>
+            {expanded && projectDropdown && (
+              <div className="dropdown-content">
+                <NavLink to="participation" className="dropdown-item" activeClassName="active-link">
+                  Các dự án tham gia
+                </NavLink>
+                <NavLink to="submittask" className="dropdown-item" activeClassName="active-link">
+                  Nộp task
+                </NavLink>
+              </div>
+            )}
+
+            <NavLink to="training" className="nav-link-side" activeClassName="active-link">
+              <GiTeamUpgrade />
+              <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
+            </NavLink>
+            <NavLink to="chat" className="nav-link-side" activeClassName="active-link">
+              <BiChat />
+              <span className={`link-text ${expanded ? 'show' : ''}`}>Tin nhắn</span>
+            </NavLink>
+            <NavLink to="logout" className="nav-link-side" activeClassName="active-link">
+              <BiLogOut />
+              <span className={`link-text ${expanded ? 'show' : ''}`}>Đăng xuất</span>
+            </NavLink>
       </div>
     </div>
   );
