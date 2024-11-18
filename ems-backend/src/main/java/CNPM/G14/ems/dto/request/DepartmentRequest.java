@@ -1,0 +1,14 @@
+package CNPM.G14.ems.dto.request;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class DepartmentRequest {
+    String departmentName;
+    int managerCode;
+}
