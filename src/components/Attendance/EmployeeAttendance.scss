@@ -42,7 +42,7 @@
     gap: 15px;
 }
 
-.check-button, .overtime-button, .request-off-button {
+.check-in-button, .check-out-button, .overtime-button, .request-off-button {
     width: 100%;
     padding: 12px;
     font-size: 1em;
@@ -54,11 +54,18 @@
     transition: background-color 0.3s ease;
 }
 
-.check-button {
-    background-color: #4caf50;
+.check-in-button {
+    background-color: #4caf50; /* Green for Check In */
 }
-.check-button:hover {
+.check-in-button:hover {
     background-color: #388e3c;
+}
+
+.check-out-button {
+    background-color: #2196f3; /* Blue for Check Out */
+}
+.check-out-button:hover {
+    background-color: #1976d2;
 }
 
 .overtime-button {
@@ -137,6 +144,15 @@
     font-size: 0.9em;
 }
 
+/* New "Done" day background color */
+.done-day {
+    background-color: #2196f3; /* Blue for Done */
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
 .request-off-box {
     width: 100%;
     display: flex;
@@ -175,5 +191,3 @@
         background-color: #0056b3;
     }
 }
-
-
