@@ -85,9 +85,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                             <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>
                                 <h5 className='card-title mb-0'>
                                     {employee.firstName} {employee.lastName}
-                                </h5>
-
-
+                                </h5> 
                                 <button className='btn btn-danger' onClick={onDeleteClick}>
                                     <Trash size={16} className="me-1" />
                                 </button>
@@ -124,6 +122,36 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
 
 
                                 </h6>
+
+                                <h6 className='card-subtitle mb-0 custom-ml'>
+                                    <span
+                                        style={{
+                                            marginLeft:"15px",
+                                            backgroundColor: "#3c88da",
+                                            color: 'white',
+                                            borderRadius: '4px',
+                                            padding: '2px 8px',
+                                        }}
+                                    >
+                                        {employee.personel_code}
+                                    </span>
+                                </h6>
+
+                                <h6 className='card-subtitle mb-0 custom-ml'>
+                                    <span
+                                        style={{
+                                            marginLeft:"15px",
+                                            backgroundColor: "green",
+                                            color: 'white',
+                                            borderRadius: '4px',
+                                            padding: '2px 8px',
+                                        }}
+                                    >
+                                        {employee.department}
+                                    </span>
+                                </h6>
+
+
 
 
 
@@ -172,7 +200,7 @@ const Employee = ({ x }) => {
             id: 1,
 
             account_id: 12000,
-            personel_code: 1,
+            personel_code: 22121000,
             password: '2004',
             lastName: 'Doe',
             firstName: 'John',

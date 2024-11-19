@@ -178,7 +178,7 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                     )}
 
                     {/* Nếu là Manager thì có trường phòng ban */}
-                    {editEmployee.role === 'Manager' && (
+                
                         <Form.Group controlId="formDepartment" className="mt-2">
                             <Form.Label>Phòng ban</Form.Label>
                             <Form.Control
@@ -188,7 +188,7 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                    )}
+                    
 
 
 

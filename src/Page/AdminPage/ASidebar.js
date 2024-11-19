@@ -7,6 +7,7 @@ import { TfiStatsUp } from 'react-icons/tfi';
 import { FaProjectDiagram, FaRegUser } from 'react-icons/fa';
 import { GiTeamUpgrade } from 'react-icons/gi';
 import { BiLogOut, BiChat, BiX, BiChevronRight, BiChevronDown } from 'react-icons/bi';
+import { FaSitemap } from 'react-icons/fa'; // Import the icon
 import { FaHome } from "react-icons/fa";
 import './ASidebar.scss';
 
@@ -73,34 +74,48 @@ function ASidebar({ expanded, toggleSidebar }) {
           <FaRegUser />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Nhân viên</span>
         </NavLink>
+
+        <NavLink to="department" className="nav-link-side" activeClassName="active-link">
+          <FaSitemap />
+          <span className={`link-text ${expanded ? 'show' : ''}`}>Phòng ban</span>
+        </NavLink>
+
+
         <NavLink to="admin-attendance" className="nav-link-side" activeClassName="active-link">
           <PiNotePencilDuotone />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
         </NavLink>
+
         <NavLink to="admin-salary" className="nav-link-side" activeClassName="active-link">
           <GrMoney />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Tiền lương và phúc lợi</span>
         </NavLink>
+
         <NavLink to="project" className="nav-link-side" activeClassName="active-link">
           <FaProjectDiagram />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
         </NavLink>
+
         <NavLink to="admin-training" className="nav-link-side" activeClassName="active-link">
           <GiTeamUpgrade />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
         </NavLink>
+
         <NavLink to="statistic" className="nav-link-side" activeClassName="active-link">
           <TfiStatsUp />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Thống kê</span>
         </NavLink>
+
         <NavLink to="chat" className="nav-link-side" activeClassName="active-link">
           <BiChat />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Tin nhắn</span>
         </NavLink>
+
         <NavLink to="logout" className="nav-link-side" activeClassName="active-link">
           <BiLogOut />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đăng xuất</span>
         </NavLink>
+
       </div>
       {/* <div className="checkbox-section">
         <label className="checkbox-label">
