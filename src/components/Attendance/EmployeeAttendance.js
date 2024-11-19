@@ -7,6 +7,7 @@ const EmployeeAttendance = () => {
     const [value, setValue] = useState(new Date());
     const [schedule, setSchedule] = useState({});
     const [isCheckedIn, setIsCheckedIn] = useState(false);
+    const [isCheckedOut, setIsCheckedOut] = useState(false); // Track if checked out
     const [showOvertime, setShowOvertime] = useState(false);
     const [overtimeHours, setOvertimeHours] = useState(0);
     const [showRequestOff, setShowRequestOff] = useState(false);
@@ -26,20 +27,40 @@ const EmployeeAttendance = () => {
         setValue(date);
         const dateKey = date.toISOString().split('T')[0];
         setIsCheckedIn(schedule[dateKey]?.type === 'work');
+        setIsCheckedOut(schedule[dateKey]?.type === 'done'); // Track if it's checked out
         setOvertimeHours(schedule[dateKey]?.overtime || 0);
     };
 
-    const handleCheckInOut = () => {
+    const handleCheckIn = () => {
         const dateKey = value.toISOString().split('T')[0];
         setSchedule((prevSchedule) => ({
             ...prevSchedule,
             [dateKey]: {
                 ...prevSchedule[dateKey],
-                type: isCheckedIn ? 'none' : 'work',
+                type: 'work', // Mark as working
             },
         }));
-        setIsCheckedIn(!isCheckedIn);
+        setIsCheckedIn(true);
+        setIsCheckedOut(false);
     };
+
+    const handleCheckOut = () => {
+        if (!isCheckedIn) {
+            alert('You must check in before checking out!');
+            return;
+        }
+        const dateKey = value.toISOString().split('T')[0];
+        setSchedule((prevSchedule) => ({
+            ...prevSchedule,
+            [dateKey]: {
+                ...prevSchedule[dateKey],
+                type: 'done', // Mark as done
+            },
+        }));
+        setIsCheckedIn(false);
+        setIsCheckedOut(true);
+    };
+    
 
     const handleOvertimeToggle = () => {
         setShowOvertime(!showOvertime);
@@ -76,26 +97,31 @@ const EmployeeAttendance = () => {
 
     const handleSubmitLeaveRequest = () => {
         if (!leaveStartDate || !leaveEndDate || !leaveReason) return;
-
-        const start = new Date(leaveStartDate);
-        const end = new Date(leaveEndDate);
+    
+        // Normalize the start and end dates to midnight
+        const start = new Date(new Date(leaveStartDate).setHours(0, 0, 0, 0));
+        const end = new Date(new Date(leaveEndDate).setHours(0, 0, 0, 0));
         const newSchedule = { ...schedule };
-
+    
         // Iterate through each day in the range and mark as "off"
         for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-            const dateKey = d.toISOString().split('T')[0];
+            const dateKey = d.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
             newSchedule[dateKey] = {
                 type: 'off',
                 reason: leaveReason,
             };
         }
-        
+    
+        console.log("Request submitted for leave days.");
+    
+        // Update state and reset inputs
         setSchedule(newSchedule);
         setLeaveReason("");
         setLeaveStartDate(null);
         setLeaveEndDate(null);
         setShowRequestOff(false);
     };
+    
 
     const renderTileContent = ({ date, view }) => {
         if (view === 'month') {
@@ -112,11 +138,15 @@ const EmployeeAttendance = () => {
                             Off - {dayInfo.reason}
                         </div>
                     )}
+                    {dayInfo?.type === 'done' && (
+                        <div className="day-label done-day">Done</div>
+                    )}
                 </div>
             );
         }
         return null;
     };
+    
 
     return (
         <div className="attendance-container">
@@ -127,15 +157,19 @@ const EmployeeAttendance = () => {
                         onChange={handleDateChange}
                         value={value}
                         tileContent={renderTileContent}
-                        tileDisabled={({ date }) => date > new Date()}
+                        tileDisabled={({ date }) => date > new Date()} // Disable future dates
                     />
                 </div>
                 <div className="controls-container">
-                    <button className="check-button" onClick={handleCheckInOut}>
-                        {isCheckedIn ? 'Check Out' : 'Check In'}
+                    <button className="check-in-button" onClick={handleCheckIn}>
+                        Check In
                     </button>
+                    <button className="check-out-button" onClick={handleCheckOut}>
+                        Check Out
+                    </button>
+
                     <button className="overtime-button" onClick={handleOvertimeToggle}>
-                       Đăng ký OT
+                        Đăng ký OT
                     </button>
                     {showOvertime && (
                         <div className="overtime-dropdown">
@@ -149,7 +183,7 @@ const EmployeeAttendance = () => {
                         </div>
                     )}
                     <button className="request-off-button" onClick={handleRequestOffToggle}>
-                       Xin nghỉ phép
+                        Xin nghỉ phép
                     </button>
                     {showRequestOff && (
                         <div className="request-off-box">

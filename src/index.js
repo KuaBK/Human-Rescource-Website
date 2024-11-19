@@ -39,6 +39,7 @@ import AdminSalary from './components/Salary/AdminSalary';
 import AdminTraining from './components/Training/AdminTraining';
 import ManagerProject from './components/Project/Manager/ManagerProject';
 import ManagerDevideTask from './components/Project/Manager/ManagerDivideTask';
+import AdminAttendance from './components/Attendance/AdminAttendance';
 
 // employee
 import SubmitTask from './components/Project/Employee/SubmitTask';
