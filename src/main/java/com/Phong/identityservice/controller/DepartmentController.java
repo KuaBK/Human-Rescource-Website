@@ -35,10 +35,10 @@ public class DepartmentController {
         return departmentService.saveDepartment(department);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Department> updateDepartment(
+    @PatchMapping("/{id}")
+    public ResponseEntity<Department> patchDepartment(
             @PathVariable Long id, @RequestBody Department departmentDetails) {
-        return ResponseEntity.ok(departmentService.updateDepartment(id, departmentDetails));
+        return ResponseEntity.ok(departmentService.patchDepartment(id, departmentDetails));
     }
 
     @DeleteMapping("/{id}")

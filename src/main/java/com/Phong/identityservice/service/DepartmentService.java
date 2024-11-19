@@ -52,21 +52,22 @@ public class DepartmentService {
     }
 
 
-    public Department updateDepartment(Long id, Department departmentDetails) {
+    public Department patchDepartment(Long id, Department departmentDetails) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DEPARTMENT_NOT_FOUND));
 
-        department.setDepartmentName(departmentDetails.getDepartmentName());
-        department.setEmployeeNumber(departmentDetails.getEmployeeNumber());
-        department.setAddress(departmentDetails.getAddress());
-
-        // Kiểm tra nếu manager không null
+        if (departmentDetails.getDepartmentName() != null) {
+            department.setDepartmentName(departmentDetails.getDepartmentName());
+        }
+        if (departmentDetails.getAddress() != null) {
+            department.setAddress(departmentDetails.getAddress());
+        }
         if (departmentDetails.getManager() != null) {
             Manager manager = managerRepository.findById(departmentDetails.getManager().getPersonelCode())
                     .orElseThrow(() -> new AppException(ErrorCode.MANAGER_NOT_FOUND));
             department.setManager(manager);
-        } else {
-            department.setManager(null);  // Cho phép cập nhật thành null
+        } else if (departmentDetails.getManager() == null) {
+            department.setManager(null);
         }
 
         try {

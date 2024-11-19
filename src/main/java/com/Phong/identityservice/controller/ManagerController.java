@@ -1,7 +1,9 @@
 package com.Phong.identityservice.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.Phong.identityservice.entity.personel.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +12,7 @@ import com.Phong.identityservice.entity.personel.Manager;
 import com.Phong.identityservice.service.ManagerService;
 
 @RestController
-@RequestMapping("/api/managers")
+@RequestMapping("/managers")
 public class ManagerController {
 
     private final ManagerService managerService;
@@ -42,10 +44,12 @@ public class ManagerController {
         return ResponseEntity.ok(managerService.getAllManagers());
     }
 
-    // Update an existing manager
-    @PutMapping("/{id}")
-    public ResponseEntity<Manager> updateManager(@PathVariable Long id, @RequestBody Manager managerDetails) {
-        return ResponseEntity.ok(managerService.updateManager(id, managerDetails));
+    @PatchMapping("/{id}")
+    public ResponseEntity<Manager> patchManager(
+            @PathVariable("id") Long id,
+            @RequestBody Map<String, Object> updates) {
+        Manager updatedManager = managerService.patchManager(id, updates);
+        return ResponseEntity.ok(updatedManager);
     }
 
     // Delete a manager

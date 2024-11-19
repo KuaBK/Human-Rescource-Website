@@ -9,10 +9,11 @@ import com.Phong.identityservice.entity.Account;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -59,4 +60,7 @@ public class Personel {
 
     @Column(name = "Address")
     String address;
+
+    @Column(name = "Avatar")
+    private String avatar;
 }

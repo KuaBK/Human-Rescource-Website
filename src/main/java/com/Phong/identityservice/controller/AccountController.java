@@ -2,6 +2,8 @@ package com.Phong.identityservice.controller;
 
 import java.util.List;
 
+import com.Phong.identityservice.dto.request.Account.AccountCreationRequest;
+import com.Phong.identityservice.dto.request.Account.AccountUpdateRequest;
 import com.Phong.identityservice.dto.request.TokenRequest;
 import jakarta.validation.Valid;
 
@@ -9,8 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.Phong.identityservice.dto.response.ApiResponse;
-import com.Phong.identityservice.dto.request.UserCreationRequest;
-import com.Phong.identityservice.dto.request.UserUpdateRequest;
 import com.Phong.identityservice.dto.response.AccountResponse;
 import com.Phong.identityservice.service.AccountService;
 
@@ -28,8 +28,9 @@ public class AccountController {
     AccountService accountService;
 
     @PostMapping("/create")
-    ApiResponse<AccountResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+    ApiResponse<AccountResponse> createUser(@RequestBody @Valid AccountCreationRequest request) {
         return ApiResponse.<AccountResponse>builder()
+                .message("Create Account Successfully")
                 .result(accountService.createUser(request))
                 .build();
     }
@@ -67,8 +68,9 @@ public class AccountController {
     }
 
     @PutMapping("/{userId}")
-    ApiResponse<AccountResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+    ApiResponse<AccountResponse> updateUser(@PathVariable String userId, @RequestBody AccountUpdateRequest request) {
         return ApiResponse.<AccountResponse>builder()
+                .message("Update Account Successfully")
                 .result(accountService.updateUser(userId, request))
                 .build();
     }

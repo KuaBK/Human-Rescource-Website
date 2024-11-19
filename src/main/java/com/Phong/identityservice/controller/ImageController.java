@@ -2,6 +2,7 @@ package com.Phong.identityservice.controller;
 
 import java.io.IOException;
 
+import com.Phong.identityservice.dto.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,23 +18,31 @@ public class ImageController {
     private final ImageService imageService;
 
     @Autowired
-    public ImageController(ImageService imageUploadService) {
-        this.imageService = imageUploadService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Image> uploadImage(@RequestParam("image") MultipartFile file,
-                                             @RequestHeader("Authorization") String token) throws IOException {
+    public ApiResponse<String> uploadImage(@RequestParam("image") MultipartFile file,
+                                           @RequestHeader("Authorization") String token) throws IOException {
         String jwtToken = token.startsWith("Bearer ") ? token.substring(7) : token;
 
         Image image = imageService.uploadImage(file, jwtToken);
 
-        return ResponseEntity.ok(image);
+        return ApiResponse.<String>builder()
+                .code(1000)
+                .message("Image uploaded successfully")
+                .result(image.getUrl())
+                .build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getImage(@PathVariable Long id) {
+    public ApiResponse<String> getImage(@PathVariable Long id) {
         Image image = imageService.getImage(id);
-        return ResponseEntity.ok(image.getUrl());
+        return ApiResponse.<String>builder()
+                .code(1000)
+                .message("Image retrieved successfully")
+                .result(image.getUrl())
+                .build();
     }
 }

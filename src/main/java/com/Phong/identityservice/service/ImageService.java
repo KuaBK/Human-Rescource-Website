@@ -39,26 +39,21 @@ public class ImageService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-
         String url = (String) uploadResult.get("url");
         String cloudinaryId = (String) uploadResult.get("public_id");
 
+        // Lưu thông tin ảnh vào bảng Image
         Image image = new Image();
         image.setUrl(url);
         image.setCloudinaryId(cloudinaryId);
         image.setName(file.getOriginalFilename());
         image.setUploadedBy(personel);
+        imageRepository.save(image);
 
-        return imageRepository.save(image);
-    }
+        personel.setAvatar(url);
+        personelRepository.save(personel);
 
-
-
-    public Image saveImageUrl(String imageUrl, String name) {
-        Image img = new Image();
-        img.setName(name);
-        img.setUrl(imageUrl);
-        return imageRepository.save(img);
+        return image;
     }
 
     public Image getImage(Long id) {

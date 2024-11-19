@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AttendanceService {
-
     private final AttendanceRepository attendanceRepository;
     private final EmployeeRepository employeeRepository;
 
@@ -38,7 +36,8 @@ public class AttendanceService {
                 .checkInTime(LocalDateTime.now())
                 .type(Type.CHECK_IN)
                 .build();
-        return attendanceRepository.save(attendance);
+        attendanceRepository.save(attendance);
+        return attendance;
     }
 
     @Transactional

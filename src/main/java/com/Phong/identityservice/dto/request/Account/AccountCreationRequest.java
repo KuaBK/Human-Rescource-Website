@@ -1,6 +1,4 @@
-package com.Phong.identityservice.dto.request;
-
-import java.util.List;
+package com.Phong.identityservice.dto.request.Account;
 
 import jakarta.validation.constraints.Size;
 
@@ -8,11 +6,14 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateRequest {
+public class AccountCreationRequest {
+    @Size(min = 9, max = 24, message = "USERNAME_INVALID")
+    String username;
+
     @Size(min = 8, message = "INVALID_PASSWORD")
     String password;
 

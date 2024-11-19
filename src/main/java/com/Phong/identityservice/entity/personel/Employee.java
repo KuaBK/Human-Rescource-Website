@@ -9,6 +9,7 @@ import com.Phong.identityservice.entity.projects.Projects;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@SuperBuilder
 @Table(name = "employee")
 public class Employee extends Personel {
 

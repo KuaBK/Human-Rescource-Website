@@ -2,6 +2,8 @@ package com.Phong.identityservice.service;
 
 import java.util.List;
 
+import com.Phong.identityservice.dto.request.Account.AccountCreationRequest;
+import com.Phong.identityservice.dto.request.Account.AccountUpdateRequest;
 import com.Phong.identityservice.utils.JwtUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -9,8 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.Phong.identityservice.dto.request.UserCreationRequest;
-import com.Phong.identityservice.dto.request.UserUpdateRequest;
 import com.Phong.identityservice.dto.response.AccountResponse;
 import com.Phong.identityservice.entity.Account;
 import com.Phong.identityservice.entity.Role;
@@ -33,7 +33,7 @@ public class AccountService {
 
     JwtUtils jwtUtils;
 
-    public AccountResponse createUser(UserCreationRequest request) {
+    public AccountResponse createUser(AccountCreationRequest request) {
 
         Account account = accountMapper.toUser(request);
         account.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -49,7 +49,7 @@ public class AccountService {
         return accountMapper.toUserResponse(account);
     }
 
-    public AccountResponse updateUser(String userId, UserUpdateRequest request) {
+    public AccountResponse updateUser(String userId, AccountUpdateRequest request) {
         Account account =
                 accountRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
