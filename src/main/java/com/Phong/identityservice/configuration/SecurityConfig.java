@@ -23,6 +23,7 @@ public class SecurityConfig {
             "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh",
             "/account/myInfo","/account",
             "/attendance/checkIn/{employeeId}",  "/attendance/checkOut/{employeeId}",
+            "/images/upload"
     };
 
     private final CustomJwtDecoder customJwtDecoder;

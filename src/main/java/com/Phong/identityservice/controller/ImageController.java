@@ -11,7 +11,7 @@ import com.Phong.identityservice.entity.images.Image;
 import com.Phong.identityservice.service.ImageService;
 
 @RestController
-@RequestMapping("/api/images")
+@RequestMapping("/images")
 public class ImageController {
 
     private final ImageService imageService;
@@ -22,8 +22,12 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Image> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-        Image image = imageService.uploadImage(file);
+    public ResponseEntity<Image> uploadImage(@RequestParam("image") MultipartFile file,
+                                             @RequestHeader("Authorization") String token) throws IOException {
+        String jwtToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+
+        Image image = imageService.uploadImage(file, jwtToken);
+
         return ResponseEntity.ok(image);
     }
 

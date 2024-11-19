@@ -1,5 +1,6 @@
 package com.Phong.identityservice.entity.images;
 
+import com.Phong.identityservice.entity.personel.Personel;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -23,4 +24,8 @@ public class Image {
     String url;
 
     String cloudinaryId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "personel_code", referencedColumnName = "PersonelCode")
+    Personel uploadedBy;
 }
