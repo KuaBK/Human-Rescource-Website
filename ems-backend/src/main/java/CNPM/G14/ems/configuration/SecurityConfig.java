@@ -24,12 +24,15 @@ public class SecurityConfig {
             "/users", "/auth/token", "/auth/introspect", "/auth/login", "/auth/refresh", "/auth/logout",
             "/account", "/account/create", "/account/info", "/account/all", "/account/delete", "/account/edit",
             "/personel", "/personel/add", "/personel/all" , "/personel/delete", "/personel/edit",
-            "/employee", "/employee/add", "/employee/all", "/employee/dept", "employee/select-dept",
-            "employee/edit", "employee/delete",
+            "/employee", "/employee/add", "/employee/all", "/employee/dept", "employee/select-dept", "employee/edit", "employee/delete",
             "/manager", "/manager/add", "/manager/assign", "/manager/remove", "/manager/all",
             "/project", "/project/add", "/project/all", "/project/assign", "/project/remove", "project/dept",
             "/department", "/department/create", "/department/all", "/department/delete",
-            "/task", "/task/create", "/task/all", "/task/update-status", "/task/project", "/task/assign", "/task/employee"
+            "/task", "/task/create", "/task/all", "/task/update-status", "/task/project", "/task/assign", "/task/employee",
+            "/absence", "/absence/create", "/absence/employee",
+            "/salary", "/salary/create", "/salary/edit", "/salary/payrate-edit", "/salary/bonus-penalty", "/salary/employee",
+            "/salary/employee/month-year",
+            "/attendance/specific", "/attendance/check-in", "/attendance/check-out", "/attendance/employee", "/attendance/today-duration",
     };
 
     @Autowired
