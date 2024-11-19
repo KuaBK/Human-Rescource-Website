@@ -1,4 +1,4 @@
-package com.Phong.identityservice.dto.request;
+package com.Phong.identityservice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

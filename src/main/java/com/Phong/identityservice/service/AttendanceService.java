@@ -76,7 +76,6 @@ public class AttendanceService {
         throw new AppException(ErrorCode.DURATION_CALCULATION_ERROR);
     }
 
-    // Hàm phụ để định dạng Duration thành chuỗi "HH:mm:ss"
     private String formatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.toMinutes() % 60;

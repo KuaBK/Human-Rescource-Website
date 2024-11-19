@@ -38,16 +38,15 @@ public class Attendance {
         if (checkInTime != null && checkOutTime != null) {
             return Duration.between(checkInTime, checkOutTime);
         }
-        return Duration.ZERO; // Trả về Duration mặc định nếu checkInTime hoặc checkOutTime là null
+        return Duration.ZERO;
     }
 
     public Attendance() {
-        // Nếu checkInTime hoặc checkOutTime là null, gán giá trị mặc định
         if (checkInTime == null) {
-            checkInTime = LocalDateTime.now(); // Ví dụ: giá trị mặc định là thời gian hiện tại
+            checkInTime = LocalDateTime.now();
         }
         if (checkOutTime == null) {
-            checkOutTime = LocalDateTime.now(); // Ví dụ: giá trị mặc định là thời gian hiện tại
+            checkOutTime = LocalDateTime.now();
         }
     }
 }

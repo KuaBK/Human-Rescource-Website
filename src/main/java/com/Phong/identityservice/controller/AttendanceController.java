@@ -1,16 +1,12 @@
 package com.Phong.identityservice.controller;
 
-import com.Phong.identityservice.dto.request.ApiResponse;
+import com.Phong.identityservice.dto.response.ApiResponse;
 import com.Phong.identityservice.entity.attendance.Attendance;
 import com.Phong.identityservice.service.AttendanceService;
-import com.Phong.identityservice.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.Duration;
 
 @RestController
 @RequestMapping("/attendance")
