@@ -6,32 +6,42 @@ const AdminSalary = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState(null);
 
-
+// open edit salary
     const handleModalOpen = (record) => {
         setSelectedRecord(record);
         setShowModal(true);
         console.log("Opening Modal:", record);
+
+
+        console.log("pass open")
     };
     
     const handleModalClose = () => {
         setShowModal(false);
         setSelectedRecord(null);
         console.log("Closing Modal");
+
+
+        console.log("pass closing")
     };
     
 
 
     const handleSave = (updatedRecord) => {
-        setLoans((prevLoans) =>
-            prevLoans.map((loan) => (loan.id === updatedRecord.id ? updatedRecord : loan))
+        setSalary((prevSalary) =>
+            prevSalary.map((loan) => (loan.id === updatedRecord.id ? updatedRecord : loan))
         );
+
+        console.log("pass save")
     };
     
     const handleDelete = (emp_code) => {
-        setLoans(prevLoans => prevLoans.filter(record => record.emp_code !== emp_code));
+        setSalary(prevSalary => prevSalary.filter(record => record.emp_code !== emp_code));
+
+        console.log("pass delete")
     };
 
-    const [loans, setLoans] = useState([
+    const [Salary, setSalary] = useState([
         {
             emp_code: 'LP-0101',
             id: 1,
@@ -46,11 +56,26 @@ const AdminSalary = () => {
             name: 'Joan Dyer',
             image: 'https://randomuser.me/api/portraits/men/1.jpg',
         },
+
+        {
+            emp_code: 'LP-2007',
+            id: 737,
+            month: 1,
+            year: 2022,
+            bonus: 500,
+            penalty: 100,
+            real_pay: 3900,
+            full_work: 22,
+            half_work: 0,
+            absence: 1,
+            name: 'Ly Quang',
+            image: 'https://randomuser.me/api/portraits/men/1.jpg',
+        },
     ]);
 
-    const SalaryRecordList = ({ loans }) => (
+    const SalaryRecordList = ({ Salary }) => (
         <tbody>
-            {loans.map((record, index) => (
+            {Salary.map((record, index) => (
                 <tr key={index}>
                     <td>{record.emp_code}</td>
                     <td className="d-flex align-items-center">
@@ -110,7 +135,7 @@ const AdminSalary = () => {
                                             <th>Hoạt động</th>
                                         </tr>
                                     </thead>
-                                    <SalaryRecordList loans={loans} />
+                                    <SalaryRecordList Salary={Salary} />
                                 </table>
                             </div>
                         </div>

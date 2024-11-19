@@ -10,7 +10,8 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   async function submit(e) {
-   e.preventDefault(); // Prevent the default form submission    console.log("1111111");
+   e.preventDefault(); // Prevent the default form submission   
+    console.log("handle trong ni");
   }
   
 
@@ -39,7 +40,6 @@ function Login() {
                             Tên đăng nhập
                           </label>
                           <input
-                            type="email"
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}

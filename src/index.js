@@ -64,8 +64,10 @@ root.render(
           <Route path="department" element={<Department />} />
           <Route path="project" element={<AdminProject />} />
           <Route path="admin-training" element={<AdminTraining />} />
-          <Route path="chat" element={<EmployeeChat />} />
           <Route path="statistic" element={<Statistic />} />
+          <Route path="chat" element={<EmployeeChat />} />
+
+
         </Route>
 
         <Route exact path="/login/employee" element={<EmployeePage />}>
