@@ -22,7 +22,7 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long attendanceId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "EmployeeCode", referencedColumnName = "personel_code")
     Employee employee;
 
