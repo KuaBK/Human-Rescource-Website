@@ -10,7 +10,7 @@ import com.Phong.identityservice.entity.departments.Department;
 import com.Phong.identityservice.service.DepartmentService;
 
 @RestController
-@RequestMapping("/api/departments")
+@RequestMapping("/departments")
 public class DepartmentController {
     private final DepartmentService departmentService;
 

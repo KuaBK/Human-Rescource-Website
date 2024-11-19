@@ -34,11 +34,22 @@ public class Attendance {
     LocalDateTime checkInTime;
     LocalDateTime checkOutTime;
 
-    public Duration getTimeWorking() {
+    String duration;
+
+    public void updateDuration() {
         if (checkInTime != null && checkOutTime != null) {
-            return Duration.between(checkInTime, checkOutTime);
+            Duration workDuration = Duration.between(checkInTime, checkOutTime);
+            this.duration = formatDuration(workDuration);
+        } else {
+            this.duration = "00:00:00";
         }
-        return Duration.ZERO;
+    }
+
+    private String formatDuration(Duration duration) {
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+        long seconds = duration.getSeconds() % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     public Attendance() {

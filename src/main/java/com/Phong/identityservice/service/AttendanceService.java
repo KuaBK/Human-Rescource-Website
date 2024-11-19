@@ -23,7 +23,6 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final EmployeeRepository employeeRepository;
 
-    // Check-in method for attendance
     @Transactional
     public Attendance checkIn(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
@@ -49,11 +48,15 @@ public class AttendanceService {
         LocalDate today = LocalDate.now();
         Attendance attendance = attendanceRepository.findByEmployeeAndDate(employee, today)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_CHECKED_IN));
+
         if (attendance.getCheckOutTime() != null) {
             throw new AppException(ErrorCode.ALREADY_CHECKED_OUT);
         }
+
         attendance.setCheckOutTime(LocalDateTime.now());
+        attendance.updateDuration();
         attendance.setType(Type.CHECK_OUT);
+
         return attendanceRepository.save(attendance);
     }
 
@@ -63,23 +66,10 @@ public class AttendanceService {
         LocalDate today = LocalDate.now();
         Attendance attendance = attendanceRepository.findByEmployeeAndDate(employee, today)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_CHECKED_IN));
-        if (attendance.getCheckInTime() != null && attendance.getCheckOutTime() != null) {
-            Duration duration = Duration.between(attendance.getCheckInTime(), attendance.getCheckOutTime());
-            return formatDuration(duration);
-        } else if (attendance.getCheckInTime() != null) {
-            Duration duration = Duration.between(attendance.getCheckInTime(), LocalDateTime.now());
-            return formatDuration(duration);
-        }
-        if (attendance.getCheckOutTime().isBefore(attendance.getCheckInTime())) {
-            throw new AppException(ErrorCode.DURATION_CALCULATION_ERROR);
+
+        if (attendance.getDuration() != null) {
+            return attendance.getDuration();
         }
         throw new AppException(ErrorCode.DURATION_CALCULATION_ERROR);
-    }
-
-    private String formatDuration(Duration duration) {
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() % 60;
-        long seconds = duration.getSeconds() % 60;
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
