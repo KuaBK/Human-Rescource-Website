@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom/client';
 
 import reportWebVitals from './reportWebVitals';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
+
+import AdminAttendance from './components/Attendance/AdminAttendance';
+
 
 // import Salary from './components/Salary/Salary';
 
@@ -38,6 +42,7 @@ import AdminProject from './components/Project/Admin/AdminProject';
 import AdminSalary from './components/Salary/AdminSalary';
 import AdminTraining from './components/Training/AdminTraining';
 import ManagerProject from './components/Project/Manager/ManagerProject';
+
 import ManagerDevideTask from './components/Project/Manager/ManagerDivideTask';
 
 // employee
@@ -54,10 +59,10 @@ root.render(
         <Route exact path="/login/admin" element={<AdminPage />}>
           <Route index element={<ADashboard />}></Route>
           <Route path="employee" element={<Employee />} />
-          <Route path="admin-attendance" element={<Attendance />} />
+          <Route path="admin-attendance" element={<AdminAttendance />} />
           <Route path="admin-salary" element={<AdminSalary />} />
           <Route path="department" element={<Department />} />
-          <Route path="project" element={<AdminProject/>} />
+          <Route path="project" element={<AdminProject />} />
           <Route path="admin-training" element={<AdminTraining />} />
           <Route path="chat" element={<EmployeeChat />} />
           <Route path="statistic" element={<Statistic />} />
@@ -71,8 +76,8 @@ root.render(
           {/* <Route path="salary" element={<Salary />}/>
                     <Route path="department" element={<Department />}/> */}
           {/* <Route path="project" element={<Project />} /> */}
-          <Route path="participation" element={<Participation/>} />
-          <Route path="submittask" element={<SubmitTask/>} />
+          <Route path="participation" element={<Participation />} />
+          <Route path="submittask" element={<SubmitTask />} />
           <Route path="training" element={<EmployeeTraining />} />
           <Route path="chat" element={<EmployeeChat />} />
         </Route>

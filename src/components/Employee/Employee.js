@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import './Employee.css'
+import './Employee.scss'
 import { Star, Files, Plus, User, Trash } from 'phosphor-react';
 import { Link } from 'react-router-dom';
 import EmployeeProfileModal from './EmployeeProfileModal';
@@ -33,8 +33,8 @@ function getPositionColor(position) {
 
 function getRoleColor(role) {
     switch (role) {
-        case "Employee": return "#0004fc";
-        default: return "#fc0000";
+        case "Employee": return "#747ab0";
+        default: return " #e85460";
     }
 }
 
@@ -145,7 +145,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                 </button> */}
 
 
-                                <button className='btn bg-success text-white me-1' onClick={onProfileClick}>
+                                <button className='btn btn-danger text-white me-1' onClick={onProfileClick}>
                                     <User size={16} className="me-1" /> Hồ sơ
                                 </button>
                                 {/* <button className='btn btn-danger' onClick={onDeleteClick}>
@@ -428,7 +428,7 @@ const Employee = ({ x }) => {
         <div>
             <div className='d-flex justify-content-between align-items-center mb-0'>
                 <h2 className='mb-0'>Danh sách nhân viên</h2>
-                <button className='btn btn-success' onClick={handleAddModalShow}>
+                <button className='btn btn-danger text-white' onClick={handleAddModalShow}>
                     <Plus size={16} className="me-1" /> {/* Biểu tượng Plus */}
 
                     Thêm nhân viên
