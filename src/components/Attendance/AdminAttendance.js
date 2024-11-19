@@ -1,35 +1,66 @@
 import React, { useState } from 'react';
 import { CheckCircle, X, Clock, NotePencil } from 'phosphor-react'; // Import các icon cần thiết
 import EditAttendance from './EditAttendance';
+import './AdminAttendance.scss'
 
 const AdminAttendance = () => {
     const [employees, setEmployees] = useState([
         {
+            id: "1",
+            selectDate: "1",
             name: "Joan Dyer",
-            avatar: 'https://randomuser.me/api/portraits/women/1.jpg', // Thêm avatar
-            attendance: ["full", "half", "absent", "full", "full", "half", "absent", "full", "full", "half", "full", "absent", "full", "half", "absent", "full", "full", "half", "absent", "full", "full", "half", "absent", "full", "full", "half", "absent", "full", "full", "half", "full"]
+            avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
+            attendance: [
+                { work_date: "2024-11-01", check_in: "08:00:00", check_out: "17:00:00", attendanceType: "full" },
+                { work_date: "2024-11-02", check_in: "09:00:00", check_out: "13:00:00", attendanceType: "full" },
+                { work_date: "2024-11-03", check_in: null, check_out: null, attendanceType: "absent" }
+            ],
+            salaryID: '10',
+            employee_code: '01'
         },
         {
+            id: "2",
             name: "Ryan Randall",
-            avatar: 'https://randomuser.me/api/portraits/men/1.jpg', // Thêm avatar
-            attendance: ["half", "full", "full", "absent", "half", "full", "full", "absent", "half", "full", "absent", "half", "full", "full", "absent", "half", "full", "full", "absent", "half", "full", "full", "absent", "half", "full", "full", "absent", "half", "full", "half", "full"]
-        },
-        {
-            name: "Phil Glover",
-            avatar: 'https://randomuser.me/api/portraits/men/2.jpg', // Thêm avatar
-            attendance: ["absent", "full", "half", "absent", "full", "half", "full", "absent", "half", "full", "full", "absent", "half", "full", "absent", "half", "full", "absent", "half", "full", "absent", "full", "half", "full", "absent", "half", "full", "full", "absent", "half", "full"]
-        },
+            selectDate: "2",
+            avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+            attendance: [
+                { work_date: "2024-11-01", check_in: "08:30:00", check_out: "17:00:00", attendanceType: "absent" },
+                { work_date: "2024-11-02", check_in: null, check_out: null, attendanceType: "absent" },
+                { work_date: "2024-11-03", check_in: "10:00:00", check_out: "14:00:00", attendanceType: "full" }
+            ],
+            salaryID: '20',
+            employee_code: '01'
+        }
+
     ]);
 
-    const [selectedMonth, setSelectedMonth] = useState(1); // Tháng 1 mặc định
-    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Năm hiện tại mặc định
+    const [selectedMonth, setSelectedMonth] = useState(11); // Tháng hiện tại
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [showModal, setShowModal] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-    const handleEditClick = (employee) => {
-        setSelectedEmployee(employee);
-        setShowModal(true);
+    const calculateAttendance = (checkIn, checkOut) => {
+        if (!checkIn || !checkOut) return "absent";
+
+        const [checkInHours, checkInMinutes] = checkIn.split(':').map(Number);
+        const [checkOutHours, checkOutMinutes] = checkOut.split(':').map(Number);
+
+        const hoursWorked = (checkOutHours + checkOutMinutes / 60) - (checkInHours + checkInMinutes / 60);
+        if (hoursWorked >= 4 && hoursWorked <= 8) return "half";
+        if (hoursWorked > 8) return "full";
+        return "absent";
     };
+
+    const getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
+    const filteredDays = Array.from({ length: getDaysInMonth(selectedMonth, selectedYear) }, (_, i) => i + 1);
+
+    const handleEditClick = (employee) => {
+        if (employee && employee.attendance) {
+            setSelectedEmployee(employee);
+            setShowModal(true);
+        }
+    };
+
 
     const handleModalClose = () => {
         setShowModal(false);
@@ -37,12 +68,16 @@ const AdminAttendance = () => {
     };
 
     const handleSave = (updatedEmployee) => {
-        setEmployees(employees.map(emp => emp.name === updatedEmployee.name ? updatedEmployee : emp));
+        setEmployees(prevEmployees =>
+            prevEmployees.map(emp =>
+                emp.id === updatedEmployee.id
+                    ? { ...emp, attendance: updatedEmployee.attendance }  // Cập nhật mảng attendance của nhân viên
+                    : emp
+            )
+        );
         handleModalClose();
     };
 
-    const getDaysInMonth = (month, year) => new Date(year, month, 0).getDate();
-    const filteredDays = Array.from({ length: getDaysInMonth(selectedMonth, selectedYear) }, (_, i) => i + 1);
 
     return (
         <div className="container-fluid mt-1">
@@ -50,12 +85,7 @@ const AdminAttendance = () => {
                 <div className='row align-items-center'>
                     <div className='border-0 mb-4'>
                         <div className='card-header py-3 no-bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap'>
-
-                            <h2 className="fw-bold mb-0">
-                                Attendance
-                            </h2>
-
-
+                            <h2 className="fw-bold mb-0">Attendance</h2>
                             <div className="d-flex w-sm-100 col-auto">
                                 <label className="mr-2">Select Month:</label>
                                 <select value={selectedMonth} onChange={(e) => setSelectedMonth(parseInt(e.target.value))}>
@@ -72,13 +102,9 @@ const AdminAttendance = () => {
                                     style={{ width: '80px' }}
                                 />
                             </div>
-
-
                         </div>
-
                     </div>
                 </div>
-
             </div>
 
             <div className="row clearfix g-3">
@@ -94,33 +120,26 @@ const AdminAttendance = () => {
                                 </tr>
                             </thead>
                             <tbody className="text-gray-700">
-                                {employees.map((employee, index) => (
-                                    <tr key={index} className="hover:bg-gray-100">
+                                {employees.map((employee) => (
+                                    <tr key={employee.id} className="hover:bg-gray-100">
                                         <td className="py-2 px-2 border border-gray-200 whitespace-nowrap">
                                             <div className="d-flex align-items-center">
                                                 <img className="avatar rounded-circle" src={employee.avatar} alt={employee.name} style={{ width: '30px', height: '30px' }} />
                                                 <span className="fw-bold ms-2">{employee.name}</span>
                                             </div>
                                         </td>
-                                        {filteredDays.map((dayIndex) => (
-                                            <td key={dayIndex} className="py-1 px-1 border border-gray-200 text-center">
-                                                {employee.attendance[dayIndex - 1] === "full" && (
-                                                    <div className="flex justify-center items-center">
-                                                        <CheckCircle size={20} style={{ color: 'green' }} />
-                                                    </div>
-                                                )}
-                                                {employee.attendance[dayIndex - 1] === "half" && (
-                                                    <div className="flex justify-center items-center">
-                                                        <Clock size={20} style={{ color: 'yellow' }} />
-                                                    </div>
-                                                )}
-                                                {employee.attendance[dayIndex - 1] === "absent" && (
-                                                    <div className="flex justify-center items-center">
-                                                        <X size={20} style={{ color: 'red' }} />
-                                                    </div>
-                                                )}
-                                            </td>
-                                        ))}
+                                        {filteredDays.map((day) => {
+                                            const attendanceEntry = employee.attendance.find(a => new Date(a.work_date).getDate() === day);
+                                            const status = attendanceEntry ? calculateAttendance(attendanceEntry.check_in, attendanceEntry.check_out) : "absent";
+
+                                            return (
+                                                <td key={day} className="py-1 px-1 border border-gray-200 text-center">
+                                                    {status === "full" && <CheckCircle size={20} style={{ color: 'green' }} />}
+                                                    {status === "half" && <Clock size={20} style={{ color: 'yellow' }} />}
+                                                    {status === "absent" && <X size={20} style={{ color: 'red' }} />}
+                                                </td>
+                                            );
+                                        })}
                                         <td>
                                             <button
                                                 onClick={() => handleEditClick(employee)}
@@ -136,7 +155,6 @@ const AdminAttendance = () => {
                         </table>
                     </div>
                 </div>
-
             </div>
 
             <EditAttendance
@@ -144,6 +162,7 @@ const AdminAttendance = () => {
                 handleClose={handleModalClose}
                 employee={selectedEmployee}
                 handleSave={handleSave}
+                selectedMonth={selectedMonth}
             />
         </div>
     );

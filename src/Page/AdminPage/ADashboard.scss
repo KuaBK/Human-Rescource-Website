@@ -1,103 +1,110 @@
-  .dashboard {
-    background-color: #f4f4f4;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  // .dashboard {
+  //   background-color: #f4f4f4;
+  //   padding: 20px;
+  //   width: 100%;
+  //   max-width: 1200px;
+  //   margin: 0 auto;
 
-    .welcome-row {
-      display: flex;
-      margin-bottom: 30px;
-      width: 100%; // Đảm bảo hàng này chiếm hết chiều rộng của container
-      gap: 10px; // Thêm khoảng cách giữa các cột nếu cần
+  //   .welcome-row {
+  //     display: flex;
+  //     margin-bottom: 30px;
+  //     width: 100%; // Đảm bảo hàng này chiếm hết chiều rộng của container
+  //     gap: 10px; // Thêm khoảng cách giữa các cột nếu cần
 
-      max-width: 1200px; // Đặt giới hạn chiều rộng tối đa để căn giữa
-      margin: 0 auto; // Căn giữa hàng trong container
-      gap: 10px; // Thêm khoảng cách giữa các cột nếu cần
-      margin-left: 35px;
+  //     max-width: 1200px; // Đặt giới hạn chiều rộng tối đa để căn giữa
+  //     margin: 0 auto; // Căn giữa hàng trong container
+  //     gap: 10px; // Thêm khoảng cách giữa các cột nếu cần
+  //     margin-left: 35px;
 
-      .welcome-message,
-      .project-section,
-      .latest-member-section {
-        background-color: #e0e7ff;
-        border-radius: 8px;
-        padding: 20px;
+  //     .welcome-message,
+  //     .project-section,
+  //     .latest-member-section {
+  //       background-color: #e0e7ff;
+  //       border-radius: 8px;
+  //       padding: 20px;
 
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        height: 300px;
-        flex-direction: column;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        margin-bottom: 0;
-        overflow: hidden;
+  //       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  //       height: 300px;
+  //       flex-direction: column;
+  //       justify-content: space-between;
+  //       margin-bottom: 15px;
+  //       margin-bottom: 0;
+  //       overflow: hidden;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        margin-bottom: 0;
-
-
-        // display: flex;
-        // flex-direction: column;
-        // justify-content: space-between;
-
-      }
-    }
-
-    .info-grid {
-      .info-box {
-        width: 100%;
-        height: 100px;
-        padding: 20px;
-        border-radius: 8px;
-        color: #fff;
-        font-weight: bold;
-        margin-bottom: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        text-align: center;
+  //       display: flex;
+  //       flex-direction: column;
+  //       justify-content: space-between;
+  //       margin-bottom: 0;
 
 
-        &.employees {
-          background-color: #74c0fc;
-        }
+  //       // display: flex;
+  //       // flex-direction: column;
+  //       // justify-content: space-between;
 
-        &.new-joinee {
-          background-color: #ffadad;
-        }
+  //     }
+  //   }
 
-        &.holiday {
-          background-color: #ffd166;
-        }
+  //   .info-grid {
+  //     .info-box {
+  //       width: 100%;
+  //       height: 100px;
+  //       padding: 20px;
+  //       border-radius: 8px;
+  //       color: #fff;
+  //       font-weight: bold;
+  //       margin-bottom: 15px;
+  //       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  //       text-align: center;
 
-        &.projects {
-          background-color: #9b59b6;
-        }
-      }
-    }
 
-    .project-box,
-    .latest-members {
-      flex-grow: 1;
-      overflow-y: auto; // Allows scrolling if content exceeds the fixed height
-      padding-right: 10px; // Adds padding for scrollbar space
-    }
+  //       &.employees {
+  //         background-color: #74c0fc;
+  //       }
 
-    .main-content {
-      margin-top: 30px;
+  //       &.new-joinee {
+  //         background-color: #ffadad;
+  //       }
 
-      .attendance-section,
-      .employee-list,
-      .salary-section {
-        background-color: #ffffff;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        margin-bottom: 20px;
+  //       &.holiday {
+  //         background-color: #ffd166;
+  //       }
 
-        h2 {
-          font-weight: bold;
-          color: #01008a;
-        }
-      }
-    }
+  //       &.projects {
+  //         background-color: #9b59b6;
+  //       }
+  //     }
+  //   }
+
+  //   .project-box,
+  //   .latest-members {
+  //     flex-grow: 1;
+  //     overflow-y: auto; // Allows scrolling if content exceeds the fixed height
+  //     padding-right: 10px; // Adds padding for scrollbar space
+  //   }
+
+  //   .main-content {
+  //     margin-top: 30px;
+
+  //     .attendance-section,
+  //     .employee-list,
+  //     .salary-section {
+  //       background-color: #ffffff;
+  //       border-radius: 8px;
+  //       padding: 20px;
+  //       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  //       margin-bottom: 20px;
+
+  //       h2 {
+  //         font-weight: bold;
+  //         color: #01008a;
+  //       }
+  //     }
+  //   }
+  // }
+
+  .hiring-sources,
+  .upcoming-interviews {
+    min-height: 400px;
+    /* Chiều cao tối thiểu hoặc đồng nhất */
+    height: 100%;
   }
