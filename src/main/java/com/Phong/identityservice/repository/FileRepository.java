@@ -1,9 +1,9 @@
 package com.Phong.identityservice.repository;
 
-import com.Phong.identityservice.entity.File;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.Phong.identityservice.entity.File;
+
 @Repository
-public interface FileRepository extends JpaRepository<File, Long> {
-}
+public interface FileRepository extends JpaRepository<File, Long> {}

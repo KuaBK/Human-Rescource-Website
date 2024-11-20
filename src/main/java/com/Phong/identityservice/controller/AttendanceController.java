@@ -1,12 +1,14 @@
 package com.Phong.identityservice.controller;
 
+import org.springframework.web.bind.annotation.*;
+
 import com.Phong.identityservice.dto.response.ApiResponse;
 import com.Phong.identityservice.dto.response.Attendance.AttendanceResponse;
 import com.Phong.identityservice.dto.response.Attendance.DurationResponse;
 import com.Phong.identityservice.entity.attendance.Attendance;
 import com.Phong.identityservice.service.AttendanceService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/attendance")
@@ -35,13 +37,11 @@ public class AttendanceController {
                 .build();
     }
 
-
     @GetMapping("/workingDuration/{employeeId}")
     public ApiResponse<DurationResponse> getWorkingDurationForToday(@PathVariable Long employeeId) {
         String duration = attendanceService.getWorkingDurationForToday(employeeId);
-        DurationResponse responseDTO = DurationResponse.builder()
-                .duration(duration)
-                .build();
+        DurationResponse responseDTO =
+                DurationResponse.builder().duration(duration).build();
         return ApiResponse.<DurationResponse>builder()
                 .message("Get Duration Successful")
                 .result(responseDTO)

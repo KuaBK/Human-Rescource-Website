@@ -1,13 +1,13 @@
 package com.Phong.identityservice.repository;
 
-import com.Phong.identityservice.entity.personel.Personel;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.Phong.identityservice.entity.personel.Personel;
 
 @Repository
 public interface PersonelRepository extends JpaRepository<Personel, Long> {
     Optional<Personel> findByAccountUsername(String username);
 }
-

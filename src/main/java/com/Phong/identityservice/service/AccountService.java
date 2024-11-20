@@ -2,15 +2,14 @@ package com.Phong.identityservice.service;
 
 import java.util.List;
 
-import com.Phong.identityservice.dto.request.Account.AccountCreationRequest;
-import com.Phong.identityservice.dto.request.Account.AccountUpdateRequest;
-import com.Phong.identityservice.utils.JwtUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.Phong.identityservice.dto.request.Account.AccountCreationRequest;
+import com.Phong.identityservice.dto.request.Account.AccountUpdateRequest;
 import com.Phong.identityservice.dto.response.AccountResponse;
 import com.Phong.identityservice.entity.Account;
 import com.Phong.identityservice.entity.Role;
@@ -18,6 +17,7 @@ import com.Phong.identityservice.exception.AppException;
 import com.Phong.identityservice.exception.ErrorCode;
 import com.Phong.identityservice.mapper.AccountMapper;
 import com.Phong.identityservice.repository.AccountRepository;
+import com.Phong.identityservice.utils.JwtUtils;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +80,8 @@ public class AccountService {
     public AccountResponse getMyInfo(String token) {
         String username = jwtUtils.getUsernameFromToken(token);
 
-        Account account = accountRepository.findByUsername(username)
+        Account account = accountRepository
+                .findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return accountMapper.toUserResponse(account);

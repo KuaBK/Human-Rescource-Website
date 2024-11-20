@@ -1,5 +1,12 @@
 package com.Phong.identityservice.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.Phong.identityservice.entity.attendance.Attendance;
 import com.Phong.identityservice.entity.attendance.Type;
 import com.Phong.identityservice.entity.personel.Employee;
@@ -7,13 +14,8 @@ import com.Phong.identityservice.exception.AppException;
 import com.Phong.identityservice.exception.ErrorCode;
 import com.Phong.identityservice.repository.AttendanceRepository;
 import com.Phong.identityservice.repository.EmployeeRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,8 @@ public class AttendanceService {
 
     @Transactional
     public Attendance checkIn(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId)
+        Employee employee = employeeRepository
+                .findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
         LocalDate today = LocalDate.now();
         Optional<Attendance> existingAttendance = attendanceRepository.findByEmployeeAndDate(employee, today);
@@ -42,10 +45,12 @@ public class AttendanceService {
 
     @Transactional
     public Attendance checkOut(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId)
+        Employee employee = employeeRepository
+                .findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
         LocalDate today = LocalDate.now();
-        Attendance attendance = attendanceRepository.findByEmployeeAndDate(employee, today)
+        Attendance attendance = attendanceRepository
+                .findByEmployeeAndDate(employee, today)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_CHECKED_IN));
 
         if (attendance.getCheckOutTime() != null) {
@@ -60,10 +65,12 @@ public class AttendanceService {
     }
 
     public String getWorkingDurationForToday(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId)
+        Employee employee = employeeRepository
+                .findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
         LocalDate today = LocalDate.now();
-        Attendance attendance = attendanceRepository.findByEmployeeAndDate(employee, today)
+        Attendance attendance = attendanceRepository
+                .findByEmployeeAndDate(employee, today)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_CHECKED_IN));
 
         if (attendance.getDuration() != null) {

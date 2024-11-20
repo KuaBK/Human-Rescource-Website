@@ -1,7 +1,8 @@
 package com.Phong.identityservice.entity.images;
 
-import com.Phong.identityservice.entity.personel.Personel;
 import jakarta.persistence.*;
+
+import com.Phong.identityservice.entity.personel.Personel;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -1,4 +1,4 @@
-package com.Phong.identityservice.dto.request.Employee;
+package com.Phong.identityservice.dto.request.Manager;
 
 import com.Phong.identityservice.entity.personel.Position;
 import com.Phong.identityservice.entity.personel.Sex;
@@ -6,12 +6,13 @@ import com.Phong.identityservice.entity.personel.Sex;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EmployeeUpdateRequest {
+public class ManagerUpdateRequest {
     String email;
     String firstName;
     String lastName;

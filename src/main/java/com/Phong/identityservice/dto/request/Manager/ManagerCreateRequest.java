@@ -1,4 +1,4 @@
-package com.Phong.identityservice.dto.request.Employee;
+package com.Phong.identityservice.dto.request.Manager;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,12 +10,13 @@ import com.Phong.identityservice.entity.personel.Sex;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EmployeeCreateRequest {
+public class ManagerCreateRequest {
     @NotBlank
     String accountId;
 

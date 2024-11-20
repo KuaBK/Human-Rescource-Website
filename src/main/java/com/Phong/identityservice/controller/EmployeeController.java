@@ -1,22 +1,22 @@
 package com.Phong.identityservice.controller;
 
-import com.Phong.identityservice.dto.request.Employee.EmployeeCreateRequest;
-import com.Phong.identityservice.dto.request.Employee.EmployeeUpdateRequest;
-import com.Phong.identityservice.dto.response.ApiResponse;
-import com.Phong.identityservice.dto.response.Employee.EmployeeResponse;
-import com.Phong.identityservice.repository.AttendanceRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.Phong.identityservice.dto.request.Employee.EmployeeCreateRequest;
+import com.Phong.identityservice.dto.request.Employee.EmployeeUpdateRequest;
+import com.Phong.identityservice.dto.response.ApiResponse;
+import com.Phong.identityservice.dto.response.Employee.EmployeeResponse;
 import com.Phong.identityservice.entity.personel.Employee;
+import com.Phong.identityservice.repository.AttendanceRepository;
 import com.Phong.identityservice.service.EmployeeService;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -26,8 +26,7 @@ public class EmployeeController {
     private final AttendanceRepository attendanceRepository;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService,
-                              AttendanceRepository attendanceRepository) {
+    public EmployeeController(EmployeeService employeeService, AttendanceRepository attendanceRepository) {
         this.employeeService = employeeService;
         this.attendanceRepository = attendanceRepository;
     }
@@ -44,8 +43,7 @@ public class EmployeeController {
 
     @PatchMapping("/{personelCode}")
     public ResponseEntity<ApiResponse<EmployeeResponse>> updateEmployee(
-            @PathVariable Long personelCode,
-            @RequestBody EmployeeUpdateRequest updates) {
+            @PathVariable Long personelCode, @RequestBody EmployeeUpdateRequest updates) {
         Employee updatedEmployee = employeeService.patchEmployee(personelCode, updates);
         EmployeeResponse responseDto = employeeService.toDto(updatedEmployee);
         return ResponseEntity.ok(ApiResponse.<EmployeeResponse>builder()
@@ -77,9 +75,8 @@ public class EmployeeController {
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<EmployeeResponse>>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
-        List<EmployeeResponse> responseDtos = employees.stream()
-                .map(employeeService::toDto)
-                .collect(Collectors.toList());
+        List<EmployeeResponse> responseDtos =
+                employees.stream().map(employeeService::toDto).collect(Collectors.toList());
         return ResponseEntity.ok(ApiResponse.<List<EmployeeResponse>>builder()
                 .message("All employees fetched successfully")
                 .result(responseDtos)

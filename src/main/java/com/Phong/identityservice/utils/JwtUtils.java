@@ -1,36 +1,38 @@
- package com.Phong.identityservice.utils;
+package com.Phong.identityservice.utils;
 
+import java.text.ParseException;
 
- import com.nimbusds.jose.crypto.MACVerifier;
- import com.nimbusds.jwt.SignedJWT;
- import com.nimbusds.jose.*;
- import com.nimbusds.jwt.JWTClaimsSet;
- import lombok.experimental.NonFinal;
- import org.springframework.beans.factory.annotation.Value;
- import org.springframework.stereotype.Component;
- import java.text.ParseException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
- @Component
- public class JwtUtils {
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.MACVerifier;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 
-     @NonFinal
-     @Value("${jwt.signerKey}")
-     protected String signerKey;
+import lombok.experimental.NonFinal;
 
-     public String getUsernameFromToken(String token) {
-         try {
-             SignedJWT signedJWT = SignedJWT.parse(token);
+@Component
+public class JwtUtils {
 
-             if (!signedJWT.verify(new MACVerifier(signerKey.getBytes()))) {
-                 throw new IllegalArgumentException("Token signature is invalid");
-             }
+    @NonFinal
+    @Value("${jwt.signerKey}")
+    protected String signerKey;
 
-             JWTClaimsSet claims = signedJWT.getJWTClaimsSet();
+    public String getUsernameFromToken(String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
 
-             return claims.getSubject();
+            if (!signedJWT.verify(new MACVerifier(signerKey.getBytes()))) {
+                throw new IllegalArgumentException("Token signature is invalid");
+            }
 
-         } catch (ParseException | JOSEException e) {
-             throw new IllegalArgumentException("Token is invalid", e);
-         }
-     }
- }
+            JWTClaimsSet claims = signedJWT.getJWTClaimsSet();
+
+            return claims.getSubject();
+
+        } catch (ParseException | JOSEException e) {
+            throw new IllegalArgumentException("Token is invalid", e);
+        }
+    }
+}

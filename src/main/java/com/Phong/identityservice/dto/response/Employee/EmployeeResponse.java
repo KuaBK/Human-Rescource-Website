@@ -1,8 +1,8 @@
 package com.Phong.identityservice.dto.response.Employee;
 
-import com.Phong.identityservice.entity.departments.Department;
 import com.Phong.identityservice.entity.personel.Position;
 import com.Phong.identityservice.entity.personel.Sex;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

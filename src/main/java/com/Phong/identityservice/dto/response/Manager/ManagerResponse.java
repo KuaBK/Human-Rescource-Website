@@ -1,4 +1,6 @@
-package com.Phong.identityservice.dto.request.Employee;
+package com.Phong.identityservice.dto.response.Manager;
+
+import java.time.LocalDate;
 
 import com.Phong.identityservice.entity.personel.Position;
 import com.Phong.identityservice.entity.personel.Sex;
@@ -6,18 +8,22 @@ import com.Phong.identityservice.entity.personel.Sex;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EmployeeUpdateRequest {
-    String email;
+public class ManagerResponse {
+    Long personelCode;
     String firstName;
     String lastName;
+    String email;
     String phone;
     String address;
+    String avatar;
     Sex sex;
     Position position;
-    Long departmentId;
+    String departmentName;
+    LocalDate manageDate;
 }

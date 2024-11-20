@@ -1,23 +1,21 @@
 package com.Phong.identityservice.service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.Phong.identityservice.dto.request.Employee.EmployeeCreateRequest;
 import com.Phong.identityservice.dto.request.Employee.EmployeeUpdateRequest;
 import com.Phong.identityservice.dto.response.Employee.EmployeeResponse;
 import com.Phong.identityservice.entity.Account;
 import com.Phong.identityservice.entity.departments.Department;
+import com.Phong.identityservice.entity.personel.Employee;
 import com.Phong.identityservice.entity.personel.Position;
-import com.Phong.identityservice.entity.personel.Sex;
 import com.Phong.identityservice.repository.AccountRepository;
 import com.Phong.identityservice.repository.DepartmentRepository;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.Phong.identityservice.entity.personel.Employee;
 import com.Phong.identityservice.repository.EmployeeRepository;
 
 @Service
@@ -28,21 +26,24 @@ public class EmployeeService {
     private final DepartmentRepository departmentRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository,
-                           AccountRepository accountRepository,
-                           DepartmentRepository departmentRepository) {
+    public EmployeeService(
+            EmployeeRepository employeeRepository,
+            AccountRepository accountRepository,
+            DepartmentRepository departmentRepository) {
         this.employeeRepository = employeeRepository;
         this.accountRepository = accountRepository;
         this.departmentRepository = departmentRepository;
     }
 
     public EmployeeResponse createEmployee(EmployeeCreateRequest request) {
-        Account account = accountRepository.findById(request.getAccountId())
+        Account account = accountRepository
+                .findById(request.getAccountId())
                 .orElseThrow(() -> new EntityNotFoundException("Account không tồn tại"));
 
         Department department = null;
         if (request.getDepartmentId() != null) {
-            department = departmentRepository.findById(request.getDepartmentId())
+            department = departmentRepository
+                    .findById(request.getDepartmentId())
                     .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
         }
 
@@ -78,7 +79,8 @@ public class EmployeeService {
     }
 
     public Employee patchEmployee(Long id, EmployeeUpdateRequest updates) {
-        Employee employee = employeeRepository.findById(id)
+        Employee employee = employeeRepository
+                .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee không tồn tại"));
 
         if (updates.getEmail() != null) employee.setEmail(updates.getEmail());
@@ -89,7 +91,8 @@ public class EmployeeService {
         if (updates.getSex() != null) employee.setSex(updates.getSex());
         if (updates.getPosition() != null) employee.setPosition(updates.getPosition());
         if (updates.getDepartmentId() != null) {
-            Department department = departmentRepository.findById(updates.getDepartmentId())
+            Department department = departmentRepository
+                    .findById(updates.getDepartmentId())
                     .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
             employee.setDepartment(department);
         }
@@ -98,7 +101,8 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeByPersonelCode(Long personelCode) {
-        return employeeRepository.findById(personelCode)
+        return employeeRepository
+                .findById(personelCode)
                 .orElseThrow(() -> new EntityNotFoundException("Employee không tồn tại"));
     }
 

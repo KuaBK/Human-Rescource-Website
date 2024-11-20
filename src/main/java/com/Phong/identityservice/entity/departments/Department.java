@@ -2,12 +2,12 @@ package com.Phong.identityservice.entity.departments;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.Phong.identityservice.entity.personel.Manager;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,7 +19,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "department", uniqueConstraints = {@UniqueConstraint(columnNames = "departmentName")})
+@Table(
+        name = "department",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "departmentName")})
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

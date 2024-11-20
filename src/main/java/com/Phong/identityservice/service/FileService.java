@@ -1,17 +1,18 @@
 package com.Phong.identityservice.service;
 
-import com.Phong.identityservice.entity.File;
-import com.Phong.identityservice.repository.FileRepository;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.Phong.identityservice.entity.File;
+import com.Phong.identityservice.repository.FileRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 @Service
 public class FileService {
@@ -32,12 +33,13 @@ public class FileService {
 
         try {
 
-            Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(),
-                    ObjectUtils.asMap(
-                            "resource_type", "auto",
-                            "folder", "uploads"
-                    ));
-
+            Map<?, ?> uploadResult = cloudinary
+                    .uploader()
+                    .upload(
+                            file.getBytes(),
+                            ObjectUtils.asMap(
+                                    "resource_type", "auto",
+                                    "folder", "uploads"));
 
             File uploadedFile = File.builder()
                     .fileName(file.getOriginalFilename())
@@ -51,13 +53,12 @@ public class FileService {
             throw new RuntimeException("Failed to upload file", e);
         }
     }
+
     public List<File> getAllFiles() {
         return fileRepository.findAll();
     }
 
-
     public File getFileById(Long id) {
-        return fileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("File not found with id: " + id));
+        return fileRepository.findById(id).orElseThrow(() -> new RuntimeException("File not found with id: " + id));
     }
 }

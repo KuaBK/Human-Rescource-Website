@@ -3,16 +3,15 @@ package com.Phong.identityservice.service;
 import java.io.IOException;
 import java.util.Map;
 
-import com.Phong.identityservice.entity.personel.Personel;
-import com.Phong.identityservice.repository.EmployeeRepository;
-import com.Phong.identityservice.repository.PersonelRepository;
-import com.Phong.identityservice.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Phong.identityservice.entity.images.Image;
+import com.Phong.identityservice.entity.personel.Personel;
 import com.Phong.identityservice.repository.ImageRepository;
+import com.Phong.identityservice.repository.PersonelRepository;
+import com.Phong.identityservice.utils.JwtUtils;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
@@ -24,8 +23,11 @@ public class ImageService {
     private final JwtUtils jwtUtils;
 
     @Autowired
-    public ImageService(Cloudinary cloudinary, ImageRepository imageRepository,
-                        PersonelRepository personelRepository, JwtUtils jwtUtils) {
+    public ImageService(
+            Cloudinary cloudinary,
+            ImageRepository imageRepository,
+            PersonelRepository personelRepository,
+            JwtUtils jwtUtils) {
         this.cloudinary = cloudinary;
         this.imageRepository = imageRepository;
         this.personelRepository = personelRepository;
@@ -35,7 +37,8 @@ public class ImageService {
     public Image uploadImage(MultipartFile file, String token) throws IOException {
         String username = jwtUtils.getUsernameFromToken(token);
 
-        Personel personel = personelRepository.findByAccountUsername(username)
+        Personel personel = personelRepository
+                .findByAccountUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
