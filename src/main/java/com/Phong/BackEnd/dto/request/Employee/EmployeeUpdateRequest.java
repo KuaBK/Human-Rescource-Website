@@ -6,6 +6,8 @@ import com.Phong.BackEnd.entity.personel.Sex;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,4 +22,6 @@ public class EmployeeUpdateRequest {
     Sex sex;
     Position position;
     Long departmentId;
+    List<String> projectList;
+    Integer tasksCompleteNumber;
 }

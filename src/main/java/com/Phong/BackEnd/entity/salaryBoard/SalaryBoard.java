@@ -1,4 +1,4 @@
-package com.Phong.BackEnd.entity.leaveApplication;
+package com.Phong.BackEnd.entity.salaryBoard;
 
 import java.time.LocalDate;
 
@@ -16,17 +16,25 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class LeaveApplication {
+@Table(name ="salary_board")
+public class SalaryBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "EmployeeId")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employee_code")
     Employee employee;
 
-    LocalDate startDate;
-    LocalDate endDate;
-    String reason;
-    Boolean approved;
+    Integer month;
+    Integer year;
+
+    Double bonus ;
+    Double penalties;
+    Double realPay;
+
+    Integer halfDayNumber;
+    Integer fullDayNumber;
+    Integer absenceDayNumber;
 }

@@ -19,9 +19,12 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class Tasks {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TasksId")
-    String tasksId;
+    Long tasksId;
+
+    @Column(name = "title")
+    String title;
 
     @Column(name = "Description")
     String description;
@@ -37,7 +40,7 @@ public class Tasks {
     @JoinColumn(name = "ProjectId")
     Projects project;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "EmployeeId")
     Employee employee;
 }

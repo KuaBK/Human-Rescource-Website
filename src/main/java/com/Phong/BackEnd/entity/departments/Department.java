@@ -30,7 +30,8 @@ public class Department {
     @Column(unique = true)
     String departmentName;
 
-    int employeeNumber;
+    @Column(name = "employee_number")
+    int employeeNumber = 0;
 
     @CreationTimestamp
     @Column(updatable = false)
