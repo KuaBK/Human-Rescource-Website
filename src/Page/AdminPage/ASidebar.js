@@ -80,7 +80,6 @@ function ASidebar({ expanded, toggleSidebar }) {
           <span className={`link-text ${expanded ? 'show' : ''}`}>Phòng ban</span>
         </NavLink>
 
-
         <NavLink to="admin-attendance" className="nav-link-side" activeClassName="active-link">
           <PiNotePencilDuotone />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>

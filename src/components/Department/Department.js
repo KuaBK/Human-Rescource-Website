@@ -60,7 +60,10 @@ const Department = () => {
         manager_code: "",
       });
     }
+
+    console.log("pass open edit");
   };
+
 
   const closeForm = () => {
     setShowForm(false);
@@ -71,7 +74,11 @@ const Department = () => {
       number_employees: 0,
       manager_code: "",
     });
+
+    console.log("pass open close");
   };
+
+
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -93,12 +100,17 @@ const Department = () => {
       alert("New department added successfully!");
     }
     closeForm();
+
+    console.log("pass submit");
   };
+
 
   const deleteDepartment = (id) => {
     if (window.confirm("Are you sure you want to delete this department?")) {
       setDepartments(departments.filter((dept) => dept.id !== id));
     }
+
+    console.log("pass delete");
   };
 
   return (
@@ -157,7 +169,7 @@ const Department = () => {
                 <label>Mã phòng ban:</label>
                 <input
                   type="number"
-                  name="id"
+                  name="id" // Changed to match the state property
                   value={formData.id}
                   onChange={handleFormChange}
                   disabled // Disable ID input for new departments
