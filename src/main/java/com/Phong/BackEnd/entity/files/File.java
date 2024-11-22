@@ -1,7 +1,9 @@
-package com.Phong.BackEnd.entity;
+package com.Phong.BackEnd.entity.files;
 
 import java.util.Date;
 
+import com.Phong.BackEnd.entity.personel.Personel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -30,4 +32,9 @@ public class File {
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date uploadDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "personel_code", referencedColumnName = "PersonelCode")
+    @JsonBackReference
+    Personel uploadedBy;
 }

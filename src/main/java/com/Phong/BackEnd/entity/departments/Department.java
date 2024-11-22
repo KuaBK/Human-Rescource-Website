@@ -1,7 +1,11 @@
 package com.Phong.BackEnd.entity.departments;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.projects.Projects;
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,6 +45,12 @@ public class Department {
 
     @OneToOne
     @JsonManagedReference
-    @JoinColumn(name = "ManagerCode")
+    @JoinColumn(name = "ManagerCode", unique = true)
     Manager manager;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Employee> employees = new ArrayList<>();
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Projects> projects = new ArrayList<>();
 }

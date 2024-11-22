@@ -1,5 +1,6 @@
 package com.Phong.BackEnd.entity.personel;
 
+import com.Phong.BackEnd.entity.files.File;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,8 @@ import com.Phong.BackEnd.entity.Account;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -63,4 +66,7 @@ public class Personel {
 
     @Column(name = "Avatar")
     private String avatar;
+
+    @OneToMany(mappedBy = "uploadedBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<File> files;
 }

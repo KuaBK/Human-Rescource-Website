@@ -2,12 +2,14 @@ package com.Phong.BackEnd.controller;
 
 import java.util.List;
 
+import com.Phong.BackEnd.dto.response.ApiResponse;
+import com.Phong.BackEnd.dto.response.File.FileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.Phong.BackEnd.entity.File;
+import com.Phong.BackEnd.entity.files.File;
 import com.Phong.BackEnd.service.FileService;
 
 @RestController
@@ -22,18 +24,27 @@ public class FileController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<File> uploadFile(@RequestParam("file") MultipartFile file) {
-        File uploadedFile = fileService.uploadFile(file);
-        return ResponseEntity.ok(uploadedFile);
+    public ResponseEntity<ApiResponse<FileResponse>> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestHeader("Authorization") String token) {
+        FileResponse uploadedFile = fileService.uploadFile(file, token);
+        return ResponseEntity.ok(ApiResponse.<FileResponse>builder()
+                .code(1000)
+                .message("File uploaded successfully")
+                .result(uploadedFile)
+                .build());
     }
 
-    @GetMapping
-    public ResponseEntity<List<File>> getAllFiles() {
-        List<File> files = fileService.getAllFiles();
-        return ResponseEntity.ok(files);
+    @GetMapping("/personel/{personelCode}")
+    public ResponseEntity<ApiResponse<List<File>>> getAllFilesByPersonel(@PathVariable Long personelCode) {
+        List<File> files = fileService.getAllFilesByPersonel(personelCode);
+        return ResponseEntity.ok(ApiResponse.<List<File>>builder()
+                .code(1000)
+                .message("Fetched files successfully")
+                .result(files)
+                .build());
     }
 
-    // Lấy tệp theo ID
     @GetMapping("/{id}")
     public ResponseEntity<File> getFileById(@PathVariable Long id) {
         File file = fileService.getFileById(id);

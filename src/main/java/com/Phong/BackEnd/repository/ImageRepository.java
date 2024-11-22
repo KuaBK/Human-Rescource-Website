@@ -8,5 +8,4 @@ import com.Phong.BackEnd.entity.personel.Personel;
 
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
-    void deleteByUploadedBy(Personel personel);
 }

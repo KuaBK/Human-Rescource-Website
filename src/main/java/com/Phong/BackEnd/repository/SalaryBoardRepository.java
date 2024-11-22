@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface SalaryBoardRepository extends JpaRepository<SalaryBoard, Long> {
-    Optional<SalaryBoard> findByEmployeeAndMonthAndYear(Employee employee, int month, int year);
     boolean existsByEmployeeAndMonthAndYear(Employee employee, int month, int year);
     List<SalaryBoard> findAllByEmployee(Employee employee);
+    Optional<SalaryBoard> findByEmployeeAndMonthAndYear(Employee employee, Integer month, Integer year);
 }

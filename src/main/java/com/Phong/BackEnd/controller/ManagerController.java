@@ -3,6 +3,7 @@ package com.Phong.BackEnd.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.Phong.BackEnd.dto.request.Manager.MTDResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -84,4 +85,41 @@ public class ManagerController {
                 .message("Manager deleted successfully")
                 .build());
     }
+
+    @PostMapping("/assign")
+    public ApiResponse<MTDResponse> assignManagerToDept(@RequestParam Long code, Long deptId){
+        try{
+            MTDResponse response = managerService.assignManagerToDept(code, deptId);
+            return ApiResponse.<MTDResponse>builder()
+                    .code(1000)
+                    .message("Assign manager code: " + code + " into department id: " + deptId)
+                    .result(response)
+                    .build();
+        } catch (Exception e){
+            return ApiResponse.<MTDResponse>builder()
+                    .code(-1)
+                    .message(e.getMessage())
+                    .result(null)
+                    .build();
+        }
+    }
+
+    @PostMapping("/remove")
+    public ApiResponse<String> removeManagerFromDept(@RequestParam Long deptId) {
+        try {
+            managerService.removeManagerFromDepartment(deptId);
+            return ApiResponse.<String>builder()
+                    .code(1000)
+                    .message("Manager removed from department id: " + deptId)
+                    .result("Manager has been successfully removed from the department.")
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<String>builder()
+                    .code(-1)
+                    .message(e.getMessage())
+                    .result(null)
+                    .build();
+        }
+    }
+
 }

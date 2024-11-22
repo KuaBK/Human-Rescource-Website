@@ -107,6 +107,7 @@ public class ProjectService {
 
         project.getEmployees().add(employee);
         employee.getProjectList().add(project);
+        employee.setProject_involved(employee.getProject_involved() + 1);
 
         employeeRepository.save(employee);
         projectRepository.save(project);

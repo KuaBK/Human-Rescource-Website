@@ -27,6 +27,8 @@ public enum ErrorCode {
     DEPARTMENT_DELETE_ERROR(2003, "Error deleting department", HttpStatus.INTERNAL_SERVER_ERROR),
     MANAGER_NOT_FOUND(2004, "Manager not found", HttpStatus.NOT_FOUND),
     DEPARTMENT_NAME_ALREADY_EXISTS(2005, "Department name already exists", HttpStatus.BAD_REQUEST),
+    ATTENDANCE_NOT_FOUND(2006, "Attendance not found", HttpStatus.NOT_FOUND),
+    SALARY_BOARD_NOT_FOUND(2007, "Salary board not found", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

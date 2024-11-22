@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import com.Phong.BackEnd.entity.personel.Employee;
@@ -23,6 +25,7 @@ public class Attendance {
     long attendanceId;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     @JoinColumn(name = "EmployeeCode", referencedColumnName = "personel_code")
     Employee employee;
 
