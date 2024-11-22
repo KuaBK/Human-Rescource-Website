@@ -3,8 +3,10 @@ package com.Phong.BackEnd.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.Phong.BackEnd.dto.request.Manager.MTDResponse;
 import jakarta.persistence.EntityNotFoundException;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -110,6 +112,53 @@ public class ManagerService {
 
     public List<Manager> getAllManagers() {
         return managerRepository.findAll();
+    }
+
+
+    @Transactional
+    public MTDResponse assignManagerToDept(Long code, Long deptId){
+        Manager manager = managerRepository.findById(code)
+                .orElseThrow(() -> new EntityNotFoundException("Manager not found with code: " + code));
+
+        Department department = departmentRepository.findById(deptId)
+                .orElseThrow(() -> new EntityNotFoundException("Department not found with id: " + deptId));
+
+        if (department.getManager() != null) {
+            removeManagerFromDepartment(deptId);
+        }
+
+        manager.setDepartment(department);
+        manager.setManageDate(LocalDate.now());
+
+        department.setManager(manager);
+
+        managerRepository.save(manager);
+        departmentRepository.save(department);
+
+        return new MTDResponse(
+                manager.getPersonelCode(),
+                department.getDepartmentId(),
+                manager.getManageDate()
+        );
+    }
+
+    @Transactional
+    public void removeManagerFromDepartment(Long deptId) {
+        Department department = departmentRepository.findById(deptId)
+                .orElseThrow(() -> new EntityNotFoundException("Department not found with id: " + deptId));
+
+        Manager currentManager = department.getManager();
+
+        if (currentManager != null) {
+            department.setManager(null);
+
+            currentManager.setDepartment(null);
+
+            departmentRepository.save(department);
+            managerRepository.save(currentManager);
+        } else {
+            throw new IllegalStateException("No manager assigned to this department.");
+        }
     }
 
     public ManagerResponse toDto(Manager manager) {

@@ -3,10 +3,12 @@ package com.Phong.BackEnd.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.Phong.BackEnd.dto.response.Employee.EWDResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,5 +83,37 @@ public class EmployeeController {
                 .message("All employees fetched successfully")
                 .result(responseDtos)
                 .build());
+    }
+
+    @GetMapping("/department/{departmentId}")
+    public ResponseEntity<ApiResponse<EWDResponse>> getAllEmployeeInDepartment(
+            @PathVariable Long departmentId) {
+        EWDResponse ewdResponse = employeeService.getAllEmployeeInDepartment(departmentId);
+
+        return ResponseEntity.ok(ApiResponse.<EWDResponse>builder()
+                .code(1000)
+                .message("Success")
+                .result(ewdResponse)
+                .build());
+    }
+
+    @PostMapping("/{employeeId}/department/{departmentId}")
+    public ResponseEntity<ApiResponse<EWDResponse>> addEmployeeToDepartment(
+            @PathVariable Long employeeId,
+            @PathVariable Long departmentId) {
+        try {
+            EWDResponse ewdResponse = employeeService.addEmployeeToDepartment(employeeId, departmentId);
+            return ResponseEntity.ok(ApiResponse.<EWDResponse>builder()
+                    .code(1000)
+                    .message("Employee added to department successfully")
+                    .result(ewdResponse)
+                    .build());
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.<EWDResponse>builder()
+                    .code(4000)
+                    .message(ex.getMessage())
+                    .result(null)
+                    .build());
+        }
     }
 }

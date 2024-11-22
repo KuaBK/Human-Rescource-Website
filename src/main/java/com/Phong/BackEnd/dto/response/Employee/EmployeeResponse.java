@@ -3,6 +3,7 @@ package com.Phong.BackEnd.dto.response.Employee;
 import com.Phong.BackEnd.entity.personel.Position;
 import com.Phong.BackEnd.entity.personel.Sex;
 
+import com.Phong.BackEnd.entity.tasks.Tasks;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,6 +26,8 @@ public class EmployeeResponse {
     Sex sex;
     Position position;
     String departmentName;
-    List<String> projectList;
+    List<String> taskList;
     Integer tasksCompleteNumber;
+    List<String> projectList;
+    Integer projectInvolved;
 }

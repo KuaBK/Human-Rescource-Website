@@ -27,7 +27,8 @@ public class SecurityConfig {
         "/account",
         "/attendance/checkIn/{employeeId}",
         "/attendance/checkOut/{employeeId}",
-        "/images/upload"
+        "/images/upload", "/files/upload",
+        "/files/personel/{personelCode}"
     };
 
     private final CustomJwtDecoder customJwtDecoder;

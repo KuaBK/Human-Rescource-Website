@@ -22,6 +22,8 @@ public class EmployeeUpdateRequest {
     Sex sex;
     Position position;
     Long departmentId;
-    List<String> projectList;
+    List<String> TaskList;
     Integer tasksCompleteNumber;
+    List<String> projectList;
+    Integer projectsInvolved;
 }
