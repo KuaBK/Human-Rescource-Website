@@ -186,10 +186,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             />
                         </Form.Group>
 
-
-
-
-
                     {/* Nếu là Manager thì có trường manageDate */}
 
 

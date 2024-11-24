@@ -34,9 +34,10 @@ const AdminSalaryModal = ({ show, handleClose, record, handleSave }) => {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // báo lỗi khi thiếu một trong 3 trường
     const handleSubmit = () => {
         if (!formData.month || !formData.year || !formData.real_pay) {
-            alert('Please fill in all required fields.');
+            alert('Vui lòng điền đầy đủ thông tin !');
             return;
         }
 

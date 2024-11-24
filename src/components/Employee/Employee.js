@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import './Employee.css'
 import { Star, Files, Plus, User, Trash } from 'phosphor-react';
@@ -33,10 +32,10 @@ function getPositionColor(position) {
     }
 }
 
-function getRoleColor(position) {
-    switch (position) {
-        case "EMPLOYEE": return "#0004fc";
-        default: return "#fc0000";
+function getRoleColor(role) {
+    switch (role) {
+        case "Employee": return "#747ab0";
+        default: return " #e85460";
     }
 }
 
@@ -85,7 +84,6 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                 <h5 className='card-title mb-0'>
                                     {employee.firstName} {employee.lastName}
                                 </h5>
-
                                 <button className='btn btn-danger' onClick={onDeleteClick}>
                                     <Trash size={16} className="me-1" />
                                 </button>
@@ -119,7 +117,6 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                         {employee.position}
                                     </span>
                                 </h6>
-
                                 {/* Code tag */}
                                 <h6 className='card-subtitle mb-0 custom-ml'>
                                     <span
@@ -132,6 +129,20 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                         }}
                                     >
                                         {employee.personelCode}
+                                    </span>
+                                </h6>
+
+                                <h6 className='card-subtitle mb-0 custom-ml'>
+                                    <span
+                                        style={{
+                                            marginLeft:"15px",
+                                            backgroundColor: "green",
+                                            color: 'white',
+                                            borderRadius: '4px',
+                                            padding: '2px 8px',
+                                        }}
+                                    >
+                                        {employee.department}
                                     </span>
                                 </h6>
 
@@ -161,7 +172,12 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
 
                             {/* Phần nút chiếm 1/5 */}
                             <div className='d-flex justify-content-between mt-auto' style={{ flex: '1' }}>
-                                <button className='btn bg-success text-white me-1' onClick={onProfileClick}>
+                                {/* <button className='btn btn-primary me-1'>
+                                    <Plus size={16} className="me-1" /> 
+                                    Thêm Task
+                                </button> */}
+
+                                <button className='btn btn-danger text-white me-1' onClick={onProfileClick}>
                                     <User size={16} className="me-1" /> Hồ sơ
                                 </button>
                             </div>
@@ -305,8 +321,8 @@ const Employee = ({ x }) => {
         <div>
             <div className='d-flex justify-content-between align-items-center mb-0'>
                 <h2 className='mb-0'>Danh sách nhân viên</h2>
-                <button className='btn btn-success' onClick={handleAddModalShow}>
-                    <Plus size={16} className="me-1" />
+                <button className='btn btn-success text-white' onClick={handleAddModalShow}>
+                    <Plus size={16} className="me-1" /> {/* Biểu tượng Plus */}
                     Thêm nhân viên
                 </button>
             </div>

@@ -128,3 +128,12 @@
 #avatar-input {
     display: none;
 }
+
+
+.btn-primary {
+    background-color: #747ab0 !important;
+}
+
+.btn-secondary {
+    background-color: #e85460 !important;
+}
