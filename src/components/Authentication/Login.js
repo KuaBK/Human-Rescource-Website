@@ -2,15 +2,26 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import './Login.css'; // Import the external CSS
+import { postLogin } from "../services/apiService";
 
 function Login() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function submit(e) {
-   e.preventDefault(); // Prevent the default form submission    console.log("1111111");
+  const navigate = useNavigate();
+
+  const submit = async (e) => {
+      e.preventDefault();
+      try{
+        const response = await postLogin(username, password);
+        if(response && response.data?.ec){
+          navigate("/login/admin");
+        }        
+      } catch(e) {
+        console.log(e);
+      }
   }
   
 
@@ -39,10 +50,10 @@ function Login() {
                             Tên đăng nhập
                           </label>
                           <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter your username"
                             className="form-input"
                           />
@@ -61,7 +72,7 @@ function Login() {
                           />
                         </div>
                         <div>
-                          <button type="submit" className="submit-button">
+                          <button type ="submit" className="submit-button">
                             Đăng nhập
                           </button>
                         </div>

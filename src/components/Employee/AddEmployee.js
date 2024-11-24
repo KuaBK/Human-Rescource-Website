@@ -7,7 +7,7 @@ const AddEmployee = ({ onAddEmployee }) => {
     personel_code: '',
     lastName: '',
     firstName: '',
-    gender: 'Male',
+    gender: '',
     email: '',
     city: '',
     street: '',
@@ -126,9 +126,9 @@ const AddEmployee = ({ onAddEmployee }) => {
             onChange={handleChange}
             className="form-control"
           >
-            <option value="">Giới tính</option>  {/* This is the default option */}
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            {/* This is the default option */}
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
           </select>
           <input
             type="text"
