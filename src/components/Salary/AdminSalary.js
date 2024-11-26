@@ -5,8 +5,7 @@ import AdminSalaryModal from './AdminSalaryModal';
 const AdminSalary = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState(null);
-
-// open edit salary
+    
     const handleModalOpen = (record) => {
         setSelectedRecord(record);
         setShowModal(true);

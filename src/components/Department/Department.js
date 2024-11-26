@@ -1,41 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Department.scss";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { getAllDepartment, postCreateNewDepartment } from "../services/apiService";
 
 const Department = () => {
-  const initialDepartments = [
-    {
-      id: 1,
-      name: "Marketing",
-      establish_date: "2020-05-15",
-      number_employees: 25,
-      manager_code: 101001,
-    },
-    {
-      id: 2,
-      name: "Engineering",
-      establish_date: "2019-03-10",
-      number_employees: 50,
-      manager_code: 102002,
-    },
-    {
-      id: 3,
-      name: "Human Resources",
-      establish_date: "2021-08-20",
-      number_employees: 15,
-      manager_code: null,
-    },
-  ];
 
-  const [departments, setDepartments] = useState(initialDepartments);
+  const [departments, setDepartments] = useState([]);
+  const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    establish_date: "",
-    number_employees: 0,
-    manager_code: "",
+      name: "",
+      manager_code: "",
   });
+
+  const fetchDepartments = async() => {
+    try {
+        const response = await getAllDepartment();
+        console.log(response);
+        if (response && response.data) {
+          setDepartments(response.data.data); 
+        }
+    } catch (err) {
+        setError(err.message); // Log error
+        console.error("Error fetching departments:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+  }, [])
+
+
+  // const initialDepartments = [
+  //   {
+  //     id: 1,
+  //     name: "Marketing",
+  //     establish_date: "2020-05-15",
+  //     number_employees: 25,
+  //     manager_code: 101001,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Engineering",
+  //     establish_date: "2019-03-10",
+  //     number_employees: 50,
+  //     manager_code: 102002,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Human Resources",
+  //     establish_date: "2021-08-20",
+  //     number_employees: 15,
+  //     manager_code: null,
+  //   },
+  // ];
+
+  // const [departments, setDepartments] = useState(initialDepartments);
+  
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -47,52 +68,37 @@ const Department = () => {
 
   const openForm = (department = null) => {
     setShowForm(true);
-    if (department) {
-      // Prefill form data for editing
-      setFormData(department);
-    } else {
-      // Reset form data for creating
-      setFormData({
-        id: "", // No ID for new departments
-        name: "",
-        establish_date: "",
-        number_employees: 0,
-        manager_code: "",
-      });
-    }
+    setFormData({
+      name: "",
+      manager_code: "",
+    });
   };
 
   const closeForm = () => {
     setShowForm(false);
     setFormData({
-      id: "",
       name: "",
-      establish_date: "",
-      number_employees: 0,
       manager_code: "",
     });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (formData.id) {
-      // Update existing department
-      setDepartments((prevDepartments) =>
-        prevDepartments.map((dept) =>
-          dept.id === formData.id ? { ...formData } : dept
-        )
-      );
-      alert("Department updated successfully!");
-    } else {
-      // Add a new department with incremented ID
-      const newDepartment = {
-        ...formData,
-        id: departments.length ? Math.max(...departments.map((dept) => dept.id)) + 1 : 1, // Increment ID
+    try {
+      const payload = {
+        departmentName: formData.name,
+        managerCode: formData.manager_code
       };
-      setDepartments((prevDepartments) => [...prevDepartments, newDepartment]);
-      alert("New department added successfully!");
+      const response = await postCreateNewDepartment(payload);
+      if (response && response.data){
+        console.log(response.data);
+      }
+      fetchDepartments();
+    } catch (err) {
+      setError(err.message);
+        console.log(err);
     }
-    closeForm();
+    closeForm();    
   };
 
   const deleteDepartment = (id) => {
@@ -124,10 +130,10 @@ const Department = () => {
               </div>
             </div>
             <div className="department-card-body">
-              <p><strong>Mã phòng ban:</strong> {department.id}</p>
-              <p><strong>Ngày thành lập:</strong> {department.establish_date || "Chưa có"}</p>
-              <p><strong>Số lượng nhân viên:</strong> {department.number_employees}</p>
-              <p><strong>Mã quản lý:</strong> {department.manager_code || "Chưa có"}</p>
+              <p><strong>Mã phòng ban:</strong> {department.departmentId}</p>
+              {/* <p><strong>Ngày thành lập:</strong> {department.establish_date || "Chưa có"}</p> */}
+              <p><strong>Số lượng nhân viên:</strong> {department.numberOfEmployees}</p>
+              <p><strong>Mã quản lý:</strong> {department.manageCode || "Chưa có"}</p>
             </div>
           </div>
         ))}
@@ -143,7 +149,7 @@ const Department = () => {
             <h3>{formData.id ? "Chỉnh sửa phòng ban" : "Tạo phòng ban mới"}</h3>
             <form onSubmit={handleFormSubmit}>
               <div className="form-group">
-                <label>Tên phòng ban:</label>
+                <label style={{ textAlign: "left", display: "block" }}>Tên phòng ban:</label>
                 <input
                   type="text"
                   name="name"
@@ -153,18 +159,7 @@ const Department = () => {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Mã phòng ban:</label>
-                <input
-                  type="number"
-                  name="id"
-                  value={formData.id}
-                  onChange={handleFormChange}
-                  disabled // Disable ID input for new departments
-                />
-              </div>
-
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>Ngày thành lập:</label>
                 <input
                   type="date"
@@ -172,18 +167,10 @@ const Department = () => {
                   value={formData.establish_date}
                   onChange={handleFormChange}
                 />
-              </div>
+              </div> */}
+              
               <div className="form-group">
-                <label>Số lượng nhân viên:</label>
-                <input
-                  type="number"
-                  name="number_employees"
-                  value={formData.number_employees}
-                  onChange={handleFormChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>Mã quản lý:</label>
+                <label style={{ textAlign: "left", display: "block" }}>Mã quản lý:</label>
                 <input
                   type="text"
                   name="manager_code"

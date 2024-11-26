@@ -1,20 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './EmployeeInfor.scss';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaBuilding } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 
 const EmployeeInfor = () => {
+
+  const {personnel} = useSelector((state) => state);
+
   // State for profile data
   const [profile, setProfile] = useState({
-    name: 'quang lee',
-    position: 'Senior Software Engineer',
-    phone: '+1 (555) 123-4567',
-    email: 'quang.ly@hcmut.edu.vn',
-    address: 'Huong So, Thua Thien Hue',
-    department: 'Technology',
-    officeLocation: 'H6- BK',
-    employeeID: '12345',
+    name: '',
+    position: '',
+    phone: '',
+    email: '',
+    address: '',
+    department: '',
     profileImage: '', // New state for the profile image
   });
+
+  useEffect(() => {
+    if(personnel?.data){
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        name: `${personnel.data.lastName} ${personnel.data.firstName}`,
+        phone: `${personnel.data.phone}`,
+        email: `${personnel.data.email}`,
+        address: `${personnel.data.street} ${personnel.data.city}`,
+        department: `${personnel.data.deptName}`,
+        position: `${personnel.data.code}`
+      }))
+    }
+  }, [personnel])
 
   // State to track if in edit mode
   const [isEditing, setIsEditing] = useState(false);
@@ -154,8 +170,8 @@ const EmployeeInfor = () => {
         <div className="info-group">
           <h3>Thông tin công việc</h3>
           <p><FaBriefcase /> Phòng ban: {profile.department}</p>
-          <p><FaBuilding /> Địa chỉ phòng ban: {profile.officeLocation}</p>
-          <p>Mã số nhân viên: {profile.employeeID}</p>
+          {/* <p><FaBuilding /> Địa chỉ phòng ban: {profile.officeLocation}</p>
+          <p>Mã số nhân viên: {profile.employeeID}</p> */}
         </div>
       </div>
 

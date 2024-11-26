@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import axios from "../utils/axiosCustomize";
 
 const postLogin = (username, password) => {
@@ -26,7 +25,7 @@ const deleteAccount = (id) => {
 }
 
 const postCreateNewPersonel = (payload) => {
-    return axios.post(`personel/add`, payload, {
+    return axios.post(`personnel/add`, payload, {
         headers: {
             "Content-Type": "application/json", // Optional: axios automatically sets this
         },
@@ -42,27 +41,62 @@ const getPersonelByCode = (code) => {
 }
 
 const deletePersonel = (code) => {
-    return axios.delete(`/personel/delete?code=${code}`);
+    return axios.delete(`/personnel/delete?code=${code}`);
 }
 
-const putUpdatePersonel = (personelCode, payload) => {
-    return axios.put(`/personel/edit`, payload, { 
-        params: { code: personelCode },  // Pass the query parameter as 'code'
+const putUpdatePersonel = (code, payload) => {
+    return axios.put(`/personnel/edit`, payload, { 
+        params: { code: code },  // Pass the query parameter as 'code'
         headers: {
             "Content-Type": "application/json",  // Optional: Axios automatically sets this for JSON data
         },
     });
 }
 
+const postCreateNewDepartment = (payload) => {
+    return axios.post(`department/create`, payload, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
 
+const getAllDepartment = () => {
+    return axios.get(`/department/all`);
+}
 
+const getPersonnelByAccountId = (accountId) => {
+    return axios.get(`/personnel/account`, { 
+        params: { accountId: accountId },  
+    });
+}
 
+const getTaskByEmployeeCode = (code) => {
+    return axios.get(`/task/employee`, { 
+        params: { employeeId: code },  
+    });
+}
 
+const postEmployeeCheckin = (code) => {
+    return axios.post(`attendance/check-in`, null, { 
+        params: { employeeId: code },  
+    });
+}
+
+const postEmployeeCheckout = (code) => {
+    return axios.post(`/attendance/check-out`, null, { 
+        params: { employeeId: code },  
+    });
+}
 
 
 export {
     postLogin, postCreateNewAccount, postCreateNewPersonel,
+    postCreateNewDepartment,
+    postEmployeeCheckin, postEmployeeCheckout,
     getAllAccount, getAccountById, getAllPersonel, getPersonelByCode,
+    getAllDepartment, getPersonnelByAccountId,
+    getTaskByEmployeeCode,
     putUpdateAccount,putUpdatePersonel,
     deleteAccount, deletePersonel,
 }

@@ -8,14 +8,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Employee from './components/Employee/Employee';
-import Attendance from './components/Attendance/EmployeeAttendance';
-
+import store from './store';
 import AdminAttendance from './components/Attendance/AdminAttendance';
 
 
 // import Salary from './components/Salary/Salary';
 
-
+import { Provider } from 'react-redux';
 import Department from './components/Department/Department';
 import Training from './components/Training/Training';
 
@@ -43,14 +42,14 @@ import AdminSalary from './components/Salary/AdminSalary';
 import AdminTraining from './components/Training/AdminTraining';
 import ManagerProject from './components/Project/Manager/ManagerProject';
 
-import ManagerDevideTask from './components/Project/Manager/ManagerDivideTask';
-import AdminAttendance from './components/Attendance/AdminAttendance';
+
 
 // employee
 import SubmitTask from './components/Project/Employee/SubmitTask';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -67,8 +66,6 @@ root.render(
           <Route path="admin-training" element={<AdminTraining />} />
           <Route path="statistic" element={<Statistic />} />
           <Route path="chat" element={<EmployeeChat />} />
-
-
         </Route>
 
         <Route exact path="/login/employee" element={<EmployeePage />}>
@@ -101,7 +98,8 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+    </Provider>
+    
 );
 
 reportWebVitals();
