@@ -26,23 +26,36 @@ import EDashboard from './Page/EmployeePage/EDashboard';
 import Home from './components/Authentication/Home';
 import Login from './components/Authentication/Login';
 import Signup from './components/Authentication/Signup';
-
-import EmployeePage from './Page/EmployeePage/EmployeePage';
+//import admin
 import AdminPage from './Page/AdminPage/AdminPage';
+import AdminSalary from './components/Salary/AdminSalary';
+import AdminTraining from './components/Training/AdminTraining';
+import Statistic from './components/Statistic/Statistic';
+import ADashboard from './Page/AdminPage/ADashboard';
+import Department from './components/Department/Department';
+import AdminAttendance from './components/Attendance/AdminAttendance';
+
+
+//import manager
+import ManagerPage from './Page/ManagerPage/ManagerPage';
+import ManagerDevideTask from './components/Project/Manager/ManagerDivideTask';
+import ManagerProject from './components/Project/Manager/ManagerProject'
+
+
+
+
+
+
+// import employee
+import EmployeePage from './Page/EmployeePage/EmployeePage';
+import Employee from './components/Employee/Employee';
+import EDashboard from './Page/EmployeePage/EDashboard';
+import SubmitTask from './components/Project/Employee/SubmitTask';
 import EmployeeInfor from './components/Information/EmployeeInfor';
 import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
 import EmployeeTraining from './components/Training/EmployeeTraining';
 import EmployeeChat from './components/Chat/EmployeeChat';
-import ManagerPage from './Page/ManagerPage/ManagerPage';
-
 import Participation from './components/Project/Employee/Participation';
-
-import AdminProject from './components/Project/Admin/AdminProject';
-import AdminSalary from './components/Salary/AdminSalary';
-import AdminTraining from './components/Training/AdminTraining';
-import ManagerProject from './components/Project/Manager/ManagerProject';
-
-
 
 // employee
 import SubmitTask from './components/Project/Employee/SubmitTask';
@@ -62,7 +75,7 @@ root.render(
           <Route path="admin-attendance" element={<AdminAttendance />} />
           <Route path="admin-salary" element={<AdminSalary />} />
           <Route path="department" element={<Department />} />
-          <Route path="project" element={<AdminProject />} />
+       
           <Route path="admin-training" element={<AdminTraining />} />
           <Route path="statistic" element={<Statistic />} />
           <Route path="chat" element={<EmployeeChat />} />
@@ -87,12 +100,12 @@ root.render(
           {/* <Route index element={<Dashboard />}></Route> */}
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
-          {/* <Route path="devidetask" element={<ManagerDevideTask/>} /> */}
-
+         
           {/* <Route path="salary" element={<Salary />} /> */}
 
           <Route path="department" element={<Department />} />
           <Route path="project" element={<ManagerProject />} />
+          
           <Route path="training" element={<EmployeeTraining />} />
           <Route path="chat" element={<EmployeeChat />} />
         </Route>

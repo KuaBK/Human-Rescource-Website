@@ -11,6 +11,8 @@
     "axios": "0.27.2",
     "bootstrap": "5.2.0",
     "chart.js": "^4.4.6",
+    "icofont": "^1.0.0",
+    "lucide-react": "^0.263.1",
     "phosphor-react": "^1.4.1",
     "react": "^18.3.1",
     "react-bootstrap": "2.4.0",
@@ -51,8 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
