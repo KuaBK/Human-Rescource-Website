@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import './EDashboard.scss';
 
 const EDashboard = () => {
+
+  const { personnel } = useOutletContext();
+
+  useEffect(() => {
+    console.log("Dashboard personnel >>>", personnel); // Logs whenever personnel changes
+  }, [personnel]);
+
   return (
     <div className="dashboard">
       <div className="welcome-section">
         <div className="left-section">
-          <h1>Hello Arpita <span role="img" aria-label="wave">👋</span></h1>
-          <p>You can manage your things from here</p>
+          <h1>Hello {personnel? personnel.lastName + " " + personnel.firstName : "User"} <span role="img" aria-label="wave">👋</span></h1>
+          {/* <p>You can manage your things from here</p> */}
         </div>
         <div className="right-section">
           <h1>Welcome</h1>

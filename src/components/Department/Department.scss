@@ -191,8 +191,10 @@ $departments-colors: (
 .form-buttons {
   display: flex;
   justify-content: space-between;
+  gap: 50px;
 
   .submit-button {
+    margin-left: 100px;
     background-color: #4caf50;
     color: #fff;
     border: none;

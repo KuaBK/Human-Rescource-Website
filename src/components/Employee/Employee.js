@@ -1,43 +1,28 @@
 import { useEffect, useState } from 'react'
 import './Employee.css'
 import { Star, Files, Plus, User, Trash } from 'phosphor-react';
-import { Link } from 'react-router-dom';
 import EmployeeProfileModal from './EmployeeProfileModal';
 import AddEmployee from './AddEmployee';
-import { useNavigate } from 'react-router-dom';
-import { Modal } from 'react-bootstrap'; // Nhập Modal từ react-bootstrap
+import { Modal } from 'react-bootstrap';
 import axios from "axios"
 import { deletePersonel, postCreateNewAccount, postCreateNewPersonel, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
-
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
 
-function getPositionColor(position) {
-    switch (position) {
-        case "Mobile Developer":
-            return "#FFD700"; // Vàng
-        case "QA/QC Engineer":
-            return "#ADD8E6"; // Xanh nhạt
-        case "UI/UX Designer":
-            return "#DDA0DD"; // Tím nhạt
-        case "Quality Assurance":
-            return "#98FB98"; // Xanh lá nhạt
-        case "EMPLOYEE":
-            return "#87CEFA"; // Xanh dương nhạt
-        case "Software Engineer":
-            return "#fc88dd"
-        default:
-            return "#d3d3d3"; // Xám nhạt cho các chức vụ không xác định
-    }
-}
+const getPositionColor = (position) => {
+    const colors = {
+        "Mobile Developer": "#FFD700",
+        "QA/QC Engineer": "#ADD8E6",
+        "UI/UX Designer": "#DDA0DD",
+        "Quality Assurance": "#98FB98",
+        "EMPLOYEE": "#87CEFA",
+        "Software Engineer": "#fc88dd",
+    };
+    return colors[position] || "#d3d3d3";
+};
 
-function getRoleColor(role) {
-    switch (role) {
-        case "Employee": return "#747ab0";
-        default: return " #e85460";
-    }
-}
+const getRoleColor = (role) => (role === "EMPLOYEE" ? "#0004fc" : "#fc0000");
 
 
 const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
@@ -82,7 +67,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                             {/* Phần tên chiếm 1/5 */}
                             <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>
                                 <h5 className='card-title mb-0'>
-                                    {employee.firstName} {employee.lastName}
+                                    {employee.lastName} {employee.firstName}
                                 </h5>
                                 <button className='btn btn-danger' onClick={onDeleteClick}>
                                     <Trash size={16} className="me-1" />
@@ -171,14 +156,18 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                             </div>
 
                             {/* Phần nút chiếm 1/5 */}
-                            <div className='d-flex justify-content-between mt-auto' style={{ flex: '1' }}>
+                            <div className='d-flex mt-auto' style={{ flex: '1', gap: "30px"}}>
                                 {/* <button className='btn btn-primary me-1'>
                                     <Plus size={16} className="me-1" /> 
                                     Thêm Task
                                 </button> */}
 
-                                <button className='btn btn-danger text-white me-1' onClick={onProfileClick}>
+                                <button className='btn btn-info text-white me-1' onClick={onProfileClick}>
                                     <User size={16} className="me-1" /> Hồ sơ
+                                </button>
+
+                                <button className='btn btn-danger text-white me-1' onClick={onProfileClick}>
+                                    Chuyển phòng ban
                                 </button>
                             </div>
                         </div>
@@ -235,26 +224,21 @@ const Employee = ({ x }) => {
             const payload = {
                 firstName: updatedEmployee.firstName,
                 lastName: updatedEmployee.lastName,
-                sex: updatedEmployee.sex,
+                gender: updatedEmployee.sex,
                 email: updatedEmployee.email,
                 city: updatedEmployee.city,
                 street: updatedEmployee.street,
                 phoneNumber: updatedEmployee.phone
-            };
-
-            console.log("Updated Employee:", updatedEmployee.personelCode);
-            console.log("Payload:", payload);
-            const result = await putUpdatePersonel(updatedEmployee.personelCode, payload);
-
-            if (result && result.data){
-                console.log("Updated personel", result.data);
+            }
+            const response = await putUpdatePersonel(updatedEmployee.code, payload);
+            if (response && response.data){
+                console.log("Updated personel", response.data);
                 fetchEmployees();
             }
         } catch (err) {
             setError(err.message);
             console.log(err);
         }
-
 
         handleModalClose();
     };

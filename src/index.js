@@ -7,7 +7,22 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// import authentication
+import Employee from './components/Employee/Employee';
+import store from './store';
+import AdminAttendance from './components/Attendance/AdminAttendance';
+
+
+// import Salary from './components/Salary/Salary';
+
+import { Provider } from 'react-redux';
+import Department from './components/Department/Department';
+import Training from './components/Training/Training';
+
+
+import Statistic from './components/Statistic/Statistic';
+import ADashboard from './Page/AdminPage/ADashboard';
+import EDashboard from './Page/EmployeePage/EDashboard';
+
 import Home from './components/Authentication/Home';
 import Login from './components/Authentication/Login';
 import Signup from './components/Authentication/Signup';
@@ -42,11 +57,12 @@ import EmployeeTraining from './components/Training/EmployeeTraining';
 import EmployeeChat from './components/Chat/EmployeeChat';
 import Participation from './components/Project/Employee/Participation';
 
-
+// employee
+import SubmitTask from './components/Project/Employee/SubmitTask';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -63,8 +79,6 @@ root.render(
           <Route path="admin-training" element={<AdminTraining />} />
           <Route path="statistic" element={<Statistic />} />
           <Route path="chat" element={<EmployeeChat />} />
-
-
         </Route>
 
         <Route exact path="/login/employee" element={<EmployeePage />}>
@@ -97,7 +111,8 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+    </Provider>
+    
 );
 
 reportWebVitals();

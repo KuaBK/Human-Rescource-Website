@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './EmployeeAttendance.scss';
+import { postEmployeeCheckin, postEmployeeCheckout } from '../services/apiService';
+import { useSelector } from 'react-redux';
 
 const EmployeeAttendance = () => {
     const [value, setValue] = useState(new Date());
@@ -15,13 +17,15 @@ const EmployeeAttendance = () => {
     const [leaveStartDate, setLeaveStartDate] = useState(null);
     const [leaveEndDate, setLeaveEndDate] = useState(null);
 
+    const {personnel} = useSelector((state) => state);
+
     useEffect(() => {
-        // Initialize mock schedule data if needed
         setSchedule({
-            '2024-11-05': { type: 'work', overtime: 2 },
-            '2024-11-12': { type: 'work', overtime: 0 },
+            // '2024-11-05': { type: 'work', overtime: 2 },
+            // '2024-11-12': { type: 'work', overtime: 0 },
         });
-    }, []);
+        console.log("personnel >>", personnel);
+    }, [personnel]);
 
     const handleDateChange = (date) => {
         setValue(date);
@@ -31,36 +35,52 @@ const EmployeeAttendance = () => {
         setOvertimeHours(schedule[dateKey]?.overtime || 0);
     };
 
-    const handleCheckIn = () => {
-        const dateKey = value.toISOString().split('T')[0];
-        console.log(dateKey);
-        setSchedule((prevSchedule) => ({
-            ...prevSchedule,
-            [dateKey]: {
-                ...prevSchedule[dateKey],
-                type: 'work', // Mark as working
-            },
-        }));
-        setIsCheckedIn(true);
-        setIsCheckedOut(false);
-        
+    const handleCheckIn = async () => {
+        const year = value.getFullYear();
+        const month = String(value.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const day = String(value.getDate()).padStart(2, '0');
+        const dateKey = `${year}-${month}-${day}`; // Format as YYYY-MM-DD
+
+        if(personnel?.data){
+            console.log("code >>>>", personnel.data.code);
+            const response = await postEmployeeCheckin(personnel.data.code);
+            console.log(response.data);
+            setSchedule((prevSchedule) => ({
+                ...prevSchedule,
+                [dateKey]: {
+                    ...prevSchedule[dateKey],
+                    type: 'work', 
+                },
+            }));
+            setIsCheckedIn(true);
+            setIsCheckedOut(false);
+        }
     };
 
-    const handleCheckOut = () => {
+    const handleCheckOut = async () => {
         if (!isCheckedIn) {
             alert('You must check in before checking out!');
             return;
         }
-        const dateKey = value.toISOString().split('T')[0];
-        setSchedule((prevSchedule) => ({
-            ...prevSchedule,
-            [dateKey]: {
-                ...prevSchedule[dateKey],
-                type: 'done', // Mark as done
-            },
-        }));
-        setIsCheckedIn(false);
-        setIsCheckedOut(true);
+        const year = value.getFullYear();
+        const month = String(value.getMonth() + 1).padStart(2, '0'); 
+        const day = String(value.getDate()).padStart(2, '0');
+        const dateKey = `${year}-${month}-${day}`; // Format as YYYY-MM-DD
+
+        if(personnel?.data){
+            const response = await postEmployeeCheckout(personnel.data.code);
+            console.log(response.data);
+            console.log(response?.data?.data.timeWorking);
+            setSchedule((prevSchedule) => ({
+                ...prevSchedule,
+                [dateKey]: {
+                    ...prevSchedule[dateKey],
+                    type: 'done', 
+                },
+            }));
+            setIsCheckedIn(false);
+            setIsCheckedOut(true);
+        }
     };
     
 
@@ -127,20 +147,24 @@ const EmployeeAttendance = () => {
 
     const renderTileContent = ({ date, view }) => {
         if (view === 'month') {
-            const dateKey = date.toISOString().split('T')[0];
-            const dayInfo = schedule[dateKey];
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); 
+            const day = String(date.getDate()).padStart(2, '0');
+            const dateKey = `${year}-${month}-${day}`;
+            // const dayInfo = schedule[dateKey];
+
             return (
                 <div className="tile-content">
-                    {dayInfo?.type === 'work' && <div className="day-label work-day">Worked</div>}
-                    {dayInfo?.overtime > 0 && (
-                        <div className="day-label overtime-label">Overtime: {dayInfo.overtime}h</div>
+                    {schedule[dateKey]?.type === 'work' && <div className="day-label work-day">Worked</div>}
+                    {schedule[dateKey]?.type.overtime > 0 && (
+                        <div className="day-label overtime-label">Overtime: {schedule[dateKey]?.type.overtime}h</div>
                     )}
-                    {dayInfo?.type === 'off' && (
+                    {schedule[dateKey]?.type === 'off' && (
                         <div className="day-label off-day">
-                            Off - {dayInfo.reason}
+                            Off - {schedule[dateKey]?.type.reason}
                         </div>
                     )}
-                    {dayInfo?.type === 'done' && (
+                    {schedule[dateKey]?.type === 'done' && (
                         <div className="day-label done-day">Done</div>
                     )}
                 </div>

@@ -1,30 +1,48 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import './Login.css'; // Import the external CSS
 import { postLogin } from "../services/apiService";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/slices/user-slices";
+
+import './Login.css'; 
 
 function Login() {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const submit = async (e) => {
-      e.preventDefault();
-      try{
+      e.preventDefault(); setErrorMessage("");
+      try {
         const response = await postLogin(username, password);
-        if(response && response.data?.ec){
-          navigate("/login/admin");
+        if (response && response.data){
+          const { accountId, token, expired, authenticated, role } = response.data?.data;
+          dispatch(
+            login({
+              accountId,
+              token,
+              expired,
+              authenticated,
+              role
+            })
+          );
+          if (role === "EMPLOYEE") {
+            navigate("/login/employee");
+          } else if (role === "MANAGER") {
+            navigate("/login/manager");
+          } else {
+            navigate("/login/admin")
+          }
         }        
       } catch(e) {
+        setErrorMessage("Login failed. Please try again.");
         console.log(e);
       }
   }
   
-
   return (
     <div className="login-container">
       <table className="login-table">
@@ -56,6 +74,7 @@ function Login() {
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter your username"
                             className="form-input"
+                            required
                           />
                         </div>
                         <div className="form-group">
@@ -69,6 +88,7 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             className="form-input"
+                            required
                           />
                         </div>
                         <div>
@@ -79,7 +99,7 @@ function Login() {
                       </form>
                     </td>
                   </tr>
-                </tbody> {/* End wrapper */}
+                </tbody> 
               </table>
             </td>
           </tr>

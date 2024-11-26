@@ -38,6 +38,7 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             name="role"
                             value={editEmployee.position}
                             onChange={handleChange}
+                            disabled
                         >
                             <option value="Manager">Manager</option>
                             <option value="Employee">Employee</option>
@@ -45,9 +46,7 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                     </Form.Group>
 
                     <div className="row g-3 mb-0">
-
                         <div className="col-sm-6">
-
                             <Form.Group controlId="formFirstName">
                                 <Form.Label>Tên</Form.Label>
                                 <Form.Control
@@ -71,7 +70,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             </Form.Group>
                         </div>
                     </div>
-
 
                     <Form.Group controlId="formGender" className="mt-2">
                         <Form.Label>Giới tính</Form.Label>
@@ -118,12 +116,8 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                         />
                     </Form.Group>
 
-
-
                     <div className="row g-3 mb-0">
-
                         <div className="col-sm-6">
-
                             <Form.Group controlId="formCity">
                                 <Form.Label>Thành phố</Form.Label>
                                 <Form.Control
@@ -148,8 +142,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                         </div>
                     </div>
 
-
-
                     <Form.Group controlId="formPhoneNumber" className="mt-2">
                         <Form.Label>Số điện thoại</Form.Label>
                         <Form.Control
@@ -159,8 +151,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-
-
 
 
                     {editEmployee.role === 'Manager' && (
@@ -175,16 +165,17 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                         </Form.Group>
                     )}
 
-                    {/* Nếu là Manager thì có trường phòng ban */}
-                        <Form.Group controlId="formDepartment" className="mt-2">
-                            <Form.Label>Phòng ban</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="department"
-                                value={editEmployee.deptName || ''}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
+                    
+                    <Form.Group controlId="formDepartment" className="mt-2">
+                        <Form.Label>Phòng ban</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="department"
+                            value={editEmployee.deptName || ''}
+                            onChange={handleChange}
+                            disabled
+                        />
+                    </Form.Group>
 
                     {/* Nếu là Manager thì có trường manageDate */}
 
@@ -193,7 +184,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                     {editEmployee.position === 'Employee' && (
                         <>
                             {/* 
-
                             <Form.Group controlId="formProject" className="mt-2">
                                 <Form.Label>Dự án hiện tại</Form.Label>
                                 <Form.Control
@@ -207,12 +197,13 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                     )}
 
                     <Form.Group controlId="formDeptId" className="mt-2">
-                        <Form.Label>Phòng ban ID</Form.Label>
+                        <Form.Label>Mã phòng ban</Form.Label>
                         <Form.Control
                             type="text"
                             name="deptId"
                             value={editEmployee.deptId || ''}
                             onChange={handleChange}
+                            disabled
                         />
                     </Form.Group>
 
