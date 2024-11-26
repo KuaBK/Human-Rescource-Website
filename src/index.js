@@ -10,9 +10,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
 
-import AdminAttendance from './components/Attendance/AdminAttendance';
-
-
 // import Salary from './components/Salary/Salary';
 
 
