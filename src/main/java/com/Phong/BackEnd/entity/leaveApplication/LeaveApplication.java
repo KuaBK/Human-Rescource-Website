@@ -2,6 +2,7 @@ package com.Phong.BackEnd.entity.leaveApplication;
 
 import java.time.LocalDate;
 
+import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
 import jakarta.persistence.*;
 
 import com.Phong.BackEnd.entity.personel.Employee;
@@ -24,6 +25,10 @@ public class LeaveApplication {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EmployeeCode")
     Employee employee;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "SalaryId")
+    SalaryBoard salaryBoard;
 
     LocalDate startDate;
     LocalDate endDate;

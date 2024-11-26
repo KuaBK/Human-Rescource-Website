@@ -13,4 +13,7 @@ public class ProjectCreateRequest {
     String projectDescription;
     String projectStatus;
     Long departmentId;
+
+    @Builder.Default
+    Integer participants = 0;
 }

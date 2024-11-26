@@ -1,5 +1,6 @@
 package com.Phong.BackEnd.dto.response.LeaveAppllication;
 
+import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
 import lombok.Builder;
 import lombok.Data;
 

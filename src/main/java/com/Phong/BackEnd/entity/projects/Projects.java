@@ -17,14 +17,17 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "projects")
+@Table(name = "project")
 public class Projects {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ProjectId")
+    @Column(name = "Id")
     long projectId;
 
+    @Column(name = "name")
     String projectName;
+
+    @Column(name = "description")
     String projectDescription;
 
     @Enumerated(EnumType.STRING)
@@ -33,6 +36,9 @@ public class Projects {
     @ManyToOne
     @JoinColumn(name = "DepartmentId")
     Department department;
+
+    @Column(name = "participants")
+    Integer participants;
 
     @ManyToMany(mappedBy = "projectList")
     Set<Employee> employees;

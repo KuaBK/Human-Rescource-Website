@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TasksId")
+    @Column(name = "Id")
     Long tasksId;
 
     @Column(name = "title")

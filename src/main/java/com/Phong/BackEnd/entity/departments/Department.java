@@ -29,12 +29,13 @@ import lombok.experimental.FieldDefaults;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     Long departmentId;
 
-    @Column(unique = true)
+    @Column(name = "name",unique = true)
     String departmentName;
 
-    @Column(name = "employee_number")
+    @Column(name = "number_employees")
     int employeeNumber = 0;
 
     @CreationTimestamp

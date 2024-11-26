@@ -22,6 +22,7 @@ import lombok.experimental.FieldDefaults;
 public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     long attendanceId;
 
     @ManyToOne(cascade = CascadeType.ALL)

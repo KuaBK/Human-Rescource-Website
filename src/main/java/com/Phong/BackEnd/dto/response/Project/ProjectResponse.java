@@ -14,5 +14,6 @@ public class ProjectResponse {
     String projectDescription;
     String projectStatus;
     String departmentName;
+    Integer participants;
 }
 

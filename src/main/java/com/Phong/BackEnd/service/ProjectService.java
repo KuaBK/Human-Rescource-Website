@@ -68,6 +68,7 @@ public class ProjectService {
                 .projectDescription(request.getProjectDescription())
                 .projectStatus(status)
                 .department(department)
+                .participants(request.getParticipants())
                 .build();
 
         Projects savedProject = projectRepository.save(project);
@@ -110,6 +111,7 @@ public class ProjectService {
         employee.setProject_involved(employee.getProject_involved() + 1);
 
         employeeRepository.save(employee);
+        project.setParticipants(project.getParticipants() + 1);
         projectRepository.save(project);
     }
 
@@ -127,6 +129,7 @@ public class ProjectService {
         }
 
         project.getEmployees().remove(employee);
+        project.setParticipants(project.getParticipants() - 1);
         employee.getProjectList().remove(project);
 
         employeeRepository.save(employee);
@@ -141,6 +144,7 @@ public class ProjectService {
                 .projectDescription(project.getProjectDescription())
                 .projectStatus(project.getProjectStatus().name())
                 .departmentName(project.getDepartment() != null ? project.getDepartment().getDepartmentName() : null)
+                .participants(project.getParticipants())
                 .build();
     }
 }
