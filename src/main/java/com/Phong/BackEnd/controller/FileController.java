@@ -26,8 +26,8 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse<FileResponse>> uploadFile(
             @RequestParam("file") MultipartFile file,
-            @RequestHeader("Authorization") String token) {
-        FileResponse uploadedFile = fileService.uploadFile(file, token);
+            @RequestParam Long id) {
+        FileResponse uploadedFile = fileService.uploadFile(file, id);
         return ResponseEntity.ok(ApiResponse.<FileResponse>builder()
                 .code(1000)
                 .message("File uploaded successfully")

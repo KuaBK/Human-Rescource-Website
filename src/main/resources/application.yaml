@@ -5,10 +5,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/Back_End
+    url: jdbc:mysql://quangly.mysql.database.azure.com:3306/BackEnd_DA?useSSL=true&requireSSL=true
     driverClassName: "com.mysql.cj.jdbc.Driver"
-    username: root
-    password: root
+    username: quanglee
+    password: domixi@2024
   jpa:
     hibernate:
       ddl-auto: update

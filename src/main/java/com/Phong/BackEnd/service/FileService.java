@@ -35,31 +35,48 @@ public class FileService {
         this.personelRepository = personelRepository;
     }
 
-    public FileResponse uploadFile(MultipartFile file, String token) {
-        String username = jwtUtils.getUsernameFromToken(token);
+    public FileResponse uploadFile(MultipartFile file, Long id) {
 
         Personel personel = personelRepository
-                .findByAccountUsername(username)
+                .findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Kiểm tra file rỗng
         if (file.isEmpty()) {
             throw new IllegalArgumentException("File cannot be empty");
         }
 
         try {
+            String fileType = file.getContentType();
+            String resourceType;
+            String format;
 
-            Map<?, ?> uploadResult = cloudinary
-                    .uploader()
-                    .upload(
-                            file.getBytes(),
-                            ObjectUtils.asMap(
-                                    "resource_type", "auto",
-                                    "folder", "uploads"));
+            // Phân loại file dựa trên MIME type
+            if ("application/pdf".equals(fileType)) {
+                resourceType = "image"; // Xử lý file PDF
+                format = "pdf";
+            } else if ("application/vnd.openxmlformats-officedocument.wordprocessingml.document".equals(fileType)) {
+                resourceType = "raw"; // Xử lý file DOCX
+                format = "docx";
+            } else if (fileType.startsWith("image/")) {
+                resourceType = "image"; // Xử lý file ảnh
+                format = fileType.substring("image/".length());
+            } else {
+                throw new IllegalArgumentException("Unsupported file type: " + fileType);
+            }
+
+            // Upload file lên Cloudinary
+            Map uploadResult = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap("resource_type", resourceType, "format", format)
+            );
+
+            String fileUrl = uploadResult.get("secure_url").toString();
 
             File uploadedFile = File.builder()
                     .fileName(file.getOriginalFilename())
-                    .fileType(file.getContentType())
-                    .fileUrl(uploadResult.get("secure_url").toString())
+                    .fileType(format)
+                    .fileUrl(fileUrl)
                     .uploadDate(new Date())
                     .uploadedBy(personel)
                     .build();
@@ -71,15 +88,14 @@ public class FileService {
             } else {
                 personel.setFiles(List.of(savedFile));
             }
-
             personelRepository.save(personel);
 
             return FileResponse.builder()
-                    .id(uploadedFile.getId())
-                    .fileName(uploadedFile.getFileName())
-                    .fileType(uploadedFile.getFileType())
-                    .fileUrl(uploadedFile.getFileUrl())
-                    .uploadDate(uploadedFile.getUploadDate())
+                    .id(savedFile.getId())
+                    .fileName(savedFile.getFileName())
+                    .fileType(savedFile.getFileType())
+                    .fileUrl(savedFile.getFileUrl())
+                    .uploadDate(savedFile.getUploadDate())
                     .uploadedBy(personel.getFirstName() + " " + personel.getLastName())
                     .build();
         } catch (IOException e) {
