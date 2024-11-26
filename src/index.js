@@ -7,21 +7,18 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Employee from './components/Employee/Employee';
 import store from './store';
-import AdminAttendance from './components/Attendance/AdminAttendance';
+
 
 
 // import Salary from './components/Salary/Salary';
 
 import { Provider } from 'react-redux';
-import Department from './components/Department/Department';
 import Training from './components/Training/Training';
 
 
 import Statistic from './components/Statistic/Statistic';
-import ADashboard from './Page/AdminPage/ADashboard';
-import EDashboard from './Page/EmployeePage/EDashboard';
+
 
 import Home from './components/Authentication/Home';
 import Login from './components/Authentication/Login';
@@ -30,7 +27,7 @@ import Signup from './components/Authentication/Signup';
 import AdminPage from './Page/AdminPage/AdminPage';
 import AdminSalary from './components/Salary/AdminSalary';
 import AdminTraining from './components/Training/AdminTraining';
-import Statistic from './components/Statistic/Statistic';
+
 import ADashboard from './Page/AdminPage/ADashboard';
 import Department from './components/Department/Department';
 import AdminAttendance from './components/Attendance/AdminAttendance';
@@ -40,10 +37,6 @@ import AdminAttendance from './components/Attendance/AdminAttendance';
 import ManagerPage from './Page/ManagerPage/ManagerPage';
 import ManagerDevideTask from './components/Project/Manager/ManagerDivideTask';
 import ManagerProject from './components/Project/Manager/ManagerProject'
-
-
-
-
 
 
 // import employee
@@ -57,8 +50,6 @@ import EmployeeTraining from './components/Training/EmployeeTraining';
 import EmployeeChat from './components/Chat/EmployeeChat';
 import Participation from './components/Project/Employee/Participation';
 
-// employee
-import SubmitTask from './components/Project/Employee/SubmitTask';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
