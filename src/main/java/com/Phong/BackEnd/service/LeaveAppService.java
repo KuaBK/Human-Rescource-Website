@@ -51,7 +51,7 @@ public class LeaveAppService {
     private LeaveApplicationResponse toDto(LeaveApplication leaveApplication) {
         return LeaveApplicationResponse.builder()
                 .id(leaveApplication.getId())
-                .employeeId(leaveApplication.getEmployee().getPersonelCode())
+                .employeeId(leaveApplication.getEmployee().getCode())
                 .employeeName(leaveApplication.getEmployee().getFirstName() + " " + leaveApplication.getEmployee().getLastName())
                 .startDate(leaveApplication.getStartDate())
                 .endDate(leaveApplication.getEndDate())

@@ -93,7 +93,7 @@ public class AttendanceController {
     private AttendanceResponse convertToResponseDTO(Attendance attendance) {
         return AttendanceResponse.builder()
                 .attendanceId(attendance.getAttendanceId())
-                .employeeCode(attendance.getEmployee().getPersonelCode())
+                .employeeCode(attendance.getEmployee().getCode())
                 .checkInTime(attendance.getCheckInTime())
                 .checkOutTime(attendance.getCheckOutTime())
                 .duration(attendance.getDuration())

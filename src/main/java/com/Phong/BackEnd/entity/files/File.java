@@ -34,7 +34,7 @@ public class File {
     Date uploadDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "personel_code", referencedColumnName = "PersonelCode")
+    @JoinColumn(name = "personel_code", referencedColumnName = "Code")
     @JsonBackReference
     Personel uploadedBy;
 }

@@ -41,6 +41,6 @@ public class Tasks {
     Projects project;
 
     @ManyToOne
-    @JoinColumn(name = "EmployeeId")
+    @JoinColumn(name = "EmployeeCode")
     Employee employee;
 }

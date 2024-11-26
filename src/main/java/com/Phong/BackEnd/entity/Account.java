@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "AccountId")
+    @Column(name = "id")
     String id;
 
     @NotNull

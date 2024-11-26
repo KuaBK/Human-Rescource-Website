@@ -30,7 +30,7 @@ public class SalaryBoardService {
     private SalaryBoardResponse toSalaryBoardResponse(SalaryBoard salaryBoard) {
         return SalaryBoardResponse.builder()
                 .id(salaryBoard.getId())
-                .employeeCode(salaryBoard.getEmployee().getPersonelCode())
+                .employeeCode(salaryBoard.getEmployee().getCode())
                 .month(salaryBoard.getMonth())
                 .year(salaryBoard.getYear())
                 .realPay(salaryBoard.getRealPay())
@@ -42,7 +42,7 @@ public class SalaryBoardService {
 
     @Transactional
     public SalaryBoardResponse createSalaryBoard(SalaryBoardRequest request) {
-        Employee employee = employeeRepository.findByPersonelCode(request.getEmployeeCode())
+        Employee employee = employeeRepository.findByCode(request.getEmployeeCode())
                 .orElseThrow(() -> new RuntimeException("Employee not found with code: " + request.getEmployeeCode()));
 
         LocalDate now = LocalDate.now();
@@ -124,7 +124,7 @@ public class SalaryBoardService {
     }
 
     public List<SalaryBoardResponse> getAllSalaryBoardsByEmployee(Long employeeCode) {
-        Employee employee = employeeRepository.findByPersonelCode(employeeCode)
+        Employee employee = employeeRepository.findByCode(employeeCode)
                 .orElseThrow(() -> new RuntimeException("Employee not found with code: " + employeeCode));
 
         return salaryBoardRepository.findAllByEmployee(employee).stream()
@@ -133,7 +133,7 @@ public class SalaryBoardService {
     }
 
     public SalaryBoardResponse getSalaryBoardByEmployeeAndDate(Long employeeCode, int month, int year) {
-        Employee employee = employeeRepository.findByPersonelCode(employeeCode)
+        Employee employee = employeeRepository.findByCode(employeeCode)
                 .orElseThrow(() -> new RuntimeException("Employee not found with code: " + employeeCode));
 
         SalaryBoard salaryBoard = salaryBoardRepository.findByEmployeeAndMonthAndYear(employee, month, year)

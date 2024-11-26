@@ -1,6 +1,6 @@
 package com.Phong.BackEnd.entity.personel;
 
-public enum Sex {
+public enum Gender {
     FEMALE,
     MALE
 }

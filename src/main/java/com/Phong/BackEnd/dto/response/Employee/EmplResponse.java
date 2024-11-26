@@ -1,6 +1,6 @@
 package com.Phong.BackEnd.dto.response.Employee;
 
-import com.Phong.BackEnd.entity.personel.Sex;
+import com.Phong.BackEnd.entity.personel.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,8 @@ public class EmplResponse {
     private String firstName;
     private String lastName;
     private String phone;
-    private String address;
-    private Sex sex;
+    private String city;
+    private String street;
+    private Gender gender;
     private String email;
 }

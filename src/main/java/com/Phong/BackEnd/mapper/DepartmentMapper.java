@@ -17,7 +17,7 @@ public class DepartmentMapper {
                 .employeeNumber(department.getEmployeeNumber())
                 .establishmentDate(department.getEstablishmentDate())
                 .address(department.getAddress())
-                .managerId(department.getManager() != null ? department.getManager().getPersonelCode() : null)
+                .managerId(department.getManager() != null ? department.getManager().getCode() : null)
                 .build();
     }
 

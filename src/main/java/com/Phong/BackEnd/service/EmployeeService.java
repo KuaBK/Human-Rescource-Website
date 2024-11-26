@@ -72,9 +72,10 @@ public class EmployeeService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
-                .address(request.getAddress())
+                .city(request.getCity())
+                .street(request.getStreet())
                 .avatar(request.getAvatar())
-                .sex(request.getSex())
+                .gender(request.getGender())
                 .department(department)
                 .position(position)
                 .tasksCompleteNumber(0)
@@ -86,14 +87,15 @@ public class EmployeeService {
         Employee savedEmployee = employeeRepository.save(employee);
 
         return EmployeeResponse.builder()
-                .personelCode(savedEmployee.getPersonelCode())
+                .personelCode(savedEmployee.getCode())
                 .firstName(savedEmployee.getFirstName())
                 .lastName(savedEmployee.getLastName())
                 .email(savedEmployee.getEmail())
                 .phone(savedEmployee.getPhone())
-                .address(savedEmployee.getAddress())
+                .city(savedEmployee.getCity())
+                .street(savedEmployee.getStreet())
                 .avatar(savedEmployee.getAvatar())
-                .sex(savedEmployee.getSex())
+                .gender(savedEmployee.getGender())
                 .departmentName(department != null ? department.getDepartmentName() : null)
                 .position(savedEmployee.getPosition())
                 .taskList(savedEmployee.getTaskList().stream()
@@ -133,8 +135,9 @@ public class EmployeeService {
         if (updates.getFirstName() != null) employee.setFirstName(updates.getFirstName());
         if (updates.getLastName() != null) employee.setLastName(updates.getLastName());
         if (updates.getPhone() != null) employee.setPhone(updates.getPhone());
-        if (updates.getAddress() != null) employee.setAddress(updates.getAddress());
-        if (updates.getSex() != null) employee.setSex(updates.getSex());
+        if (updates.getCity() != null) employee.setCity(updates.getCity());
+        if (updates.getStreet() != null) employee.setStreet(updates.getStreet());
+        if (updates.getGender() != null) employee.setGender(updates.getGender());
         if (updates.getPosition() != null) employee.setPosition(updates.getPosition());
         if (updates.getDepartmentId() != null) {
             Department department = departmentRepository
@@ -193,13 +196,14 @@ public class EmployeeService {
     public EmployeeResponse toDto(Employee employee) {
         Department department = employee.getDepartment();
         return EmployeeResponse.builder()
-                .personelCode(employee.getPersonelCode())
+                .personelCode(employee.getCode())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .email(employee.getEmail())
                 .phone(employee.getPhone())
-                .address(employee.getAddress())
-                .sex(employee.getSex())
+                .city(employee.getCity())
+                .street(employee.getStreet())
+                .gender(employee.getGender())
                 .position(employee.getPosition())
                 .departmentName(department != null ? department.getDepartmentName() : null)
                 .taskList(employee.getTaskList().stream()
@@ -255,12 +259,13 @@ public class EmployeeService {
     public EWDResponse toDTO(Department department) {
         List<EmplResponse> employeeResponses = department.getEmployees().stream()
                 .map(employee -> new EmplResponse(
-                        employee.getPersonelCode(),
+                        employee.getCode(),
                         employee.getFirstName(),
                         employee.getLastName(),
                         employee.getPhone(),
-                        employee.getAddress(),
-                        employee.getSex(),
+                        employee.getCity(),
+                        employee.getStreet(),
+                        employee.getGender(),
                         employee.getEmail()
                 ))
                 .collect(Collectors.toList());

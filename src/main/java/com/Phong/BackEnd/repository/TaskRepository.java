@@ -8,5 +8,5 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Tasks, Long> {
     List<Tasks> findByProjectProjectId(int projectId);
 
-    List<Tasks> findByEmployeePersonelCode(int employeeId);
+    List<Tasks> findByEmployeeCode(Long Code);
 }

@@ -74,7 +74,7 @@ public class TaskController {
     }
 
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<ApiResponse<List<TaskResponse>>> getTasksByEmployeeCode(@PathVariable int employeeId) {
+    public ResponseEntity<ApiResponse<List<TaskResponse>>> getTasksByEmployeeCode(@PathVariable Long employeeId) {
         List<TaskResponse> tasks = taskService.getTasksByEmployeeCode(employeeId);
         return ResponseEntity.ok(ApiResponse.<List<TaskResponse>>builder()
                 .message("Tasks fetched successfully by employee")

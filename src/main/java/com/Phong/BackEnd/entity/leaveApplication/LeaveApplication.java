@@ -22,7 +22,7 @@ public class LeaveApplication {
     Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "EmployeeId")
+    @JoinColumn(name = "EmployeeCode")
     Employee employee;
 
     LocalDate startDate;

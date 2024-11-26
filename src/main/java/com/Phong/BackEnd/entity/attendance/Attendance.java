@@ -26,7 +26,7 @@ public class Attendance {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
-    @JoinColumn(name = "EmployeeCode", referencedColumnName = "personel_code")
+    @JoinColumn(name = "EmployeeCode", referencedColumnName = "code")
     Employee employee;
 
     @Enumerated(EnumType.STRING)

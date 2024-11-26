@@ -27,6 +27,6 @@ public class Image {
     String cloudinaryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "personel_code", referencedColumnName = "PersonelCode")
+    @JoinColumn(name = "personel_code", referencedColumnName = "Code")
     Personel uploadedBy;
 }

@@ -3,7 +3,7 @@ package com.Phong.BackEnd.dto.response.Manager;
 import java.time.LocalDate;
 
 import com.Phong.BackEnd.entity.personel.Position;
-import com.Phong.BackEnd.entity.personel.Sex;
+import com.Phong.BackEnd.entity.personel.Gender;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,9 +20,10 @@ public class ManagerResponse {
     String lastName;
     String email;
     String phone;
-    String address;
+    String city;
+    String street;
     String avatar;
-    Sex sex;
+    Gender gender;
     Position position;
     String departmentName;
     LocalDate manageDate;

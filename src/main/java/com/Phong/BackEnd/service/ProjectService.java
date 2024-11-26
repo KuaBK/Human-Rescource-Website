@@ -88,7 +88,7 @@ public class ProjectService {
 
         return project.getEmployees().stream()
                 .map(employee -> EIPResponse.builder()
-                        .employeeId(employee.getPersonelCode())
+                        .employeeId(employee.getCode())
                         .firstName(employee.getFirstName())
                         .lastName(employee.getLastName())
                         .email(employee.getEmail())

@@ -1,7 +1,7 @@
 package com.Phong.BackEnd.dto.request.Manager;
 
 import com.Phong.BackEnd.entity.personel.Position;
-import com.Phong.BackEnd.entity.personel.Sex;
+import com.Phong.BackEnd.entity.personel.Gender;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,8 +17,9 @@ public class ManagerUpdateRequest {
     String firstName;
     String lastName;
     String phone;
-    String address;
-    Sex sex;
+    String city;
+    String street;
+    Gender gender;
     Position position;
     Long departmentId;
 }

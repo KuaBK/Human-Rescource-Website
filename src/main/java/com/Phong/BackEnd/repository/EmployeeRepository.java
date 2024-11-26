@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.Phong.BackEnd.entity.personel.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    Optional<Employee> findByPersonelCode(Long personelCode);
+    Optional<Employee> findByCode(Long Code);
     List<Employee> findByDepartment_DepartmentId(Long departmentId);
 }

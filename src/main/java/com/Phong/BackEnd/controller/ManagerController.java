@@ -79,7 +79,7 @@ public class ManagerController {
     @Transactional
     @DeleteMapping("/{personelCode}")
     public ResponseEntity<ApiResponse<Void>> deleteManager(@PathVariable Long personelCode) {
-        attendanceRepository.deleteByEmployeePersonelCode(personelCode);
+        attendanceRepository.deleteByEmployeeCode(personelCode);
         managerService.deleteEmployee(personelCode);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
                 .message("Manager deleted successfully")

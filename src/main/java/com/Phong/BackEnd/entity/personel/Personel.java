@@ -26,13 +26,13 @@ import java.util.List;
 public class Personel {
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "AccountId", referencedColumnName = "AccountId")
+    @JoinColumn(name = "AccountId", referencedColumnName = "Id")
     Account account;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PersonelCode", unique = true)
-    Long personelCode;
+    @Column(name = "Code", unique = true)
+    Long code;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Position")
@@ -47,9 +47,8 @@ public class Personel {
     String lastName;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Sex")
-    Sex sex;
-
+    @Column(name = "gender")
+    Gender gender;
     // LocalDate dob;
 
     @NotBlank
@@ -61,8 +60,10 @@ public class Personel {
     @Column(name = "Phone")
     String phone;
 
-    @Column(name = "Address")
-    String address;
+    @Column(name = "City")
+    String city;
+
+    String street;
 
     @Column(name = "Avatar")
     private String avatar;

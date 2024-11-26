@@ -55,25 +55,28 @@ public class ManagerService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
-                .address(request.getAddress())
+                .city(request.getCity())
+                .street(request.getStreet())
                 .avatar(request.getAvatar())
-                .sex(request.getSex())
+                .gender(request.getGender())
                 .department(department)
                 .position(position)
                 .manageDate(LocalDate.now())
                 .build();
 
+        department.setManager(manager);
         Manager savedManager = managerRepository.save(manager);
 
         return ManagerResponse.builder()
-                .personelCode(savedManager.getPersonelCode())
+                .personelCode(savedManager.getCode())
                 .firstName(savedManager.getFirstName())
                 .lastName(savedManager.getLastName())
                 .email(savedManager.getEmail())
                 .phone(savedManager.getPhone())
-                .address(savedManager.getAddress())
+                .city(savedManager.getCity())
+                .street(savedManager.getStreet())
                 .avatar(savedManager.getAvatar())
-                .sex(savedManager.getSex())
+                .gender(savedManager.getGender())
                 .departmentName(department != null ? department.getDepartmentName() : null)
                 .position(savedManager.getPosition())
                 .manageDate(savedManager.getManageDate())
@@ -87,8 +90,9 @@ public class ManagerService {
         if (updates.getFirstName() != null) manager.setFirstName(updates.getFirstName());
         if (updates.getLastName() != null) manager.setLastName(updates.getLastName());
         if (updates.getPhone() != null) manager.setPhone(updates.getPhone());
-        if (updates.getAddress() != null) manager.setAddress(updates.getAddress());
-        if (updates.getSex() != null) manager.setSex(updates.getSex());
+        if (updates.getCity() != null) manager.setCity(updates.getCity());
+        if (updates.getStreet() != null) manager.setStreet(updates.getStreet());
+        if (updates.getGender() != null) manager.setGender(updates.getGender());
         if (updates.getPosition() != null) manager.setPosition(updates.getPosition());
         if (updates.getDepartmentId() != null) {
             Department department = departmentRepository
@@ -136,7 +140,7 @@ public class ManagerService {
         departmentRepository.save(department);
 
         return new MTDResponse(
-                manager.getPersonelCode(),
+                manager.getCode(),
                 department.getDepartmentId(),
                 manager.getManageDate()
         );
@@ -164,13 +168,14 @@ public class ManagerService {
     public ManagerResponse toDto(Manager manager) {
         Department department = manager.getDepartment();
         return ManagerResponse.builder()
-                .personelCode(manager.getPersonelCode())
+                .personelCode(manager.getCode())
                 .firstName(manager.getFirstName())
                 .lastName(manager.getLastName())
                 .email(manager.getEmail())
                 .phone(manager.getPhone())
-                .address(manager.getAddress())
-                .sex(manager.getSex())
+                .city(manager.getCity())
+                .street(manager.getStreet())
+                .gender(manager.getGender())
                 .position(manager.getPosition())
                 .manageDate(manager.getManageDate())
                 .departmentName(department != null ? department.getDepartmentName() : null)

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import com.Phong.BackEnd.entity.personel.Position;
-import com.Phong.BackEnd.entity.personel.Sex;
+import com.Phong.BackEnd.entity.personel.Gender;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -33,13 +33,14 @@ public class ManagerCreateRequest {
     @Size(max = 10)
     String phone;
 
-    String address;
+    String city;
+    String street;
 
     Position position;
 
     String avatar;
 
-    Sex sex;
+    Gender gender;
 
     Long departmentId;
 }

@@ -78,7 +78,7 @@ public class TaskService {
         Tasks task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("Task không tồn tại"));
 
-        Employee employee = employeeRepository.findByPersonelCode(employeeId)
+        Employee employee = employeeRepository.findByCode(employeeId)
                 .orElseThrow(() -> new EntityNotFoundException("Nhân viên không tồn tại"));
 
         task.setEmployee(employee);
@@ -92,8 +92,8 @@ public class TaskService {
         return tasks.stream().map(this::toDto).collect(Collectors.toList());
     }
 
-    public List<TaskResponse> getTasksByEmployeeCode(int employeeId) {
-        List<Tasks> tasks = taskRepository.findByEmployeePersonelCode(employeeId);
+    public List<TaskResponse> getTasksByEmployeeCode(Long employeeId) {
+        List<Tasks> tasks = taskRepository.findByEmployeeCode(employeeId);
         return tasks.stream().map(this::toDto).collect(Collectors.toList());
     }
     private TaskResponse toDto(Tasks task) {
