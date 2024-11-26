@@ -5,8 +5,7 @@ import AdminSalaryModal from './AdminSalaryModal';
 const AdminSalary = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState(null);
-
-// open edit salary
+    
     const handleModalOpen = (record) => {
         setSelectedRecord(record);
         setShowModal(true);
@@ -15,7 +14,9 @@ const AdminSalary = () => {
 
         console.log("pass open")
     };
-    
+
+
+// close edit salary
     const handleModalClose = () => {
         setShowModal(false);
         setSelectedRecord(null);
@@ -26,7 +27,7 @@ const AdminSalary = () => {
     };
     
 
-
+// save edit salary
     const handleSave = (updatedRecord) => {
         setSalary((prevSalary) =>
             prevSalary.map((loan) => (loan.id === updatedRecord.id ? updatedRecord : loan))
@@ -35,12 +36,15 @@ const AdminSalary = () => {
         console.log("pass save")
     };
     
+// delete salary record
     const handleDelete = (emp_code) => {
         setSalary(prevSalary => prevSalary.filter(record => record.emp_code !== emp_code));
 
         console.log("pass delete")
     };
 
+
+// add data 
     const [Salary, setSalary] = useState([
         {
             emp_code: 'LP-0101',

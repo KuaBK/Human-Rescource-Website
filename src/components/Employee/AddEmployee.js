@@ -4,21 +4,14 @@ import './AddEmployee.css';
 const AddEmployee = ({ onAddEmployee }) => {
   const [role, setRole] = useState('');
   const [newEmployee, setNewEmployee] = useState({
-    personel_code: '',
     lastName: '',
     firstName: '',
-    gender: 'Male',
+    gender: 'MALE', // default gender
     email: '',
     city: '',
     street: '',
     phoneNumber: '',
-    account_id: '',
-    task_complete: '',
-    project: '',
-    manage_date: '',
-    department: '',
     avatar: '',
-    dept_id: '',
   });
 
   const handleRoleSelect = (selectedRole) => {
@@ -26,9 +19,9 @@ const AddEmployee = ({ onAddEmployee }) => {
     setNewEmployee({
       ...newEmployee,
       role: selectedRole,
-      task_complete: '',
-      project: '',
-      manage_date: '',
+      // task_complete: '',
+      // project: '',
+      // manage_date: '',
     });
   };
 
@@ -49,8 +42,8 @@ const AddEmployee = ({ onAddEmployee }) => {
   };
 
   const handleAddClick = () => {
-    const newEmpWithId = { ...newEmployee, personel_code: Date.now() };
-    onAddEmployee(newEmpWithId);
+    console.log(">>>> ", newEmployee);
+    // onAddEmployee(newEmpWithId);
   };
 
   return (
@@ -126,10 +119,10 @@ const AddEmployee = ({ onAddEmployee }) => {
             onChange={handleChange}
             className="form-control"
           >
-            <option value="">Giới tính</option>  {/* This is the default option */}
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
           </select>
+          
           <input
             type="text"
             name="email"

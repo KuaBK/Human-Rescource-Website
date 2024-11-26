@@ -80,7 +80,6 @@ function ASidebar({ expanded, toggleSidebar }) {
           <span className={`link-text ${expanded ? 'show' : ''}`}>Phòng ban</span>
         </NavLink>
 
-
         <NavLink to="admin-attendance" className="nav-link-side" activeClassName="active-link">
           <PiNotePencilDuotone />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
@@ -89,11 +88,6 @@ function ASidebar({ expanded, toggleSidebar }) {
         <NavLink to="admin-salary" className="nav-link-side" activeClassName="active-link">
           <GrMoney />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Tiền lương và phúc lợi</span>
-        </NavLink>
-
-        <NavLink to="project" className="nav-link-side" activeClassName="active-link">
-          <FaProjectDiagram />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
         </NavLink>
 
         <NavLink to="admin-training" className="nav-link-side" activeClassName="active-link">
