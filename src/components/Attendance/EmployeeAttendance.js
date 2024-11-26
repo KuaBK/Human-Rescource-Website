@@ -33,6 +33,7 @@ const EmployeeAttendance = () => {
 
     const handleCheckIn = () => {
         const dateKey = value.toISOString().split('T')[0];
+        console.log(dateKey);
         setSchedule((prevSchedule) => ({
             ...prevSchedule,
             [dateKey]: {
@@ -42,6 +43,7 @@ const EmployeeAttendance = () => {
         }));
         setIsCheckedIn(true);
         setIsCheckedOut(false);
+        
     };
 
     const handleCheckOut = () => {
