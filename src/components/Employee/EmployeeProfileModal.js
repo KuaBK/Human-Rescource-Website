@@ -7,6 +7,7 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
 
     useEffect(() => {
         setEditEmployee(employee);
+        //console.log(employee);
     }, [employee]);  // Chỉ cập nhật lại editEmployee khi employee thay đổi
 
 
@@ -30,15 +31,12 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form className="employee-profile-form">
-
-
-
                     <Form.Group controlId="formPosition" className="mt-2">
                         <Form.Label>Chức vụ</Form.Label>
                         <Form.Control
                             as="select"
                             name="role"
-                            value={editEmployee.role}
+                            value={editEmployee.position}
                             onChange={handleChange}
                         >
                             <option value="Manager">Manager</option>
@@ -79,12 +77,12 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                         <Form.Label>Giới tính</Form.Label>
                         <Form.Control
                             as="select"
-                            name="gender"
-                            value={editEmployee.gender}
+                            name="sex"
+                            value={editEmployee.sex}
                             onChange={handleChange}
                         >
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
                         </Form.Control>
                     </Form.Group>
 
@@ -156,8 +154,8 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                         <Form.Label>Số điện thoại</Form.Label>
                         <Form.Control
                             type="text"
-                            name="phoneNumber"
-                            value={editEmployee.phoneNumber}
+                            name="phone"
+                            value={editEmployee.phone}
                             onChange={handleChange}
                         />
                     </Form.Group>
@@ -178,27 +176,21 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                     )}
 
                     {/* Nếu là Manager thì có trường phòng ban */}
-                
                         <Form.Group controlId="formDepartment" className="mt-2">
                             <Form.Label>Phòng ban</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="department"
-                                value={editEmployee.department}
+                                value={editEmployee.deptName || ''}
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                    
-
-
-
-
 
                     {/* Nếu là Manager thì có trường manageDate */}
 
 
                     {/* Nếu là Employee thì có các trường taskComplete và project */}
-                    {editEmployee.role === 'Employee' && (
+                    {editEmployee.position === 'Employee' && (
                         <>
                             {/* 
 
@@ -219,7 +211,7 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                         <Form.Control
                             type="text"
                             name="deptId"
-                            value={editEmployee.deptId}
+                            value={editEmployee.deptId || ''}
                             onChange={handleChange}
                         />
                     </Form.Group>
