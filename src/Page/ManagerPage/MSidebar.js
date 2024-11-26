@@ -37,11 +37,12 @@ function MSidebar() {
           <PiNotePencilDuotone />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
         </Link>
+
         <Link to="project" className="nav-link-side">
           <FaProjectDiagram />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
         </Link>
-        
+      
         <Link to="training" className="nav-link-side">
           <GiTeamUpgrade />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>

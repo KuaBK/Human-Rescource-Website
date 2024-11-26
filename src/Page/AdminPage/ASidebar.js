@@ -90,11 +90,6 @@ function ASidebar({ expanded, toggleSidebar }) {
           <span className={`link-text ${expanded ? 'show' : ''}`}>Tiền lương và phúc lợi</span>
         </NavLink>
 
-        <NavLink to="project" className="nav-link-side" activeClassName="active-link">
-          <FaProjectDiagram />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
-        </NavLink>
-
         <NavLink to="admin-training" className="nav-link-side" activeClassName="active-link">
           <GiTeamUpgrade />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
