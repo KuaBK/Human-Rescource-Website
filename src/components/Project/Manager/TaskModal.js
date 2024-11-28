@@ -69,7 +69,7 @@ const TaskModal = ({ project, employees, onClose }) => {
             <div className="modal-dialog modal-lg task-modal">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Tasks for Project: {project.name}</h5>
+                        <h5 className="modal-title">Nhiệm vụ cho dự án: {project.name}</h5>
                         <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
                     </div>
                     <div className="modal-body" style={{ maxHeight: '400px', overflowY: 'auto' }}>
@@ -224,7 +224,7 @@ const TaskModal = ({ project, employees, onClose }) => {
                     <div className="modal-footer">
                         {/* <button type="button" className="btn btn-secondary" onClick={onClose}>Đóng</button>
                          */}
-                        <button type="button" className="btn btn-primary" onClick={handleSaveTasks}>Lưu</button>
+                        <button type="button" className="btn btn-success" onClick={handleSaveTasks}>Lưu</button>
                     </div>
                 </div>
             </div>

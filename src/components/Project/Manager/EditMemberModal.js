@@ -43,7 +43,7 @@ const EditMemberModal = ({ members, onClose, employees, onSave }) => {
             <div className="overlay" onClick={onClose}></div>
             <div className="member-modal">
                 <div className="modal-content">
-                    <h3>Project Members</h3>
+                    <h3>Danh sách nhân viên</h3>
                     <button className="close-btn" onClick={onClose}>✖</button>
 
                     <ul className="member-list">
@@ -59,15 +59,15 @@ const EditMemberModal = ({ members, onClose, employees, onSave }) => {
                             type="text"
                             value={newMemberId}
                             onChange={(e) => setNewMemberId(e.target.value)}
-                            placeholder="Enter member ID"
+                            placeholder="Nhập ID của nhân viên"
                             className="add-member-input"
                         />
-                        <button onClick={handleAddMember} className="add-member-btn">Add Member</button>
+                        <button onClick={handleAddMember} className="add-member-btn">Thêm nhân viên</button>
                     </div>
                     {message && <p className="message">{message}</p>}
 
                     <div className="modal-footer">
-                        <button onClick={handleSave} className="save-btn">Save</button>
+                        <button onClick={handleSave} className="save-btn">Lưu</button>
                     </div>
                 </div>
             </div>

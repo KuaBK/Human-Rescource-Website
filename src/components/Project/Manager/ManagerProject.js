@@ -5,6 +5,7 @@ import TaskModal from './TaskModal';
 // import ManagerDevideTask from './ManagerDivideTask';
 
 import MemberModal from './EditMemberModal';
+import EditProject from './EditProject';
 
 
 const ManagerProject = () => {
@@ -23,6 +24,8 @@ const ManagerProject = () => {
             //     { id: "E005", name: "Hoang Van E" },
             // ],
             members: 5,
+            project_description: "Vừa làm vừa vui.",
+
             duration: "4 Month",
             comments: 10,
             daysLeft: 35,
@@ -60,6 +63,10 @@ const ManagerProject = () => {
     const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
     const [currentMembers, setCurrentMembers] = useState([]);
 
+
+    // const [isCreateProjectModalOpen, setisCreateProjectModalOpen] = useState(null);
+
+
     // const [projects] = useState(initialProjects);
 
     const [selectedProject, setSelectedProject] = useState(null);
@@ -67,6 +74,18 @@ const ManagerProject = () => {
     const [currentProject, setCurrentProject] = useState(null);
     const [currentProjectId, setCurrentProjectId] = useState(null);
     const [projects, setProjects] = useState(initialProjects);
+
+    const [isCreateProjectModalOpen, setIsCreateProjectModalOpen] = useState(false);
+
+    const handleCreateProjectClick = () => {
+        setIsCreateProjectModalOpen(true);
+    };
+
+    const closeCreateProjectModal = () => {
+        setIsCreateProjectModalOpen(false);
+    };
+
+
 
     const employees = [
         { code: 'E001', name: 'Nguyen Van A' },
@@ -142,21 +161,34 @@ const ManagerProject = () => {
     //     setIsTaskFormOpen(true);
     // };
 
-    const handleTaskSave = (newTask) => {
-        // Logic to save the new task
-        setIsTaskFormOpen(false);
+    // const handleTaskSave = (newTask) => {
+    //     // Logic to save the new task
+    //     setIsTaskFormOpen(false);
+    // };
+
+
+
+    const handleDeleteProject = (projectId) => {
+        setProjects((prevProjects) => prevProjects.filter(project => project.id !== projectId));
     };
 
     return (
+
+
         <div className="manager-projects">
             <div className="header d-flex align-items-center justify-content-between">
-                <h2>Manager Projects</h2>
-                <div className="filter-buttons">
-                    <button>All</button>
-                    <button>Started</button>
-                    <button>Approval</button>
-                    <button>Completed</button>
+                <h2>Quản lý dự án</h2>
+                <div className="action-buttons">
+                    <button onClick={handleCreateProjectClick} className="btn btn-primary">
+                        Tạo project
+                    </button>
                 </div>
+                {/* <div className="filter-buttons">
+                        <button>All</button>
+                        <button>Started</button>
+                        <button>Approval</button>
+                        <button>Completed</button>
+                    </div> */}
             </div>
             <hr />
             <div className="row g-3 gy-5 py-3 row-deck">
@@ -167,13 +199,19 @@ const ManagerProject = () => {
                                 <img src={`/path/to/icons/${project.icon}.png`} alt={`${project.name} icon`} className="project-icon" />
                                 <p className="company-name">{project.company}</p>
                             </div>
+                            <button
+                                className="btn-delete"
+                                onClick={() => handleDeleteProject(project.id)}
+                            >
+                                &#10005; {/* Biểu tượng "x" */}
+                            </button>
                             <div className="card-body">
                                 {/* <div className="d-flex align-items-center justify-content-between mt-5">
-                                        <h5 className="project-position">{project.name}</h5>
-                                        <div className="action-buttons">
-                                            <button onClick={() => handleDivideTaskClick(project)}>Divide Task</button>
-                                        </div>
-                                    </div> */}
+                                            <h5 className="project-position">{project.name}</h5>
+                                            <div className="action-buttons">
+                                                <button onClick={() => handleDivideTaskClick(project)}>Divide Task</button>
+                                            </div>
+                                        </div> */}
 
                                 <div className="avatars">
                                     {Array(project.members).fill('').map((_, i) => (
@@ -187,15 +225,21 @@ const ManagerProject = () => {
                                         onClick={() => handleAttachmentClick(project)}
                                     >
                                         <span className="logo">📎</span>
-                                        <span className="info">{project.attachments} Attachments</span>
+                                        <span className="info">
+                                            {project.tasks.length} Nhiệm vụ
+                                        </span>
                                     </div>
-
                                     <div
                                         className="col-6 d-flex align-items-center"
                                         onClick={() => handleMemberClick(project)} // Sửa từ project.members thành project
                                     >
                                         <span className="logo">👥</span>
-                                        <span className="info">{project.members} Members</span>
+                                        <span className="info">
+                                            {project.tasks
+                                                .flatMap((task) => task.employee_codes)  // Flatten the employee codes from tasks
+                                                .filter((value, index, self) => self.indexOf(value) === index).length}  {/* Count unique members */}
+                                            Thành viên
+                                        </span>
                                     </div>
 
 
@@ -203,13 +247,14 @@ const ManagerProject = () => {
 
                                 <hr />
 
-                                <div className="progress-section">
-                                    <span className="progress-text">Progress</span>
-                                    <div className="progress-bars">
-                                        <div className="progress-bar bg-secondary" role="progressbar" style={{ width: `${project.progress}%` }} aria-valuenow={project.progress} aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <span className="days-left">{project.daysLeft} Days Left</span>
+                                <div className="project-description-section">
+                                    <span className="description-text">Mô tả</span>
+                                    <p className="project-description">
+                                        {project.project_description}
+                                    </p>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -234,16 +279,21 @@ const ManagerProject = () => {
             )}
 
 
-            {/* 
+            {isCreateProjectModalOpen && (
+                <EditProject
+                    onClose={closeCreateProjectModal}
+                    onSave={(newProject) => {
+                        setProjects((prevProjects) => [...prevProjects, newProject]);
+                        closeCreateProjectModal();
+                    }}
+                    employees={employees}
 
-            {isTaskFormOpen && (
-                <ManagerDevideTask
-                    project={currentProject}
-
-                    onClose={() => setIsTaskFormOpen(false)}
-                    onSave={handleTaskSave}
                 />
-            )} */}
+            )}
+
+
+
+
         </div>
     );
 };
