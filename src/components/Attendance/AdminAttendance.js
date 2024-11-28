@@ -11,7 +11,15 @@ const AdminAttendance = () => {
             avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
             attendance: generateAttendanceData(),
             salaryID: '10',
-            employee_code: '01'
+            employeeCode: '01'
+        },
+        {
+            id: "2",
+            name: "Kim Seoul",
+            avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
+            attendance: generateAttendanceData(),
+            salaryID: '20',
+            employeeCode: '02'
         },
 
     ]);
@@ -75,6 +83,11 @@ const AdminAttendance = () => {
     };
 
 
+
+
+
+
+
     const handleModalClose = () => {
         setShowModal(false);
         setSelectedEmployee(null);
@@ -104,15 +117,15 @@ const AdminAttendance = () => {
                 <div className='row align-items-center'>
                     <div className='border-0 mb-4'>
                         <div className='card-header py-3 no-bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap'>
-                            <h2 className="fw-bold mb-0">Attendance</h2>
+                            <h2 className="fw-bold mb-0">Chấm công</h2>
                             <div className="d-flex w-sm-100 col-auto">
-                                <label className="mr-2">Select Month:</label>
+                                <label className="mr-2">Chọn tháng:</label>
                                 <select value={selectedMonth} onChange={(e) => setSelectedMonth(parseInt(e.target.value))}>
                                     {[...Array(12).keys()].map(i => (
                                         <option key={i + 1} value={i + 1}>{i + 1}</option>
                                     ))}
                                 </select>
-                                <label className="ml-4 mr-2">Select Year:</label>
+                                <label className="ml-4 mr-2">Chọn năm:</label>
                                 <input
                                     type="number"
                                     value={selectedYear}
@@ -127,7 +140,7 @@ const AdminAttendance = () => {
             </div>
 
             {!hasAttendanceData ? (
-                <div className="text-center mt-4">No attendance data available for this month and year.</div>
+                <div className="text-center mt-4">Không có dữ liệu điểm danh.</div>
             ) : (
 
                 <div className="row clearfix g-3">
@@ -136,7 +149,7 @@ const AdminAttendance = () => {
                             <table className="table table-hover w-full border border-gray-200 text-xs">
                                 <thead>
                                     <tr className="bg-gray-100 text-gray-600 uppercase leading-tight">
-                                        <th className="py-2 px-2 text-left border border-gray-200">Employee Name</th>
+                                        <th className="py-2 px-2 text-left border border-gray-200">Tên nhân viên</th>
                                         {filteredDays.map(day => (
                                             <th key={day} className="py-2 px-1 border border-gray-200 text-center">{day}</th>
                                         ))}
@@ -193,3 +206,5 @@ const AdminAttendance = () => {
 };
 
 export default AdminAttendance;
+
+

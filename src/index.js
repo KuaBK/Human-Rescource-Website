@@ -7,10 +7,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Employee from './components/Employee/Employee';
 import Attendance from './components/Attendance/EmployeeAttendance';
 
-import AdminAttendance from './components/Attendance/AdminAttendance';
 import store from './store';
 
 
