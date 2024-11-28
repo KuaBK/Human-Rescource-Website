@@ -132,6 +132,20 @@ const SubmitTask = () => {
                                 >
                                     📂 Upload Files
                                 </label>
+                                <button
+                                    onClick={() => handleSendFiles(task.id)}
+                                    className={`send-button ${task.isSent ? 'done-button' : ''}`}
+                                    disabled={task.isSent} // Disable button when sent
+                                >
+                                    {task.isSent ? "✅ Done" : "📤 Send Files"}
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteFiles(task.id)}
+                                    className="delete-button"
+                                >
+                                    ❌ Cancel
+                                </button>
+
                                 {task && task.files && task.files.length > 0 && (
                                     <div className="uploaded-files">
                                         {task.files.map((file, index) => (
