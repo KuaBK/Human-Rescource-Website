@@ -35,6 +35,13 @@ public class ImageService {
     }
 
     public Image uploadImage(MultipartFile file, String token) throws IOException {
+
+        String contentType = file.getContentType();
+        if (contentType == null ||
+                (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
+            throw new IllegalArgumentException("Chỉ cho phép tải lên tệp hình ảnh (PNG, JPEG)");
+        }
+
         String username = jwtUtils.getUsernameFromToken(token);
 
         Personel personel = personelRepository

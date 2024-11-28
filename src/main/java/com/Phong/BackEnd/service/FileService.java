@@ -48,22 +48,28 @@ public class FileService {
 
         try {
             String fileType = file.getContentType();
-            String resourceType;
-            String format;
 
-            // Phân loại file dựa trên MIME type
-            if ("application/pdf".equals(fileType)) {
-                resourceType = "image"; // Xử lý file PDF
-                format = "pdf";
-            } else if ("application/vnd.openxmlformats-officedocument.wordprocessingml.document".equals(fileType)) {
-                resourceType = "raw"; // Xử lý file DOCX
-                format = "docx";
-            } else if (fileType.startsWith("image/")) {
-                resourceType = "image"; // Xử lý file ảnh
-                format = fileType.substring("image/".length());
-            } else {
-                throw new IllegalArgumentException("Unsupported file type: " + fileType);
+            if (!"application/pdf".equals(fileType) &&
+                    !"application/vnd.openxmlformats-officedocument.wordprocessingml.document".equals(fileType)) {
+                throw new IllegalArgumentException("Only PDF and DOCX files are supported");
             }
+
+            String resourceType = "raw"; 
+            String format = "application/pdf".equals(fileType) ? "pdf" : "docx";
+
+//            // Phân loại file dựa trên MIME type
+//            if ("application/pdf".equals(fileType)) {
+//                resourceType = "image"; // Xử lý file PDF
+//                format = "pdf";
+//            } else if ("application/vnd.openxmlformats-officedocument.wordprocessingml.document".equals(fileType)) {
+//                resourceType = "raw"; // Xử lý file DOCX
+//                format = "docx";
+//            } else if (fileType.startsWith("image/")) {
+//                resourceType = "image"; // Xử lý file ảnh
+//                format = fileType.substring("image/".length());
+//            } else {
+//                throw new IllegalArgumentException("Unsupported file type: " + fileType);
+//            }
 
             // Upload file lên Cloudinary
             Map uploadResult = cloudinary.uploader().upload(
