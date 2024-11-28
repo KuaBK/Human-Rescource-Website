@@ -11,8 +11,10 @@ import com.Phong.BackEnd.entity.Account;
 
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
+    @Mapping(target = "password", source = "password")
     Account toUser(AccountCreationRequest request);
 
+    @Mapping(target = "password", source = "password")
     AccountResponse toUserResponse(Account account);
 
     @Mapping(target = "role", ignore = true)

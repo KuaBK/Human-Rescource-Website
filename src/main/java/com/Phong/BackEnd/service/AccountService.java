@@ -38,7 +38,7 @@ public class AccountService {
         Account account = accountMapper.toUser(request);
         account.setPassword(request.getPassword());
 
-        account.setRole(Role.PERSONEL);
+        account.setRole(Role.PERSONNEL);
 
         try {
             account = accountRepository.save(account);
