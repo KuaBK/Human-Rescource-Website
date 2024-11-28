@@ -124,7 +124,7 @@ const SubmitTask = () => {
                                 >
                                     ❌ Cancel
                                 </button>
-                                {task.files.length > 0 && (
+                                {task && task.files && task.files.length > 0 && (
                                     <div className="uploaded-files">
                                         {task.files.map((file, index) => (
                                             <p key={index} className="uploaded-file">📄 {file}</p>

@@ -45,15 +45,55 @@ const EmployeeInfor = () => {
   };
 
   // Function to handle profile image upload
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
+    console.log("file >>>", file);
+
     if (file) {
-      const imageUrl = URL.createObjectURL(file); // Create a local URL for the image
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        profileImage: imageUrl,
-      }));
-    }
+        const formData = new FormData();
+        formData.append('image', file);
+        console.log("formData >>>>", formData);
+
+        const imageUrl = URL.createObjectURL(file);
+        setProfile((prevProfile) => ({
+            ...prevProfile,
+            profileImage: imageUrl,
+        }));
+
+        // try {
+        //   const response = await fetch('/api/upload', {
+        //     method: 'POST',
+        //     body: formData,
+        //   });
+
+        //   if (response.ok) {
+        //     const data = await response.json();
+        //     console.log("Uploaded image URL >> ", data.imageUrl);
+
+        //     // Save the URL to the database or state
+        //     setProfile((prevProfile) => ({
+        //         ...prevProfile,
+        //         profileImage: data.imageUrl, // Save the image URL returned from the server
+        //     }));
+        //   } else {
+        //       console.error("Failed to upload the image.");
+        //   }
+        // } catch (error) {
+        //   console.error("Error uploading image: ", error);
+        // }
+
+    } 
+
+
+    // console.log("file >> ", file);
+    // if (file) {
+    //   const imageUrl = URL.createObjectURL(file); // Create a local URL for the image
+    //   console.log("image >> ", imageUrl);
+    //   setProfile((prevProfile) => ({
+    //     ...prevProfile,
+    //     profileImage: imageUrl,
+    //   }));
+    // }
   };
 
   // Function to toggle edit mode
