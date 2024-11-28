@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.Phong.BackEnd.dto.request.Manager.MTDResponse;
+import com.Phong.BackEnd.dto.response.Employee.EmployeeResponse;
+import com.Phong.BackEnd.entity.personel.Employee;
 import jakarta.persistence.EntityNotFoundException;
 
 import jakarta.transaction.Transactional;
@@ -163,6 +165,16 @@ public class ManagerService {
         } else {
             throw new IllegalStateException("No manager assigned to this department.");
         }
+    }
+
+    public ManagerResponse getManagerByAccountId(String accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account không tồn tại"));
+
+        Manager manager = managerRepository.findByAccount(account)
+                .orElseThrow(() -> new EntityNotFoundException("Manager không tồn tại cho Account này"));
+
+        return toDto(manager);
     }
 
     public ManagerResponse toDto(Manager manager) {

@@ -256,6 +256,16 @@ public class EmployeeService {
         return toDTO(department);
     }
 
+    public EmployeeResponse getEmployeeByAccountId(String accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account không tồn tại"));
+
+        Employee employee = employeeRepository.findByAccount(account)
+                .orElseThrow(() -> new EntityNotFoundException("Employee không tồn tại cho Account này"));
+
+        return toDto(employee);
+    }
+
     public EWDResponse toDTO(Department department) {
         List<EmplResponse> employeeResponses = department.getEmployees().stream()
                 .map(employee -> new EmplResponse(

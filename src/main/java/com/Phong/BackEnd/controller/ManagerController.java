@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.Phong.BackEnd.dto.request.Manager.MTDResponse;
+import com.Phong.BackEnd.dto.response.Employee.EmployeeResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -122,4 +123,9 @@ public class ManagerController {
         }
     }
 
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<ManagerResponse> getManagerByAccountId(@PathVariable String accountId) {
+        ManagerResponse managerResponse = managerService.getManagerByAccountId(accountId);
+        return ResponseEntity.ok(managerResponse);
+    }
 }

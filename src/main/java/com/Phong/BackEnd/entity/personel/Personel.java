@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "personel")
+@Table(name = "personnel")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Personel {
 

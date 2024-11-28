@@ -116,4 +116,10 @@ public class EmployeeController {
                     .build());
         }
     }
+
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<EmployeeResponse> getEmployeeByAccountId(@PathVariable String accountId) {
+        EmployeeResponse employeeResponse = employeeService.getEmployeeByAccountId(accountId);
+        return ResponseEntity.ok(employeeResponse);
+    }
 }
