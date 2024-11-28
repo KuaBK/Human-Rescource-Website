@@ -155,7 +155,7 @@ const EditProject = ({ onClose, onSave }) => {
                 <div className="modal-content">
                     <div className='modal-header'>
                         <h2>Tạo dự án</h2>
-                        <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
+                        <button type="button" className="btn-close btn-primary" aria-label="Close" onClick={onClose}></button>
 
                     </div>
                     <form className="form-container">
@@ -280,7 +280,7 @@ const EditProject = ({ onClose, onSave }) => {
 
                     </form>
                     <div className="action-buttons">
-                        <button onClick={handleSave} className="btn btn-success">
+                        <button onClick={handleSave} className="btn btn-primary btn-success">
                             Save
                         </button>
                         {/* <button onClick={onClose} className="btn btn-secondary">

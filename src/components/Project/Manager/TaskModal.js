@@ -70,7 +70,7 @@ const TaskModal = ({ project, employees, onClose }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Nhiệm vụ cho dự án: {project.name}</h5>
-                        <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
+                        <button type="button" className="btn-close btn-primary" aria-label="Close" onClick={onClose}></button>
                     </div>
                     <div className="modal-body" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                         <div className="task-list">
@@ -78,10 +78,10 @@ const TaskModal = ({ project, employees, onClose }) => {
                                 tasks.map((task, index) => (
                                     <div key={index} className="task-item border rounded p-3 mb-3 d-flex flex-column position-relative">
                                         <div className="d-flex position-absolute top-0 end-0 m-2 gap-2">
-                                            <button className="btn btn-sm btn-outline-danger small-btn d-flex align-items-center justify-content-center" onClick={() => handleDeleteTask(index)}>
+                                            <button className="btn btn-sm btn-primary btn-outline-danger small-btn d-flex align-items-center justify-content-center" onClick={() => handleDeleteTask(index)}>
                                                 Xóa
                                             </button>
-                                            <button className="btn btn-sm btn-outline-primary small-btn d-flex align-items-center justify-content-center" onClick={() => toggleEditMode(index)}>
+                                            <button className="btn btn-sm btn-primary btn-outline-primary small-btn d-flex align-items-center justify-content-center" onClick={() => toggleEditMode(index)}>
                                                 {editingIndex === index ? 'Xong' : 'Chỉnh sửa'}
                                             </button>
                                         </div>
@@ -163,7 +163,7 @@ const TaskModal = ({ project, employees, onClose }) => {
                                 <p>No tasks available for this project.</p>
                             )}
                         </div>
-                        <button className="btn btn-success mt-3" onClick={() => setShowAddTaskModal(true)}>
+                        <button className="btn btn-primary btn-success mt-3" onClick={() => setShowAddTaskModal(true)}>
                             Thêm Task
                         </button>
                         {showAddTaskModal && (
@@ -224,7 +224,7 @@ const TaskModal = ({ project, employees, onClose }) => {
                     <div className="modal-footer">
                         {/* <button type="button" className="btn btn-secondary" onClick={onClose}>Đóng</button>
                          */}
-                        <button type="button" className="btn btn-success" onClick={handleSaveTasks}>Lưu</button>
+                        <button type="button" className="btn btn-primary" onClick={handleSaveTasks}>Lưu</button>
                     </div>
                 </div>
             </div>

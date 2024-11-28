@@ -44,7 +44,7 @@ const EditMemberModal = ({ members, onClose, employees, onSave }) => {
             <div className="member-modal">
                 <div className="modal-content">
                     <h3>Danh sách nhân viên</h3>
-                    <button className="close-btn" onClick={onClose}>✖</button>
+                    <button className="close-btn btn-primary" onClick={onClose}>x</button>
 
                     <ul className="member-list">
                         {currentMembers.map((member, index) => (
@@ -62,12 +62,12 @@ const EditMemberModal = ({ members, onClose, employees, onSave }) => {
                             placeholder="Nhập ID của nhân viên"
                             className="add-member-input"
                         />
-                        <button onClick={handleAddMember} className="add-member-btn">Thêm nhân viên</button>
+                        <button onClick={handleAddMember} className="add-member-btn btn-primary">Thêm nhân viên</button>
                     </div>
                     {message && <p className="message">{message}</p>}
 
                     <div className="modal-footer">
-                        <button onClick={handleSave} className="save-btn">Lưu</button>
+                        <button onClick={handleSave} className="save-btn btn-primary">Lưu</button>
                     </div>
                 </div>
             </div>
