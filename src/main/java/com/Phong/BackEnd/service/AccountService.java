@@ -36,7 +36,7 @@ public class AccountService {
     public AccountResponse createUser(AccountCreationRequest request) {
 
         Account account = accountMapper.toUser(request);
-        account.setPassword(passwordEncoder.encode(request.getPassword()));
+        account.setPassword(request.getPassword());
 
         account.setRole(Role.PERSONEL);
 
@@ -55,7 +55,8 @@ public class AccountService {
 
         accountMapper.updateUser(account, request);
 
-        account.setPassword(passwordEncoder.encode(request.getPassword()));
+//        account.setPassword(passwordEncoder.encode(request.getPassword()));
+        account.setPassword(request.getPassword());
 
         return accountMapper.toUserResponse(accountRepository.save(account));
     }
