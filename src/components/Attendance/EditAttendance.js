@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-const EditAttendance = ({ show, handleClose, employee, handleSave, selectedMonth }) => {
+const EditAttendance = ({ show, handleClose, employee, handleSave, selectedMonth, selectedYear }) => {
     const [selectedDate, setSelectedDate] = useState(1);
+
+
     const [attendanceDetails, setAttendanceDetails] = useState({
         work_date: '',
         check_in: '',
         check_out: '',
         attendanceType: 'absent',
+        // salaryID: '',
+        // employeeCode: '',
     });
     const [salaryID, setSalaryID] = useState('');
     const [employeeCode, setEmployeeCode] = useState('');
@@ -19,15 +23,27 @@ const EditAttendance = ({ show, handleClose, employee, handleSave, selectedMonth
             setSalaryID(employee.salaryID);
             setEmployeeCode(employee.employee_code);
 
-            const selectedAttendance = employee.attendance.find(a => new Date(a.work_date).getDate() === selectedDate) || {
-                work_date: '',
+            const selectedAttendance = employee.attendance.find(a => {
+                const date = new Date(a.work_date);
+                return date.getDate() === selectedDate && date.getMonth() + 1 === selectedMonth;
+            }) || {
+                work_date: `${selectedYear}-${selectedMonth < 10 ? '0' + selectedMonth : selectedMonth}-${selectedDate < 10 ? '0' + selectedDate : selectedDate}`,
                 check_in: '',
                 check_out: '',
                 attendanceType: 'absent',
             };
+
             setAttendanceDetails(selectedAttendance);
         }
-    }, [selectedDate, employee]);
+    }, [employee, selectedDate, selectedMonth, selectedYear]);
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setAttendanceDetails((prev) => ({
+    //         ...prev,
+    //         [name]: value,
+    //     }));
+    // };
 
 
     const calculateAttendanceType = (checkIn, checkOut) => {
@@ -54,16 +70,24 @@ const EditAttendance = ({ show, handleClose, employee, handleSave, selectedMonth
         });
     };
 
+
     const onSave = () => {
-        const updatedEmployee = { ...employee }; // Lấy thông tin nhân viên
-        const updatedAttendance = [...updatedEmployee.attendance];  // Tạo bản sao của mảng attendance
+        const updatedEmployee = { ...employee };
+        const updatedAttendance = [...updatedEmployee.attendance];
 
-        const startIndex = (selectedMonth - 1) * 31 + selectedDate - 1; // Tính chỉ số ngày
-        updatedAttendance[startIndex] = { ...attendanceDetails }; // Cập nhật thông tin vào ngày đã chọn
+        const startIndex = (selectedMonth - 1) * 31 + selectedDate - 1;
+        updatedAttendance[startIndex] = {
+            ...attendanceDetails,
+            work_date: `${selectedYear}-${selectedMonth < 10 ? '0' + selectedMonth : selectedMonth}-${selectedDate < 10 ? '0' + selectedDate : selectedDate}`,
+            salaryID,
+            employeeCode,
+        };
 
-        updatedEmployee.attendance = updatedAttendance; // Cập nhật mảng attendance của nhân viên
+        updatedEmployee.attendance = updatedAttendance;
 
-        handleSave(updatedEmployee);  // Gọi handleSave để lưu thay đổi
+        handleSave(updatedEmployee);
+
+        handleClose();
     };
 
     return (
@@ -92,7 +116,7 @@ const EditAttendance = ({ show, handleClose, employee, handleSave, selectedMonth
                         type="date"
                         className="form-control"
                         value={attendanceDetails.work_date}
-                        onChange={(e) => handleFieldChange('work_date', e.target.value)}
+                        readOnly
                     />
                 </div>
 
@@ -131,6 +155,12 @@ const EditAttendance = ({ show, handleClose, employee, handleSave, selectedMonth
                         className="form-control"
                         value={salaryID}
                         onChange={(e) => setSalaryID(e.target.value)}
+
+                    // type="text"
+                    // name="form-control"
+                    // value={attendanceDetails.salaryID}
+                    // onChange={handleChange}
+
                     />
                 </div>
                 <div className="mb-3">
@@ -139,7 +169,14 @@ const EditAttendance = ({ show, handleClose, employee, handleSave, selectedMonth
                         type="text"
                         className="form-control"
                         value={employeeCode}
+
                         onChange={(e) => setEmployeeCode(e.target.value)}
+
+                    // type="text"
+                    // name='form-control'
+                    // value={attendanceDetails.employeeCode}
+                    // onChange={handleChange}
+
                     />
                 </div>
             </Modal.Body>
