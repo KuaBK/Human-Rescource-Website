@@ -2,27 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import reportWebVitals from './reportWebVitals';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+// import '@fortawe some/fontawesome-free/css/all.min.css';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import store from './store';
+// import Employee from './components/Employee/Employee';
 
+import Attendance from './components/Attendance/EmployeeAttendance';
+
+// import AdminAttendance from './components/Attendance/AdminAttendance';
+
+import store from './store';
 
 
 // import Salary from './components/Salary/Salary';
 
 import { Provider } from 'react-redux';
+
 import Training from './components/Training/Training';
-
-
 import Statistic from './components/Statistic/Statistic';
 
 
 import Home from './components/Authentication/Home';
 import Login from './components/Authentication/Login';
 import Signup from './components/Authentication/Signup';
+
+
 //import admin
 import AdminPage from './Page/AdminPage/AdminPage';
 import AdminSalary from './components/Salary/AdminSalary';
@@ -50,10 +57,9 @@ import EmployeeTraining from './components/Training/EmployeeTraining';
 import EmployeeChat from './components/Chat/EmployeeChat';
 import Participation from './components/Project/Employee/Participation';
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Provider store={store}>
+  <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -66,7 +72,7 @@ root.render(
           <Route path="admin-attendance" element={<AdminAttendance />} />
           <Route path="admin-salary" element={<AdminSalary />} />
           <Route path="department" element={<Department />} />
-       
+
           <Route path="admin-training" element={<AdminTraining />} />
           <Route path="statistic" element={<Statistic />} />
           <Route path="chat" element={<EmployeeChat />} />
@@ -91,18 +97,18 @@ root.render(
           {/* <Route index element={<Dashboard />}></Route> */}
           <Route path="infor" element={<EmployeeInfor />} />
           <Route path="attendance" element={<EmployeeAttendance />} />
-         
+
           {/* <Route path="salary" element={<Salary />} /> */}
 
           <Route path="department" element={<Department />} />
           <Route path="project" element={<ManagerProject />} />
-        
+          <Route path="training" element={<EmployeeTraining />} />
           <Route path="chat" element={<EmployeeChat />} />
         </Route>
       </Routes>
     </BrowserRouter>
-    </Provider>
-    
+  </Provider>
+
 );
 
 reportWebVitals();
