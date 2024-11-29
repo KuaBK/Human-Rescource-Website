@@ -1,13 +1,12 @@
 package com.Phong.BackEnd.repository;
 
-import java.util.Optional;
-
 import com.Phong.BackEnd.entity.Account;
-import com.Phong.BackEnd.entity.personel.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Phong.BackEnd.entity.personel.Manager;
+import com.Phong.BackEnd.entity.personnel.Manager;
+
+import java.util.Optional;
 
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager, Long> {

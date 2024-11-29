@@ -11,9 +11,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountUpdateRequest {
-    @Size(min = 8, message = "INVALID_PASSWORD")
     String password;
-
     //    @DobValid(min = 18, message = "INVALID_DOB")
     //    LocalDate dob;
 }

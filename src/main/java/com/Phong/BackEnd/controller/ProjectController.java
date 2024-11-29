@@ -26,17 +26,17 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping("/{projectId}")
-    public ResponseEntity<ApiResponse<ProjectResponse>> getProject(@PathVariable int projectId) {
-        ProjectResponse project = projectService.getProject(projectId);
+    @GetMapping()
+    public ResponseEntity<ApiResponse<ProjectResponse>> getProject(@RequestParam int id) {
+        ProjectResponse project = projectService.getProject(id);
         return ResponseEntity.ok(ApiResponse.<ProjectResponse>builder()
                 .message("Project fetched successfully")
                 .result(project)
                 .build());
     }
 
-    @GetMapping("/department/{deptId}")
-    public ResponseEntity<ApiResponse<List<ProjectResponse>>> getProjectsByDepartment(@PathVariable int deptId) {
+    @GetMapping("/department")
+    public ResponseEntity<ApiResponse<List<ProjectResponse>>> getProjectsByDepartment(@RequestParam int deptId) {
         List<ProjectResponse> projects = projectService.getProjectsByDeptId(deptId);
         return ResponseEntity.ok(ApiResponse.<List<ProjectResponse>>builder()
                 .message("Projects fetched successfully")
@@ -44,7 +44,7 @@ public class ProjectController {
                 .build());
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<ProjectResponse>> createProject(@RequestBody @Valid ProjectCreateRequest request) {
         ProjectResponse project = projectService.createProject(request);
         return ResponseEntity.ok(ApiResponse.<ProjectResponse>builder()
@@ -53,7 +53,7 @@ public class ProjectController {
                 .build());
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<ProjectResponse>>> getAllProjects() {
         List<ProjectResponse> projects = projectService.getAllProjects();
         return ResponseEntity.ok(ApiResponse.<List<ProjectResponse>>builder()
@@ -62,9 +62,9 @@ public class ProjectController {
                 .build());
     }
 
-    @GetMapping("/employees/{projectId}")
-    public ResponseEntity<ApiResponse<List<EIPResponse>>> findEmployeesInProject(@PathVariable int projectId) {
-        List<EIPResponse> employees = projectService.findEmployeesInProject(projectId);
+    @GetMapping("/employees")
+    public ResponseEntity<ApiResponse<List<EIPResponse>>> findEmployeesInProject(@RequestParam int code) {
+        List<EIPResponse> employees = projectService.findEmployeesInProject(code);
         return ResponseEntity.ok(ApiResponse.<List<EIPResponse>>builder()
                 .message("Employees in project fetched successfully")
                 .result(employees)

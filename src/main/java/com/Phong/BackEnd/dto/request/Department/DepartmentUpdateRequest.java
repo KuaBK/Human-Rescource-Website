@@ -11,8 +11,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DepartmentUpdateRequest {
     String departmentName;
-    String address;
-
+//    String address;
     Integer employeeNumber;
 
     Long managerId;

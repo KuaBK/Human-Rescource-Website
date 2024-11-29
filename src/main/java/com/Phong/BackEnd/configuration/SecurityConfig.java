@@ -1,6 +1,5 @@
 package com.Phong.BackEnd.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -20,10 +19,27 @@ public class SecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
         "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh",
-        "/account/myInfo", "/account", "/account/create", "/account/{userId}",
+        "/account/myInfo", "/account", "/account/create", "/account/getAll",
+
+        "/employee", "/employee/create", "/employee/update", "/employee/assign-to-department", "/employee/delete",
+        "/employee/department", "/employee/account", "/employee/all",
+
+        "/managers", "/managers/create", "/managers/account", "/managers/all", "/managers/update",
+        "/managers/delete", "/managers/assign", "/managers/remove",
+
         "/attendance/checkIn/{employeeId}", "/attendance/checkOut/{employeeId}",
-        "/images/upload",
-        "/files/upload", "/files/personel/{personelCode}"
+
+        "/departments", "/departments/create", "/departments/all", "/departments/update", "/departments/delete",
+
+       "/projects", "/projects/create", "/projects/all", "/projects/update", "/projects/delete",
+       "/projects/assign", "/projects/remove", "/projects/department", "/projects/employees",
+
+        "/tasks", "/tasks/create", "/tasks/all", "/tasks/status-update", "/tasks/assign",
+        "/tasks/project", "/tasks/employee",
+
+        "/images", "/images/upload",
+        "/files", "/files/upload", "/files/personnel",
+
     };
 
     private final CustomJwtDecoder customJwtDecoder;

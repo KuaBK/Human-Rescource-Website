@@ -36,8 +36,8 @@ public class ImageController {
                 .build();
     }
 
-    @GetMapping("/{id}")
-    public ApiResponse<String> getImage(@PathVariable Long id) {
+    @GetMapping()
+    public ApiResponse<String> getImage(@RequestParam Long id) {
         Image image = imageService.getImage(id);
         return ApiResponse.<String>builder()
                 .code(1000)

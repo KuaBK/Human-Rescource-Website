@@ -5,7 +5,7 @@ import java.util.Set;
 import jakarta.persistence.*;
 
 import com.Phong.BackEnd.entity.departments.Department;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -30,11 +30,11 @@ public class Projects {
     @Column(name = "description")
     String projectDescription;
 
-    @Enumerated(EnumType.STRING)
-    ProjectStatus projectStatus;
+//    @Enumerated(EnumType.STRING)
+//    ProjectStatus projectStatus;
 
     @ManyToOne
-    @JoinColumn(name = "DepartmentId")
+    @JoinColumn(name = "department_id")
     Department department;
 
     @Column(name = "participants")

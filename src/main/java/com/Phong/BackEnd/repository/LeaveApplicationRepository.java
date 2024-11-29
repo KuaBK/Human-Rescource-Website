@@ -1,7 +1,7 @@
 package com.Phong.BackEnd.repository;
 
 import com.Phong.BackEnd.entity.leaveApplication.LeaveApplication;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

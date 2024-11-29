@@ -4,8 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import com.Phong.BackEnd.entity.personel.Position;
-import com.Phong.BackEnd.entity.personel.Gender;
+import com.Phong.BackEnd.entity.personnel.Position;
+import com.Phong.BackEnd.entity.personnel.Gender;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -33,6 +33,7 @@ public class EmployeeCreateRequest {
     String phone;
 
     String city;
+
     String street;
 
     Position position;

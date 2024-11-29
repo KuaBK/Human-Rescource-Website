@@ -1,7 +1,6 @@
 package com.Phong.BackEnd.service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.Phong.BackEnd.entity.projects.ProjectStatus;
@@ -14,11 +13,10 @@ import com.Phong.BackEnd.dto.request.Project.EIPRequest;
 import com.Phong.BackEnd.dto.response.Project.ProjectResponse;
 import com.Phong.BackEnd.dto.response.Project.EIPResponse;
 import com.Phong.BackEnd.entity.departments.Department;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.projects.Projects;
 import com.Phong.BackEnd.repository.DepartmentRepository;
 import com.Phong.BackEnd.repository.EmployeeRepository;
-import com.Phong.BackEnd.repository.ProjectRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -62,11 +60,11 @@ public class ProjectService {
                 .findById(request.getDepartmentId())
                 .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
 
-        ProjectStatus status = ProjectStatus.IN_PROGRESS;
+//        ProjectStatus status = ProjectStatus.IN_PROGRESS;
         Projects project = Projects.builder()
                 .projectName(request.getProjectName())
                 .projectDescription(request.getProjectDescription())
-                .projectStatus(status)
+//                .projectStatus(status)
                 .department(department)
                 .participants(request.getParticipants())
                 .build();
@@ -142,7 +140,7 @@ public class ProjectService {
                 .projectId(project.getProjectId())
                 .projectName(project.getProjectName())
                 .projectDescription(project.getProjectDescription())
-                .projectStatus(project.getProjectStatus().name())
+//                .projectStatus(project.getProjectStatus().name())
                 .departmentName(project.getDepartment() != null ? project.getDepartment().getDepartmentName() : null)
                 .participants(project.getParticipants())
                 .build();

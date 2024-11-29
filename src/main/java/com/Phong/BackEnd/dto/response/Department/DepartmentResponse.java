@@ -15,7 +15,6 @@ public class DepartmentResponse {
     String departmentName;
     int employeeNumber;
     LocalDate establishmentDate;
-    String address;
     Long managerId;
 }
 

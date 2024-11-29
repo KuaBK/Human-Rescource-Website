@@ -1,6 +1,6 @@
 package com.Phong.BackEnd.repository;
 
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

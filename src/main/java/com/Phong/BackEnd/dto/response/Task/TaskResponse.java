@@ -14,7 +14,7 @@ public class TaskResponse {
     Long tasksId;
     String title;
     String description;
-    LocalDateTime deadline;
+    LocalDateTime due;
     String status;
     String projectName;
     String employeeName;

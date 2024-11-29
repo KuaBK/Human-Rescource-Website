@@ -14,10 +14,8 @@ import jakarta.validation.constraints.NotBlank;
 public class DepartmentCreateRequest {
     @NotBlank(message = "Department name is required")
     String departmentName;
-    String address;
-
+//    String address;
     @Builder.Default
     int employeeNumber = 0;
-
     Long managerId;
 }

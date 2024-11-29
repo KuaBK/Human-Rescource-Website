@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 
@@ -70,19 +71,18 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var user = accountRepository
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-//        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
-        boolean authenticated = request.getPassword().equals(user.getPassword());
-
+        boolean authenticated = (Objects.equals(request.getPassword(), user.getPassword()));
         if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         var token = generateToken(user);
 
         return AuthenticationResponse.builder()
+                .accountId(user.getId())
+                .role(user.getRole().toString())
                 .token(token.token)
                 .expiryTime(token.expiryDate)
                 .authenticated(true)
@@ -107,6 +107,8 @@ public class AuthenticationService {
         var token = generateToken(user);
 
         return AuthenticationResponse.builder()
+                .accountId(user.getId())
+                .role(user.getRole().toString())
                 .token(token.token)
                 .expiryTime(expirationTime)
                 .authenticated(true)

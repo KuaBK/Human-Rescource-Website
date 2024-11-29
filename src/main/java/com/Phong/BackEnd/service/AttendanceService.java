@@ -9,13 +9,12 @@ import java.util.Optional;
 import com.Phong.BackEnd.configuration.SalaryRate;
 import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
 import com.Phong.BackEnd.repository.SalaryBoardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Phong.BackEnd.entity.attendance.Attendance;
 import com.Phong.BackEnd.entity.attendance.Type;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.exception.AppException;
 import com.Phong.BackEnd.exception.ErrorCode;
 import com.Phong.BackEnd.repository.AttendanceRepository;

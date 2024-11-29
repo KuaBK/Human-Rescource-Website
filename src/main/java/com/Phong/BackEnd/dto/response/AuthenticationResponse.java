@@ -11,6 +11,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationResponse {
+    String accountId;
+    String role;
     String token;
     Date expiryTime;
     boolean authenticated;

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.Phong.BackEnd.dto.response.File.FileResponse;
-import com.Phong.BackEnd.entity.personel.Personel;
-import com.Phong.BackEnd.repository.PersonelRepository;
+import com.Phong.BackEnd.entity.personnel.Personnel;
+import com.Phong.BackEnd.repository.PersonnelRepository;
 import com.Phong.BackEnd.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,20 +24,20 @@ public class FileService {
     private final Cloudinary cloudinary;
     private final FileRepository fileRepository;
     private final JwtUtils jwtUtils;
-    private final PersonelRepository personelRepository;
+    private final PersonnelRepository personnelRepository;
 
     @Autowired
     public FileService(Cloudinary cloudinary, FileRepository fileRepository,
-                       JwtUtils jwtUtils, PersonelRepository personelRepository) {
+                       JwtUtils jwtUtils, PersonnelRepository personnelRepository) {
         this.cloudinary = cloudinary;
         this.fileRepository = fileRepository;
         this.jwtUtils = jwtUtils;
-        this.personelRepository = personelRepository;
+        this.personnelRepository = personnelRepository;
     }
 
     public FileResponse uploadFile(MultipartFile file, Long id) {
 
-        Personel personel = personelRepository
+        Personnel personnel = personnelRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -54,22 +54,8 @@ public class FileService {
                 throw new IllegalArgumentException("Only PDF and DOCX files are supported");
             }
 
-            String resourceType = "raw"; 
+            String resourceType = "raw";
             String format = "application/pdf".equals(fileType) ? "pdf" : "docx";
-
-//            // Phân loại file dựa trên MIME type
-//            if ("application/pdf".equals(fileType)) {
-//                resourceType = "image"; // Xử lý file PDF
-//                format = "pdf";
-//            } else if ("application/vnd.openxmlformats-officedocument.wordprocessingml.document".equals(fileType)) {
-//                resourceType = "raw"; // Xử lý file DOCX
-//                format = "docx";
-//            } else if (fileType.startsWith("image/")) {
-//                resourceType = "image"; // Xử lý file ảnh
-//                format = fileType.substring("image/".length());
-//            } else {
-//                throw new IllegalArgumentException("Unsupported file type: " + fileType);
-//            }
 
             // Upload file lên Cloudinary
             Map uploadResult = cloudinary.uploader().upload(
@@ -84,17 +70,17 @@ public class FileService {
                     .fileType(format)
                     .fileUrl(fileUrl)
                     .uploadDate(new Date())
-                    .uploadedBy(personel)
+                    .uploadedBy(personnel)
                     .build();
 
             File savedFile = fileRepository.save(uploadedFile);
 
-            if (personel.getFiles() != null) {
-                personel.getFiles().add(savedFile);
+            if (personnel.getFiles() != null) {
+                personnel.getFiles().add(savedFile);
             } else {
-                personel.setFiles(List.of(savedFile));
+                personnel.setFiles(List.of(savedFile));
             }
-            personelRepository.save(personel);
+            personnelRepository.save(personnel);
 
             return FileResponse.builder()
                     .id(savedFile.getId())
@@ -102,7 +88,7 @@ public class FileService {
                     .fileType(savedFile.getFileType())
                     .fileUrl(savedFile.getFileUrl())
                     .uploadDate(savedFile.getUploadDate())
-                    .uploadedBy(personel.getFirstName() + " " + personel.getLastName())
+                    .uploadedBy(personnel.getFirstName() + " " + personnel.getLastName())
                     .build();
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload file", e);
@@ -110,9 +96,9 @@ public class FileService {
     }
 
     public List<File> getAllFilesByPersonel(Long personelCode) {
-        Personel personel = personelRepository.findById(personelCode)
+        Personnel personnel = personnelRepository.findById(personelCode)
                 .orElseThrow(() -> new RuntimeException("Personel not found with code: " + personelCode));
-        return personel.getFiles();
+        return personnel.getFiles();
     }
 
     public File getFileById(Long id) {

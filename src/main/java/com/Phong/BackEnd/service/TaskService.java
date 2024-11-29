@@ -2,7 +2,7 @@ package com.Phong.BackEnd.service;
 
 import com.Phong.BackEnd.dto.request.Task.TaskRequest;
 import com.Phong.BackEnd.dto.response.Task.TaskResponse;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.projects.Projects;
 import com.Phong.BackEnd.entity.tasks.StatusTasks;
 import com.Phong.BackEnd.entity.tasks.Tasks;
@@ -38,7 +38,7 @@ public class TaskService {
         Tasks task = Tasks.builder()
                 .title(taskRequestDTO.getTitle())
                 .description(taskRequestDTO.getDescription())
-                .deadline(taskRequestDTO.getDeadline())
+                .due(taskRequestDTO.getDue())
                 .status(status)
                 .project(project)
                 .employee(employee)
@@ -101,7 +101,7 @@ public class TaskService {
                 .tasksId(task.getTasksId())
                 .title(task.getTitle())
                 .description(task.getDescription())
-                .deadline(task.getDeadline())
+                .due(task.getDue())
                 .status(task.getStatus().name())
                 .projectName(task.getProject() != null ? task.getProject().getProjectName() : null)
                 .employeeName(task.getEmployee() != null

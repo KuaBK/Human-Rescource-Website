@@ -17,7 +17,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<TaskResponse>> createTask(@RequestBody TaskRequest taskRequestDTO) {
         TaskResponse taskResponse = taskService.createTask(taskRequestDTO);
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
@@ -26,8 +26,8 @@ public class TaskController {
                 .build());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<TaskResponse>> getTask(@PathVariable Long id) {
+    @GetMapping()
+    public ResponseEntity<ApiResponse<TaskResponse>> getTask(@RequestParam Long id) {
         TaskResponse taskResponse = taskService.getTask(id);
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
                 .message("Task fetched successfully")
@@ -35,7 +35,7 @@ public class TaskController {
                 .build());
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<TaskResponse>>> getAllTasks() {
         List<TaskResponse> tasks = taskService.getAllTasks();
         return ResponseEntity.ok(ApiResponse.<List<TaskResponse>>builder()
@@ -44,9 +44,9 @@ public class TaskController {
                 .build());
     }
 
-    @PatchMapping("/status/{id}")
+    @PatchMapping("/status-update")
     public ResponseEntity<ApiResponse<TaskResponse>> updateTaskStatus(
-            @PathVariable Long id, @RequestParam String status) {
+            @RequestParam Long id, @RequestParam String status) {
         TaskResponse taskResponse = taskService.updateTaskStatus(id, status);
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
                 .message("Task status updated successfully")
@@ -54,9 +54,9 @@ public class TaskController {
                 .build());
     }
 
-    @PatchMapping("/{taskId}/assign/{employeeId}")
+    @PatchMapping("/assign")
     public ResponseEntity<ApiResponse<TaskResponse>> assignTaskToEmployee(
-            @PathVariable Long taskId, @PathVariable Long employeeId) {
+            @RequestParam Long taskId, @RequestParam Long employeeId) {
         TaskResponse taskResponse = taskService.assignTaskToEmployee(taskId, employeeId);
         return ResponseEntity.ok(ApiResponse.<TaskResponse>builder()
                 .message("Task assigned successfully")
@@ -64,18 +64,18 @@ public class TaskController {
                 .build());
     }
 
-    @GetMapping("/project/{projectId}")
-    public ResponseEntity<ApiResponse<List<TaskResponse>>> getTasksByProjectId(@PathVariable int projectId) {
-        List<TaskResponse> tasks = taskService.getTasksByProjectId(projectId);
+    @GetMapping("/project")
+    public ResponseEntity<ApiResponse<List<TaskResponse>>> getTasksByProjectId(@RequestParam int id) {
+        List<TaskResponse> tasks = taskService.getTasksByProjectId(id);
         return ResponseEntity.ok(ApiResponse.<List<TaskResponse>>builder()
                 .message("Tasks fetched successfully by project")
                 .result(tasks)
                 .build());
     }
 
-    @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<ApiResponse<List<TaskResponse>>> getTasksByEmployeeCode(@PathVariable Long employeeId) {
-        List<TaskResponse> tasks = taskService.getTasksByEmployeeCode(employeeId);
+    @GetMapping("/employee")
+    public ResponseEntity<ApiResponse<List<TaskResponse>>> getTasksByEmployeeCode(@RequestParam Long code) {
+        List<TaskResponse> tasks = taskService.getTasksByEmployeeCode(code);
         return ResponseEntity.ok(ApiResponse.<List<TaskResponse>>builder()
                 .message("Tasks fetched successfully by employee")
                 .result(tasks)

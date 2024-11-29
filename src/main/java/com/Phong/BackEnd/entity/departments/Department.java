@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.projects.Projects;
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.Phong.BackEnd.entity.personel.Manager;
+import com.Phong.BackEnd.entity.personnel.Manager;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.*;
@@ -25,7 +25,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(
         name = "department",
-        uniqueConstraints = {@UniqueConstraint(columnNames = "departmentName")})
+        uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +42,9 @@ public class Department {
     @Column(updatable = false)
     LocalDate establishmentDate;
 
-    String address;
-
     @OneToOne
     @JsonManagedReference
-    @JoinColumn(name = "ManagerCode", unique = true)
+    @JoinColumn(name = "manager_code", unique = true)
     Manager manager;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import com.Phong.BackEnd.dto.response.Employee.EWDResponse;
 import com.Phong.BackEnd.dto.response.Employee.EmplResponse;
-import com.Phong.BackEnd.entity.personel.Personel;
 import com.Phong.BackEnd.entity.tasks.Tasks;
 import com.Phong.BackEnd.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,8 +21,8 @@ import com.Phong.BackEnd.dto.request.Employee.EmployeeUpdateRequest;
 import com.Phong.BackEnd.dto.response.Employee.EmployeeResponse;
 import com.Phong.BackEnd.entity.Account;
 import com.Phong.BackEnd.entity.departments.Department;
-import com.Phong.BackEnd.entity.personel.Employee;
-import com.Phong.BackEnd.entity.personel.Position;
+import com.Phong.BackEnd.entity.personnel.Employee;
+import com.Phong.BackEnd.entity.personnel.Position;
 import com.Phong.BackEnd.entity.projects.Projects;
 
 @Service
@@ -74,7 +73,7 @@ public class EmployeeService {
                 .phone(request.getPhone())
                 .city(request.getCity())
                 .street(request.getStreet())
-                .avatar(request.getAvatar())
+//                .avatar(request.getAvatar())
                 .gender(request.getGender())
                 .department(department)
                 .position(position)
@@ -94,7 +93,7 @@ public class EmployeeService {
                 .phone(savedEmployee.getPhone())
                 .city(savedEmployee.getCity())
                 .street(savedEmployee.getStreet())
-                .avatar(savedEmployee.getAvatar())
+//                .avatar(savedEmployee.getAvatar())
                 .gender(savedEmployee.getGender())
                 .departmentName(department != null ? department.getDepartmentName() : null)
                 .position(savedEmployee.getPosition())
@@ -174,6 +173,14 @@ public class EmployeeService {
                 .orElseThrow(() -> new EntityNotFoundException("Employee không tồn tại"));
     }
 
+    public EmployeeResponse getEmployeeByAccountId(String accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account không tồn tại"));
+        Employee employee = employeeRepository.findByAccount(account)
+                .orElseThrow(() -> new EntityNotFoundException("Employee không tồn tại cho Account này"));
+        return toDto(employee);
+    }
+
     @Transactional
     public void deleteEmployee(Long code) {
         Employee employee =  employeeRepository.findById(code)
@@ -191,7 +198,6 @@ public class EmployeeService {
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
-
 
     public EmployeeResponse toDto(Employee employee) {
         Department department = employee.getDepartment();
@@ -216,7 +222,6 @@ public class EmployeeService {
                 .projectInvolved(employee.getProject_involved())
                 .build();
     }
-
 
     @Transactional
     public EWDResponse addEmployeeToDepartment(Long employeeId, Long departmentId) {
@@ -248,22 +253,13 @@ public class EmployeeService {
 
         return toDTO(newDepartment);
     }
+
     public EWDResponse getAllEmployeeInDepartment(Long departmentId) {
         Department department = departmentRepository
                 .findById(departmentId)
                 .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
 
         return toDTO(department);
-    }
-
-    public EmployeeResponse getEmployeeByAccountId(String accountId) {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new EntityNotFoundException("Account không tồn tại"));
-
-        Employee employee = employeeRepository.findByAccount(account)
-                .orElseThrow(() -> new EntityNotFoundException("Employee không tồn tại cho Account này"));
-
-        return toDto(employee);
     }
 
     public EWDResponse toDTO(Department department) {

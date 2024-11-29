@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
 import jakarta.persistence.*;
 
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,18 +16,20 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
 @Entity
+@Table(name = "leave_application")
 public class LeaveApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "EmployeeCode")
+    @JoinColumn(name = "employee_code")
     Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "SalaryId")
+    @JoinColumn(name = "salary_id")
     SalaryBoard salaryBoard;
 
     LocalDate startDate;

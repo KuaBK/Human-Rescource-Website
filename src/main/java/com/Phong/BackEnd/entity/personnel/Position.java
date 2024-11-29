@@ -1,4 +1,4 @@
-package com.Phong.BackEnd.entity.personel;
+package com.Phong.BackEnd.entity.personnel;
 
 public enum Position {
     MANAGER,

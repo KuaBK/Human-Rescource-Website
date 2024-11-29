@@ -2,7 +2,7 @@ package com.Phong.BackEnd.entity.files;
 
 import java.util.Date;
 
-import com.Phong.BackEnd.entity.personel.Personel;
+import com.Phong.BackEnd.entity.personnel.Personnel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -23,18 +23,21 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(name = "file_name")
     String fileName;
 
+    @Column(name = "file_type")
     String fileType;
 
+    @Column(name = "file_url")
     String fileUrl;
 
-    @Column(updatable = false)
+    @Column(name = "upload_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date uploadDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "personel_code", referencedColumnName = "Code")
     @JsonBackReference
-    Personel uploadedBy;
+    Personnel uploadedBy;
 }

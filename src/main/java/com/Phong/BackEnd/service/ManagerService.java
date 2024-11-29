@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.Phong.BackEnd.dto.request.Manager.MTDResponse;
 import com.Phong.BackEnd.dto.response.Employee.EmployeeResponse;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import jakarta.persistence.EntityNotFoundException;
 
 import jakarta.transaction.Transactional;
@@ -17,8 +17,8 @@ import com.Phong.BackEnd.dto.request.Manager.ManagerUpdateRequest;
 import com.Phong.BackEnd.dto.response.Manager.ManagerResponse;
 import com.Phong.BackEnd.entity.Account;
 import com.Phong.BackEnd.entity.departments.Department;
-import com.Phong.BackEnd.entity.personel.Manager;
-import com.Phong.BackEnd.entity.personel.Position;
+import com.Phong.BackEnd.entity.personnel.Manager;
+import com.Phong.BackEnd.entity.personnel.Position;
 import com.Phong.BackEnd.repository.*;
 
 @Service
@@ -63,10 +63,11 @@ public class ManagerService {
                 .gender(request.getGender())
                 .department(department)
                 .position(position)
-                .manageDate(LocalDate.now())
+                .manageDate((department != null) ? LocalDate.now() : null)
                 .build();
 
-        department.setManager(manager);
+        if(department != null) { department.setManager(manager); departmentRepository.save(department); }
+
         Manager savedManager = managerRepository.save(manager);
 
         return ManagerResponse.builder()
@@ -116,6 +117,14 @@ public class ManagerService {
                 .orElseThrow(() -> new EntityNotFoundException("Manager không tồn tại"));
     }
 
+    public ManagerResponse getManagerByAccountId(String accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account không tồn tại"));
+        Manager manager = managerRepository.findByAccount(account)
+                .orElseThrow(() -> new EntityNotFoundException("Manager không tồn tại cho Account này"));
+        return toDto(manager);
+    }
+
     public List<Manager> getAllManagers() {
         return managerRepository.findAll();
     }
@@ -159,22 +168,13 @@ public class ManagerService {
             department.setManager(null);
 
             currentManager.setDepartment(null);
+            currentManager.setManageDate(null);
 
             departmentRepository.save(department);
             managerRepository.save(currentManager);
         } else {
             throw new IllegalStateException("No manager assigned to this department.");
         }
-    }
-
-    public ManagerResponse getManagerByAccountId(String accountId) {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new EntityNotFoundException("Account không tồn tại"));
-
-        Manager manager = managerRepository.findByAccount(account)
-                .orElseThrow(() -> new EntityNotFoundException("Manager không tồn tại cho Account này"));
-
-        return toDto(manager);
     }
 
     public ManagerResponse toDto(Manager manager) {

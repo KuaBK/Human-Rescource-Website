@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.projects.Projects;
 
 import lombok.*;
@@ -29,18 +29,18 @@ public class Tasks {
     @Column(name = "Description")
     String description;
 
-    @Column(name = "DeadLine")
-    LocalDateTime deadline;
+    @Column(name = "due")
+    LocalDateTime due;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Stastus")
+    @Column(name = "status")
     StatusTasks status;
 
     @ManyToOne
-    @JoinColumn(name = "ProjectId")
+    @JoinColumn(name = "project_id")
     Projects project;
 
     @ManyToOne
-    @JoinColumn(name = "EmployeeCode")
+    @JoinColumn(name = "employee_code")
     Employee employee;
 }

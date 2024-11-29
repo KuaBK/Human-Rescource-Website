@@ -16,12 +16,12 @@ import com.Phong.BackEnd.dto.request.Employee.EmployeeCreateRequest;
 import com.Phong.BackEnd.dto.request.Employee.EmployeeUpdateRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
 import com.Phong.BackEnd.dto.response.Employee.EmployeeResponse;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.repository.AttendanceRepository;
 import com.Phong.BackEnd.service.EmployeeService;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/employee")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -33,7 +33,7 @@ public class EmployeeController {
         this.attendanceRepository = attendanceRepository;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<EmployeeResponse>> createEmployee(
             @RequestBody @Valid EmployeeCreateRequest request) {
         EmployeeResponse responseDto = employeeService.createEmployee(request);
@@ -43,10 +43,10 @@ public class EmployeeController {
                 .build());
     }
 
-    @PatchMapping("/{personelCode}")
+    @PatchMapping("/update")
     public ResponseEntity<ApiResponse<EmployeeResponse>> updateEmployee(
-            @PathVariable Long personelCode, @RequestBody EmployeeUpdateRequest updates) {
-        Employee updatedEmployee = employeeService.patchEmployee(personelCode, updates);
+            @RequestParam Long personnel_code, @RequestBody EmployeeUpdateRequest updates) {
+        Employee updatedEmployee = employeeService.patchEmployee(personnel_code, updates);
         EmployeeResponse responseDto = employeeService.toDto(updatedEmployee);
         return ResponseEntity.ok(ApiResponse.<EmployeeResponse>builder()
                 .message("Employee updated successfully")
@@ -54,9 +54,9 @@ public class EmployeeController {
                 .build());
     }
 
-    @GetMapping("/{personelCode}")
-    public ResponseEntity<ApiResponse<EmployeeResponse>> getEmployee(@PathVariable Long personelCode) {
-        Employee employee = employeeService.getEmployeeByPersonelCode(personelCode);
+    @GetMapping()
+    public ResponseEntity<ApiResponse<EmployeeResponse>> getEmployee(@RequestParam Long personnel_code) {
+        Employee employee = employeeService.getEmployeeByPersonelCode(personnel_code);
         EmployeeResponse responseDto = employeeService.toDto(employee);
         return ResponseEntity.ok(ApiResponse.<EmployeeResponse>builder()
                 .message("Employee fetched successfully")
@@ -64,11 +64,17 @@ public class EmployeeController {
                 .build());
     }
 
+    @GetMapping("/account")
+    public ResponseEntity<EmployeeResponse> getEmployeeByAccountId(@RequestParam String id) {
+        EmployeeResponse employeeResponse = employeeService.getEmployeeByAccountId(id);
+        return ResponseEntity.ok(employeeResponse);
+    }
+
     @Transactional
-    @DeleteMapping("/{personelCode}")
-    public ResponseEntity<ApiResponse<Void>> deleteEmployee(@PathVariable Long personelCode) {
-        attendanceRepository.deleteByEmployeeCode(personelCode);
-        employeeService.deleteEmployee(personelCode);
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<Void>> deleteEmployee(@RequestParam Long personnel_code) {
+        attendanceRepository.deleteByEmployeeCode(personnel_code);
+        employeeService.deleteEmployee(personnel_code);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
                 .message("Employee deleted successfully")
                 .build());
@@ -85,10 +91,10 @@ public class EmployeeController {
                 .build());
     }
 
-    @GetMapping("/department/{departmentId}")
+    @GetMapping("/department")
     public ResponseEntity<ApiResponse<EWDResponse>> getAllEmployeeInDepartment(
-            @PathVariable Long departmentId) {
-        EWDResponse ewdResponse = employeeService.getAllEmployeeInDepartment(departmentId);
+            @RequestParam Long id) {
+        EWDResponse ewdResponse = employeeService.getAllEmployeeInDepartment(id);
 
         return ResponseEntity.ok(ApiResponse.<EWDResponse>builder()
                 .code(1000)
@@ -97,10 +103,10 @@ public class EmployeeController {
                 .build());
     }
 
-    @PostMapping("/{employeeId}/department/{departmentId}")
+    @PostMapping("/assign-to-department")
     public ResponseEntity<ApiResponse<EWDResponse>> addEmployeeToDepartment(
-            @PathVariable Long employeeId,
-            @PathVariable Long departmentId) {
+            @RequestParam Long employeeId,
+            @RequestParam Long departmentId) {
         try {
             EWDResponse ewdResponse = employeeService.addEmployeeToDepartment(employeeId, departmentId);
             return ResponseEntity.ok(ApiResponse.<EWDResponse>builder()
@@ -115,11 +121,5 @@ public class EmployeeController {
                     .result(null)
                     .build());
         }
-    }
-
-    @GetMapping("/account/{accountId}")
-    public ResponseEntity<EmployeeResponse> getEmployeeByAccountId(@PathVariable String accountId) {
-        EmployeeResponse employeeResponse = employeeService.getEmployeeByAccountId(accountId);
-        return ResponseEntity.ok(employeeResponse);
     }
 }

@@ -1,6 +1,6 @@
 package com.Phong.BackEnd.dto.response.Employee;
 
-import com.Phong.BackEnd.entity.personel.Gender;
+import com.Phong.BackEnd.entity.personnel.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

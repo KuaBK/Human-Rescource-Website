@@ -1,4 +1,4 @@
-package com.Phong.BackEnd.entity.personel;
+package com.Phong.BackEnd.entity.personnel;
 
 import java.time.LocalDate;
 
@@ -21,9 +21,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Table(name = "manager")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Manager extends Personel {
+public class Manager extends Personnel {
     @CreationTimestamp
-    @Column(name = "ManageDate")
+    @Column(name = "manage_date")
     LocalDate manageDate;
 
     @OneToOne

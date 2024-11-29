@@ -1,4 +1,4 @@
-package com.Phong.BackEnd.entity.personel;
+package com.Phong.BackEnd.entity.personnel;
 
 import com.Phong.BackEnd.entity.files.File;
 import jakarta.persistence.*;
@@ -23,49 +23,49 @@ import java.util.List;
 @Entity
 @Table(name = "personnel")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Personel {
+public class Personnel {
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "AccountId", referencedColumnName = "Id")
+    @JoinColumn(name = "account_id", referencedColumnName = "Id")
     Account account;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Code", unique = true)
+    @Column(name = "code", unique = true)
     Long code;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Position")
+    @Column(name = "position")
     Position position;
 
     @NotBlank
-    @Column(name = "FirstName")
+    @Column(name = "first_name")
     String firstName;
 
     @NotBlank
-    @Column(name = "LastName")
+    @Column(name = "last_name")
     String lastName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     Gender gender;
-    // LocalDate dob;
 
     @NotBlank
     @Email
-    @Column(name = "Email")
+    @Column(name = "email")
     String email;
 
     @Size(max = 10)
-    @Column(name = "Phone")
+    @Column(name = "phone")
     String phone;
 
-    @Column(name = "City")
+    @Column(name = "city")
     String city;
 
+    @Column(name = "street")
     String street;
 
-    @Column(name = "Avatar")
+    @Column(name = "avatar")
     private String avatar;
 
     @OneToMany(mappedBy = "uploadedBy", cascade = CascadeType.ALL, orphanRemoval = true)

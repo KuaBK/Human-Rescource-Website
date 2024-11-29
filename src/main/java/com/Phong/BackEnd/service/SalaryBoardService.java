@@ -3,7 +3,7 @@ package com.Phong.BackEnd.service;
 import com.Phong.BackEnd.configuration.SalaryRate;
 import com.Phong.BackEnd.dto.request.SalaryBoard.SalaryBoardRequest;
 import com.Phong.BackEnd.dto.response.SalaryBoard.SalaryBoardResponse;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
 import com.Phong.BackEnd.repository.EmployeeRepository;
 import com.Phong.BackEnd.repository.SalaryBoardRepository;

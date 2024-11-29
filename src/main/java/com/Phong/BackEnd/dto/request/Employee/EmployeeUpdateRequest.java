@@ -1,7 +1,7 @@
 package com.Phong.BackEnd.dto.request.Employee;
 
-import com.Phong.BackEnd.entity.personel.Position;
-import com.Phong.BackEnd.entity.personel.Gender;
+import com.Phong.BackEnd.entity.personnel.Position;
+import com.Phong.BackEnd.entity.personnel.Gender;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

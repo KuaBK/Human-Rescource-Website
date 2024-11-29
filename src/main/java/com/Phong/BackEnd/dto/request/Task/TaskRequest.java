@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class TaskRequest {
     String title;
     String description;
-    LocalDateTime deadline;
+    LocalDateTime due;
     String status;
     Long projectId;
     Long employeeId;

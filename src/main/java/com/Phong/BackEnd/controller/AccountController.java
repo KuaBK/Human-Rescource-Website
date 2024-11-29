@@ -47,10 +47,10 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/{userId}")
-    ApiResponse<AccountResponse> getUser(@PathVariable("userId") String userId) {
+    @GetMapping()
+    ApiResponse<AccountResponse> getUser(@RequestParam String id) {
         return ApiResponse.<AccountResponse>builder()
-                .result(accountService.getUser(userId))
+                .result(accountService.getUser(id))
                 .build();
     }
 
@@ -61,17 +61,17 @@ public class AccountController {
                 .build();
     }
 
-    @DeleteMapping("/{userId}")
-    ApiResponse<String> deleteUser(@PathVariable String userId) {
+    @DeleteMapping("/delete")
+    ApiResponse<String> deleteUser(@RequestParam String userId) {
         accountService.deleteUser(userId);
         return ApiResponse.<String>builder().result("User has been deleted").build();
     }
 
-    @PutMapping("/{userId}")
-    ApiResponse<AccountResponse> updateUser(@PathVariable String userId, @RequestBody AccountUpdateRequest request) {
+    @PutMapping()
+    ApiResponse<AccountResponse> updateUser(@RequestParam String id, @RequestBody AccountUpdateRequest request) {
         return ApiResponse.<AccountResponse>builder()
                 .message("Update Account Successfully")
-                .result(accountService.updateUser(userId, request))
+                .result(accountService.updateUser(id, request))
                 .build();
     }
 }

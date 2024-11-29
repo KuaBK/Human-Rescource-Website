@@ -2,7 +2,7 @@ package com.Phong.BackEnd.entity.images;
 
 import jakarta.persistence.*;
 
-import com.Phong.BackEnd.entity.personel.Personel;
+import com.Phong.BackEnd.entity.personnel.Personnel;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +27,6 @@ public class Image {
     String cloudinaryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "personel_code", referencedColumnName = "Code")
-    Personel uploadedBy;
+    @JoinColumn(name = "personel_code", referencedColumnName = "code")
+    Personnel uploadedBy;
 }

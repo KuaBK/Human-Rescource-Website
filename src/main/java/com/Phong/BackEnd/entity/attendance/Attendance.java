@@ -4,11 +4,10 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,17 +26,22 @@ public class Attendance {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
-    @JoinColumn(name = "EmployeeCode", referencedColumnName = "code")
+    @JoinColumn(name = "employee_code", referencedColumnName = "code")
     Employee employee;
 
     @Enumerated(EnumType.STRING)
     Type type;
 
+    @Column(name = "date")
     LocalDate date;
 
+    @Column(name = "check_in_time")
     LocalDateTime checkInTime;
+
+    @Column(name = "check_out_time")
     LocalDateTime checkOutTime;
 
+    @Column(name = "duration")
     String duration;
 
     public void updateDuration() {

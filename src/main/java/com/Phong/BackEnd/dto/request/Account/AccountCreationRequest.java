@@ -11,12 +11,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountCreationRequest {
-    @Size(min = 9, max = 24, message = "USERNAME_INVALID")
     String username;
-
-    @Size(min = 8, message = "INVALID_PASSWORD")
     String password;
-
-    //    @DobValid(min = 18, message = "INVALID_DOB")
-    //    LocalDate dob;
 }

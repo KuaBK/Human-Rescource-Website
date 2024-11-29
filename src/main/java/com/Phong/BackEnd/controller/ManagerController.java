@@ -16,7 +16,7 @@ import com.Phong.BackEnd.dto.request.Manager.ManagerCreateRequest;
 import com.Phong.BackEnd.dto.request.Manager.ManagerUpdateRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
 import com.Phong.BackEnd.dto.response.Manager.ManagerResponse;
-import com.Phong.BackEnd.entity.personel.Manager;
+import com.Phong.BackEnd.entity.personnel.Manager;
 import com.Phong.BackEnd.repository.AttendanceRepository;
 import com.Phong.BackEnd.service.ManagerService;
 
@@ -33,7 +33,7 @@ public class ManagerController {
         this.attendanceRepository = attendanceRepository;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<ManagerResponse>> createManager(
             @RequestBody @Valid ManagerCreateRequest request) {
 
@@ -45,14 +45,20 @@ public class ManagerController {
                 .build());
     }
 
-    @GetMapping("/{personelCode}")
-    public ResponseEntity<ApiResponse<ManagerResponse>> getManager(@PathVariable Long personelCode) {
-        Manager manager = managerService.getManagerByPersonelCode(personelCode);
+    @GetMapping()
+    public ResponseEntity<ApiResponse<ManagerResponse>> getManager(@RequestParam Long code) {
+        Manager manager = managerService.getManagerByPersonelCode(code);
         ManagerResponse responseDto = managerService.toDto(manager);
         return ResponseEntity.ok(ApiResponse.<ManagerResponse>builder()
                 .message("Manager fetched successfully")
                 .result(responseDto)
                 .build());
+    }
+
+    @GetMapping("/account")
+    public ResponseEntity<ManagerResponse> getManagerByAccountId(@RequestParam String id) {
+        ManagerResponse managerResponse = managerService.getManagerByAccountId(id);
+        return ResponseEntity.ok(managerResponse);
     }
 
     @GetMapping("/all")
@@ -66,10 +72,10 @@ public class ManagerController {
                 .build());
     }
 
-    @PatchMapping("/{personelCode}")
+    @PatchMapping("/update")
     public ResponseEntity<ApiResponse<ManagerResponse>> updateEmployee(
-            @PathVariable Long personelCode, @RequestBody ManagerUpdateRequest updates) {
-        Manager updatedManager = managerService.patchManager(personelCode, updates);
+            @RequestParam Long code, @RequestBody ManagerUpdateRequest updates) {
+        Manager updatedManager = managerService.patchManager(code, updates);
         ManagerResponse responseDto = managerService.toDto(updatedManager);
         return ResponseEntity.ok(ApiResponse.<ManagerResponse>builder()
                 .message("Manager updated successfully")
@@ -78,10 +84,10 @@ public class ManagerController {
     }
 
     @Transactional
-    @DeleteMapping("/{personelCode}")
-    public ResponseEntity<ApiResponse<Void>> deleteManager(@PathVariable Long personelCode) {
-        attendanceRepository.deleteByEmployeeCode(personelCode);
-        managerService.deleteEmployee(personelCode);
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<Void>> deleteManager(@RequestParam Long code) {
+        attendanceRepository.deleteByEmployeeCode(code);
+        managerService.deleteEmployee(code);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
                 .message("Manager deleted successfully")
                 .build());
@@ -121,11 +127,5 @@ public class ManagerController {
                     .result(null)
                     .build();
         }
-    }
-
-    @GetMapping("/account/{accountId}")
-    public ResponseEntity<ManagerResponse> getManagerByAccountId(@PathVariable String accountId) {
-        ManagerResponse managerResponse = managerService.getManagerByAccountId(accountId);
-        return ResponseEntity.ok(managerResponse);
     }
 }

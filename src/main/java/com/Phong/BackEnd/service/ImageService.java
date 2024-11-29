@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Phong.BackEnd.entity.images.Image;
-import com.Phong.BackEnd.entity.personel.Personel;
+import com.Phong.BackEnd.entity.personnel.Personnel;
 import com.Phong.BackEnd.repository.ImageRepository;
-import com.Phong.BackEnd.repository.PersonelRepository;
+import com.Phong.BackEnd.repository.PersonnelRepository;
 import com.Phong.BackEnd.utils.JwtUtils;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -19,18 +19,18 @@ import com.cloudinary.utils.ObjectUtils;
 public class ImageService {
     private final ImageRepository imageRepository;
     private final Cloudinary cloudinary;
-    private final PersonelRepository personelRepository;
+    private final PersonnelRepository personnelRepository;
     private final JwtUtils jwtUtils;
 
     @Autowired
     public ImageService(
             Cloudinary cloudinary,
             ImageRepository imageRepository,
-            PersonelRepository personelRepository,
+            PersonnelRepository personnelRepository,
             JwtUtils jwtUtils) {
         this.cloudinary = cloudinary;
         this.imageRepository = imageRepository;
-        this.personelRepository = personelRepository;
+        this.personnelRepository = personnelRepository;
         this.jwtUtils = jwtUtils;
     }
 
@@ -44,7 +44,7 @@ public class ImageService {
 
         String username = jwtUtils.getUsernameFromToken(token);
 
-        Personel personel = personelRepository
+        Personnel personnel = personnelRepository
                 .findByAccountUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -56,11 +56,11 @@ public class ImageService {
         image.setUrl(url);
         image.setCloudinaryId(cloudinaryId);
         image.setName(file.getOriginalFilename());
-        image.setUploadedBy(personel);
+        image.setUploadedBy(personnel);
         imageRepository.save(image);
 
-        personel.setAvatar(url);
-        personelRepository.save(personel);
+        personnel.setAvatar(url);
+        personnelRepository.save(personnel);
 
         return image;
     }

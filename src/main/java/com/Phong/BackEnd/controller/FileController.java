@@ -35,9 +35,9 @@ public class FileController {
                 .build());
     }
 
-    @GetMapping("/personel/{personelCode}")
-    public ResponseEntity<ApiResponse<List<File>>> getAllFilesByPersonel(@PathVariable Long personelCode) {
-        List<File> files = fileService.getAllFilesByPersonel(personelCode);
+    @GetMapping("/personnel")
+    public ResponseEntity<ApiResponse<List<File>>> getAllFilesByPersonel(@RequestParam Long code) {
+        List<File> files = fileService.getAllFilesByPersonel(code);
         return ResponseEntity.ok(ApiResponse.<List<File>>builder()
                 .code(1000)
                 .message("Fetched files successfully")
@@ -45,8 +45,8 @@ public class FileController {
                 .build());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<File> getFileById(@PathVariable Long id) {
+    @GetMapping()
+    public ResponseEntity<File> getFileById(@RequestParam Long id) {
         File file = fileService.getFileById(id);
         return ResponseEntity.ok(file);
     }

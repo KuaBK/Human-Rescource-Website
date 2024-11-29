@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.Phong.BackEnd.entity.attendance.Attendance;
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {

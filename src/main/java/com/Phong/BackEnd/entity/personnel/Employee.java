@@ -1,4 +1,4 @@
-package com.Phong.BackEnd.entity.personel;
+package com.Phong.BackEnd.entity.personnel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,7 +14,6 @@ import com.Phong.BackEnd.entity.projects.Projects;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.springframework.scheduling.config.Task;
 
 @Getter
 @Setter
@@ -24,7 +23,7 @@ import org.springframework.scheduling.config.Task;
 @Entity
 @SuperBuilder
 @Table(name = "employee")
-public class Employee extends Personel {
+public class Employee extends Personnel {
 
     @Builder.Default
     int tasksCompleteNumber = 0;
@@ -32,13 +31,12 @@ public class Employee extends Personel {
     @Builder.Default
     int project_involved = 0;
 
-
     @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "emp_proj",
-            joinColumns = @JoinColumn(name = "EmployeeCode"),
-            inverseJoinColumns = @JoinColumn(name = "ProjectId"))
+            joinColumns = @JoinColumn(name = "employee_code"),
+            inverseJoinColumns = @JoinColumn(name = "project_id"))
     Set<Projects> projectList = new HashSet<>();
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)

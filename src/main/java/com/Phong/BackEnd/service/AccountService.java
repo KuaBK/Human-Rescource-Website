@@ -65,14 +65,14 @@ public class AccountService {
         accountRepository.deleteById(userId);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public List<AccountResponse> getAllUsers() {
         return accountRepository.findAll().stream()
                 .map(accountMapper::toUserResponse)
                 .toList();
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
+//    @PostAuthorize("returnObject.username == authentication.name")
     public AccountResponse getUser(String id) {
         return accountMapper.toUserResponse(
                 accountRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));

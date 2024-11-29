@@ -22,33 +22,33 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<DepartmentResponse>>> getAllDepartments() {
         List<DepartmentResponse> departments = departmentService.getAllDepartments();
         return ResponseEntity.ok(new ApiResponse<>(1000, "Success", departments));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<DepartmentResponse>> getDepartmentById(@PathVariable Long id) {
+    @GetMapping
+    public ResponseEntity<ApiResponse<DepartmentResponse>> getDepartmentById(@RequestParam Long id) {
         DepartmentResponse department = departmentService.getDepartmentById(id);
         return ResponseEntity.ok(new ApiResponse<>(1000, "Success", department));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<DepartmentResponse>> createDepartment(@RequestBody DepartmentCreateRequest request) {
         DepartmentResponse department = departmentService.createDepartment(request);
         return ResponseEntity.ok(new ApiResponse<>(1000, "Department created successfully", department));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/update")
     public ResponseEntity<ApiResponse<DepartmentResponse>> patchDepartment(
-            @PathVariable Long id, @RequestBody DepartmentUpdateRequest request) {
+            @RequestParam Long id, @RequestBody DepartmentUpdateRequest request) {
         DepartmentResponse department = departmentService.patchDepartment(id, request);
         return ResponseEntity.ok(new ApiResponse<>(1000, "Department updated successfully", department));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteDepartment(@PathVariable Long id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<Void>> deleteDepartment(@RequestParam Long id) {
         departmentService.deleteDepartment(id);
         return ResponseEntity.ok(new ApiResponse<>(1000, "Department deleted successfully", null));
     }

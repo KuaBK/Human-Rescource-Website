@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.Phong.BackEnd.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.Phong.BackEnd.entity.personel.Employee;
+import com.Phong.BackEnd.entity.personnel.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findByCode(Long Code);
