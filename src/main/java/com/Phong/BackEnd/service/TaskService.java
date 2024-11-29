@@ -1,7 +1,10 @@
 package com.Phong.BackEnd.service;
 
 import com.Phong.BackEnd.dto.request.Task.TaskRequest;
+import com.Phong.BackEnd.dto.response.ApiResponse;
+import com.Phong.BackEnd.dto.response.File.FileResponse;
 import com.Phong.BackEnd.dto.response.Task.TaskResponse;
+import com.Phong.BackEnd.entity.files.File;
 import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.projects.Projects;
 import com.Phong.BackEnd.entity.tasks.StatusTasks;
@@ -10,8 +13,10 @@ import com.Phong.BackEnd.repository.EmployeeRepository;
 import com.Phong.BackEnd.repository.ProjectRepository;
 import com.Phong.BackEnd.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +28,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final EmployeeRepository employeeRepository;
+    private final FileService fileService;
 
     public TaskResponse createTask(TaskRequest taskRequestDTO) {
         Projects project = projectRepository.findById(taskRequestDTO.getProjectId())
@@ -96,6 +102,49 @@ public class TaskService {
         List<Tasks> tasks = taskRepository.findByEmployeeCode(employeeId);
         return tasks.stream().map(this::toDto).collect(Collectors.toList());
     }
+
+    @Transactional
+    public FileResponse submitTaskWithFile(MultipartFile file, Long taskId, Long personnelId) {
+        Tasks task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        if (!task.getEmployee().getCode().equals(personnelId)) {
+            throw new RuntimeException("You are not authorized to submit this task");
+        }
+
+        FileResponse fileResponse = fileService.uploadFile(file, personnelId);
+
+        File submittedFile = new File();
+        submittedFile.setId(fileResponse.getId());
+
+        task.setSubmittedFile(submittedFile);
+
+        task.setStatus(StatusTasks.COMPLETED);
+
+        taskRepository.save(task);
+
+        return fileResponse;
+    }
+
+    public ApiResponse<Void> unSubmitTask(Long taskId) {
+        Tasks task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new RuntimeException("Task not found with ID: " + taskId));
+
+        if (task.getSubmittedFile() == null) {
+            throw new IllegalArgumentException("Task has no submitted file to unsubmit.");
+        }
+
+        task.setSubmittedFile(null);
+        task.setStatus(StatusTasks.IN_PROGRESS);
+
+        taskRepository.save(task);
+
+        return ApiResponse.<Void>builder()
+                .code(2000)
+                .message("Task unsubmitted successfully")
+                .build();
+    }
+
     private TaskResponse toDto(Tasks task) {
         return TaskResponse.builder()
                 .tasksId(task.getTasksId())

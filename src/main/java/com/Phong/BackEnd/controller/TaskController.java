@@ -2,11 +2,13 @@ package com.Phong.BackEnd.controller;
 
 import com.Phong.BackEnd.dto.request.Task.TaskRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
+import com.Phong.BackEnd.dto.response.File.FileResponse;
 import com.Phong.BackEnd.dto.response.Task.TaskResponse;
 import com.Phong.BackEnd.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -80,5 +82,26 @@ public class TaskController {
                 .message("Tasks fetched successfully by employee")
                 .result(tasks)
                 .build());
+    }
+
+    @PostMapping("/submit")
+    public ResponseEntity<ApiResponse<FileResponse>> submitTaskWithFile(
+            @RequestParam Long taskId,
+            @RequestParam MultipartFile file,
+            @RequestParam Long personnelId) {
+        FileResponse fileResponse = taskService.submitTaskWithFile(file, taskId, personnelId);
+
+        ApiResponse<FileResponse> response = ApiResponse.<FileResponse>builder()
+                .message("Task submitted successfully")
+                .result(fileResponse)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/unsubmit")
+    public ResponseEntity<ApiResponse<Void>> unSubmitTask(@RequestParam Long taskId) {
+        ApiResponse<Void> response = taskService.unSubmitTask(taskId);
+        return ResponseEntity.ok(response);
     }
 }

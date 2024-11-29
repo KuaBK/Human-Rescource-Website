@@ -2,6 +2,7 @@ package com.Phong.BackEnd.entity.tasks;
 
 import java.time.LocalDateTime;
 
+import com.Phong.BackEnd.entity.files.File;
 import jakarta.persistence.*;
 
 import com.Phong.BackEnd.entity.personnel.Employee;
@@ -43,4 +44,8 @@ public class Tasks {
     @ManyToOne
     @JoinColumn(name = "employee_code")
     Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "submitted_file_id")
+    File submittedFile;
 }
