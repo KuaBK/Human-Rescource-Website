@@ -62,6 +62,11 @@ const getAllDepartment = () => {
     return axios.get("http://localhost:8080/api/departments/all");
 };
 
+//project API
+const getAllProjects = () => {
+    return axios.get("http://localhost:8080/api/projects/all");
+};
+
 // Miscellaneous APIs
 const getPersonnelByAccountId = (accountId) => {
     return axios.get("/personnel/account", {
@@ -106,4 +111,5 @@ export {
     putUpdatePersonel,
     deleteAccount,
     deletePersonel,
+    getAllProjects,
 };

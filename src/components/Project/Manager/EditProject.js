@@ -1,70 +1,6 @@
-<<<<<<< HEAD
-
-
-// EditTask.js
-import React, { useState } from 'react';
-import './EditProject.css';
-=======
-// // EditTask.js
-// import React, { useState } from 'react';
-// import './EditProject.css';
->>>>>>> c71d409571f3ac70bd5f0cbab1217fe6f4efb2e4
-
-// const EditProject = ({ project, onClose, onSave }) => {
-//     const [name, setName] = useState(project.name);
-//     const [company, setCompany] = useState(project.company);
-//     const [startDate, setStartDate] = useState('');
-//     const [endDate, setEndDate] = useState('');
-//     const [assignedPerson, setAssignedPerson] = useState('');
-
-//     const handleSave = () => {
-//         const updatedProject = {
-//             ...project,
-//             name,
-//             company,
-//             startDate,
-//             endDate,
-//             assignedPerson,
-//         };
-//         onSave(updatedProject);
-//         onClose();
-//     };
-
-//     return (
-//         <div className="edit-task-modal">
-//             <div className="edit-task-content">
-//                 <h3></h3>
-//                 <label>
-//                     Project Name:
-//                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-//                 </label>
-//                 <label>
-//                     Company:
-//                     <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} />
-//                 </label>
-//                 <label>
-//                     Start Date:
-//                     <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-//                 </label>
-//                 <label>
-//                     End Date:
-//                     <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-//                 </label>
-//                 <label>
-//                     Assign Person (ID):
-//                     <input type="text" value={assignedPerson} onChange={(e) => setAssignedPerson(e.target.value)} />
-//                 </label>
-//                 <button onClick={handleSave}>Save</button>
-//                 <button onClick={onClose}>Cancel</button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default EditProject;
-
 import React, { useState } from 'react';
 import './EditProject.scss';
+import axios from 'axios';
 
 const EditProject = ({ onClose, onSave }) => {
     const [project, setProject] = useState({
@@ -144,7 +80,7 @@ const EditProject = ({ onClose, onSave }) => {
         setEmployeeCode('');
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         // Validate project name
         if (!project.name) {
             setErrors((prev) => ({
@@ -154,17 +90,37 @@ const EditProject = ({ onClose, onSave }) => {
             return;
         }
         setErrors((prev) => ({ ...prev, projectName: '' }));
-        onSave(project);
+
+        // Prepare the data to send to the API
+        const projectData = {
+            projectName: project.name,
+            projectDescription: project.description,
+            departmentId: 1, // You can adjust the department ID accordingly
+        };
+
+        try {
+            // Send a POST request to the API
+            const response = await axios.post('http://localhost:8080/api/projects/create', projectData);
+
+            if (response.data && response.data.code === 1000) {
+                // On successful creation, invoke the onSave function passed from the parent component
+                onSave(response.data.result);  // Assuming the API returns the new project as 'result'
+                onClose();  // Close the modal
+            } else {
+                console.error('Error creating project:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Error creating project:', error);
+        }
     };
 
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="edit-modal" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-content">
-                    <div className='modal-header'>
+                    <div className="modal-header">
                         <h2>Tạo dự án</h2>
                         <button type="button" className="btn-close btn-primary" aria-label="Close" onClick={onClose}></button>
-
                     </div>
                     <form className="form-container">
                         <label>
@@ -195,7 +151,7 @@ const EditProject = ({ onClose, onSave }) => {
                                 placeholder="Nhập mã nhân viên"
                                 value={employeeCode}
                                 onChange={(e) => setEmployeeCode(e.target.value)}
-                                className='employee-code-input'
+                                className="employee-code-input"
                             />
                             <button
                                 type="button"
@@ -285,15 +241,11 @@ const EditProject = ({ onClose, onSave }) => {
                                 </div>
                             ))}
                         </div>
-
                     </form>
                     <div className="action-buttons">
                         <button onClick={handleSave} className="btn btn-primary btn-success">
                             Save
                         </button>
-                        {/* <button onClick={onClose} className="btn btn-secondary">
-                            Cancel
-                        </button> */}
                     </div>
                 </div>
             </div>
