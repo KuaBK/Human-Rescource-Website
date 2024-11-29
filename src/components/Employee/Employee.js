@@ -5,7 +5,7 @@ import EmployeeProfileModal from './EmployeeProfileModal';
 import AddEmployee from './AddEmployee';
 import { Modal } from 'react-bootstrap';
 import axios from "axios"
-import { deletePersonel, postCreateNewAccount, postCreateNewPersonel, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
+import { deletePersonel, getAllPersonel, postCreateNewAccount, postCreateNewPersonel, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
@@ -142,7 +142,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                             padding: '2px 8px',
                                         }}
                                     >
-                                        {employee.deptName || "Not found"}
+                                        {employee.departmentName || "Not found"}
                                     </span>
                                 </h6>
                             </div>
@@ -196,9 +196,9 @@ const Employee = ({ x }) => {
 
     const fetchEmployees = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/personnel/all");
+            const response = await getAllPersonel();
             if (response && response.data) {
-                setEmployees(response.data.data); // Update employees state
+                setEmployees(response.data.result); // Update employees state
             }
             console.log(response);
         } catch (err) {

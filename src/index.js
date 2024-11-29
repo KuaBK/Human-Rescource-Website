@@ -96,8 +96,7 @@ root.render(
 
           <Route path="department" element={<Department />} />
           <Route path="project" element={<ManagerProject />} />
-          
-          <Route path="training" element={<EmployeeTraining />} />
+        
           <Route path="chat" element={<EmployeeChat />} />
         </Route>
       </Routes>
