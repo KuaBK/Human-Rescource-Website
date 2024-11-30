@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import reportWebVitals from './reportWebVitals';
-import '@fortawe some/fontawesome-free/css/all.min.css';
+// import '@fortawe some/fontawesome-free/css/all.min.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

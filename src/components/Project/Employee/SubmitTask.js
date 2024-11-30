@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SubmitTask.css';
+import { useSelector } from 'react-redux';
 
 const SubmitTask = () => {
     const initialTasks = [
@@ -41,6 +42,8 @@ const SubmitTask = () => {
         },
     ];
 
+    const {personnel} = useSelector((state) => state);
+
     const [tasks, setTasks] = useState(initialTasks);
 
     const handleFileUpload = (event, taskId) => {
@@ -53,21 +56,46 @@ const SubmitTask = () => {
         console.log("pass upload");
     };
 
-    const handleSendFiles = (taskId) => {
+    const handleSendFiles = async (taskId) => {
         const task = tasks.find(task => task.id === taskId);
         if (task.files.length === 0) {
             alert("No files to send.");
             return;
         }
 
-        setTasks(tasks.map(task =>
-            task.id === taskId
-                ? { ...task, isSent: true } // Mark as sent
-                : task
-        ));
+        try {
+            const formData = new FormData();
+            task.files.forEach((file) => {
+                formData.append("file", file); // File object, not just name
+            });
+            formData.append("id", personnel.data.code);
 
-        alert(`Files sent successfully for task ID: ${taskId}`);
-        console.log("pass send");
+            const response = await fetch("/files/upload", {
+                method: "POST",
+                body: formData,
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to upload files.");
+            }
+
+            const result = await response.json();
+            console.log("Upload successful:", result);
+
+            setTasks((prevTasks) =>
+                prevTasks.map((t) =>
+                    t.id === taskId
+                        ? { ...t, isSent: true } // Mark task as sent
+                        : t
+                )
+            );
+
+            alert(`Files sent successfully for task ID: ${taskId}`);
+
+        } catch (error) {
+            console.error("Error uploading files:", error);
+            alert("An error occurred while uploading files.");
+        }
     };
 
     const handleDeleteFiles = (taskId) => {

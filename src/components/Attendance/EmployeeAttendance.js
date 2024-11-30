@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './EmployeeAttendance.scss';
-import { postEmployeeCheckin, postEmployeeCheckout } from '../services/apiService';
+import { getEmployeeAttendance, postEmployeeCheckin, postEmployeeCheckout } from '../services/apiService';
 import { useSelector } from 'react-redux';
 
 const EmployeeAttendance = () => {
     const [value, setValue] = useState(new Date());
     const [schedule, setSchedule] = useState({});
     const [isCheckedIn, setIsCheckedIn] = useState(false);
-    const [isCheckedOut, setIsCheckedOut] = useState(false); // Track if checked out
+    const [isCheckInDisabled, setIsCheckInDisabled] = useState(false);
+    const [isCheckedOut, setIsCheckedOut] = useState(false); 
+
     const [showOvertime, setShowOvertime] = useState(false);
     const [overtimeHours, setOvertimeHours] = useState(0);
+    
     const [showRequestOff, setShowRequestOff] = useState(false);
     const [leaveReason, setLeaveReason] = useState("");
     const [leaveStartDate, setLeaveStartDate] = useState(null);
@@ -20,24 +23,43 @@ const EmployeeAttendance = () => {
     const {personnel} = useSelector((state) => state);
 
     useEffect(() => {
-        setSchedule({
-            // '2024-11-05': { type: 'work', overtime: 2 },
-            // '2024-11-12': { type: 'work', overtime: 0 },
-        });
-        console.log("personnel >>", personnel);
+        const fetchAttendanceData = async () => {
+            if(personnel?.data){
+                const response = await getEmployeeAttendance(personnel.data.code);
+                const attendanceData = response.data;
+
+                const formattedSchedule = attendanceData.data.reduce((acc, record) => {
+                    const dateKey = record.date;
+                    acc[dateKey] = {
+                        type: record.checkOut ? 'done' : 'work', 
+                        overtime: 0, 
+                    };
+                    return acc;
+                }, {});
+                setSchedule(formattedSchedule);
+            }
+        }
+        fetchAttendanceData();
+        // console.log("personnel >>", personnel);
     }, [personnel]);
+
+    useEffect(() => {
+        const today = new Date().toISOString().split('T')[0];
+        const selectedDateKey = value.toISOString().split('T')[0];
+        setIsCheckInDisabled(today === selectedDateKey && isCheckedOut);
+    }, [value, isCheckedOut]);
 
     const handleDateChange = (date) => {
         setValue(date);
         const dateKey = date.toISOString().split('T')[0];
         setIsCheckedIn(schedule[dateKey]?.type === 'work');
-        setIsCheckedOut(schedule[dateKey]?.type === 'done'); // Track if it's checked out
+        setIsCheckedOut(schedule[dateKey]?.type === 'done');
         setOvertimeHours(schedule[dateKey]?.overtime || 0);
     };
 
     const handleCheckIn = async () => {
         const year = value.getFullYear();
-        const month = String(value.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const month = String(value.getMonth() + 1).padStart(2, '0');
         const day = String(value.getDate()).padStart(2, '0');
         const dateKey = `${year}-${month}-${day}`; // Format as YYYY-MM-DD
 
@@ -80,6 +102,7 @@ const EmployeeAttendance = () => {
             }));
             setIsCheckedIn(false);
             setIsCheckedOut(true);
+            setIsCheckInDisabled(true);
         }
     };
     
@@ -187,7 +210,11 @@ const EmployeeAttendance = () => {
                     />
                 </div>
                 <div className="controls-container">
-                    <button className="check-in-button" onClick={handleCheckIn}>
+                    <button 
+                        className="check-in-button" 
+                        onClick={handleCheckIn}
+                        disabled={isCheckInDisabled}
+                    >
                         Check In
                     </button>
                     <button className="check-out-button" onClick={handleCheckOut}>

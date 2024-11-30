@@ -89,6 +89,12 @@ const postEmployeeCheckout = (code) => {
     });
 }
 
+const getEmployeeAttendance = (code) => {
+    return axios.get(`/attendance/employee`, { 
+        params: { employeeId: code },  
+    });
+}
+
 
 export {
     postLogin, postCreateNewAccount, postCreateNewPersonel,
@@ -97,6 +103,7 @@ export {
     getAllAccount, getAccountById, getAllPersonel, getPersonelByCode,
     getAllDepartment, getPersonnelByAccountId,
     getTaskByEmployeeCode,
+    getEmployeeAttendance, 
     putUpdateAccount,putUpdatePersonel,
     deleteAccount, deletePersonel,
 }
