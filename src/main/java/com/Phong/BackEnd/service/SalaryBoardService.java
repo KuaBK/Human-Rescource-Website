@@ -103,6 +103,8 @@ public class SalaryBoardService {
     public void updatePayRate(double newFullWorkPay, double newHalfWorkPay) {
         this.salaryProperties.setFullWorkPay(newFullWorkPay);
         this.salaryProperties.setHalfWorkPay(newHalfWorkPay);
+
+        updateAllSalaryBoards();
     }
 
     public SalaryBoardResponse updateBonusAndPenalty(Long id, double bonus, double penalty) {
@@ -149,6 +151,24 @@ public class SalaryBoardService {
         double basePay = (fullWork * fullPay) + (halfWork * halfPay);
         double absencePenalty = absence * fullPay;
         return basePay + bonus - penalty - absencePenalty;
+    }
+
+    @Transactional
+    public void updateAllSalaryBoards() {
+        // Retrieve all salary boards
+        List<SalaryBoard> salaryBoards = salaryBoardRepository.findAll();
+        for (SalaryBoard salaryBoard : salaryBoards) {
+            // Recalculate real pay for each salary board
+            double newRealPay = calculateRealPay(
+                    salaryBoard.getFullDayNumber(),
+                    salaryBoard.getHalfDayNumber(),
+                    salaryBoard.getAbsenceDayNumber(),
+                    salaryBoard.getBonus(),
+                    salaryBoard.getPenalties()
+            );
+            salaryBoard.setRealPay(newRealPay);
+        }
+        salaryBoardRepository.saveAll(salaryBoards);
     }
 
 }

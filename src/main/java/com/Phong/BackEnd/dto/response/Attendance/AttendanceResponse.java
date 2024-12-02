@@ -17,4 +17,5 @@ public class AttendanceResponse {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
     private String duration;
+    private Long employee_code;
 }

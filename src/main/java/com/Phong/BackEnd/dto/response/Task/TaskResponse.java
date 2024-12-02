@@ -18,4 +18,6 @@ public class TaskResponse {
     String status;
     String projectName;
     String employeeName;
+    String fileUrl;
+    String fileName;
 }

@@ -15,7 +15,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeResponse {
     Long personelCode;
-
     String firstName;
     String lastName;
     String email;

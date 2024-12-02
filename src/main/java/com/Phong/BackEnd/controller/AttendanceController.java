@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/attendance")
@@ -21,9 +22,9 @@ public class AttendanceController {
 
     private final AttendanceService attendanceService;
 
-    @PostMapping("/checkIn/{employeeId}")
-    public ApiResponse<AttendanceResponse> checkIn(@PathVariable Long employeeId) {
-        Attendance attendance = attendanceService.checkIn(employeeId);
+    @PostMapping("/checkIn")
+    public ApiResponse<AttendanceResponse> checkIn(@RequestParam Long code) {
+        Attendance attendance = attendanceService.checkIn(code);
         AttendanceResponse responseDTO = convertToResponseDTO(attendance);
         return ApiResponse.<AttendanceResponse>builder()
                 .message("Check-in successful")
@@ -31,9 +32,9 @@ public class AttendanceController {
                 .build();
     }
 
-    @PostMapping("/checkOut/{employeeId}")
-    public ApiResponse<AttendanceResponse> checkOut(@PathVariable Long employeeId) {
-        Attendance attendance = attendanceService.checkOut(employeeId);
+    @PostMapping("/checkOut")
+    public ApiResponse<AttendanceResponse> checkOut(@RequestParam Long code) {
+        Attendance attendance = attendanceService.checkOut(code);
         AttendanceResponse responseDTO = convertToResponseDTO(attendance);
         return ApiResponse.<AttendanceResponse>builder()
                 .message("Check-out successful")
@@ -41,9 +42,9 @@ public class AttendanceController {
                 .build();
     }
 
-    @GetMapping("/workingDuration/{employeeId}")
-    public ApiResponse<DurationResponse> getWorkingDurationForToday(@PathVariable Long employeeId) {
-        String duration = attendanceService.getWorkingDurationForToday(employeeId);
+    @GetMapping("/workingDuration")
+    public ApiResponse<DurationResponse> getWorkingDurationForToday(@RequestParam Long code) {
+        String duration = attendanceService.getWorkingDurationForToday(code);
         DurationResponse responseDTO =
                 DurationResponse.builder().duration(duration).build();
         return ApiResponse.<DurationResponse>builder()
@@ -53,10 +54,10 @@ public class AttendanceController {
     }
 
     // Lấy tất cả bản ghi attendance của một nhân viên
-    @GetMapping("/all/{employeeId}")
+    @GetMapping("/all/employee")
     public ResponseEntity<ApiResponse<List<Attendance>>> getAllAttendance(
-            @PathVariable Long employeeId) {
-        List<Attendance> attendances = attendanceService.getAllAttendance(employeeId);
+            @RequestParam Long code) {
+        List<Attendance> attendances = attendanceService.getAllAttendance(code);
         return ResponseEntity.ok(ApiResponse.<List<Attendance>>builder()
                 .code(1000)
                 .message("Lấy tất cả attendance thành công!")
@@ -65,12 +66,12 @@ public class AttendanceController {
     }
 
     // Lấy attendance của một nhân viên theo ngày cụ thể
-    @GetMapping("/date/{employeeId}")
+    @GetMapping("/date")
     public ResponseEntity<ApiResponse<Attendance>> getAttendanceByDate(
-            @PathVariable Long employeeId,
+            @RequestParam Long code,
             @RequestParam("date") String date) { // Nhập ngày dưới dạng YYYY-MM-DD
         LocalDate localDate = LocalDate.parse(date);
-        Attendance attendance = attendanceService.getAttendanceByDate(employeeId, localDate);
+        Attendance attendance = attendanceService.getAttendanceByDate(code, localDate);
         return ResponseEntity.ok(ApiResponse.<Attendance>builder()
                 .code(1000)
                 .message("Lấy attendance theo ngày thành công!")
@@ -80,12 +81,15 @@ public class AttendanceController {
 
     // Lấy tất cả attendance hôm nay của tất cả nhân viên
     @GetMapping("/today")
-    public ResponseEntity<ApiResponse<List<Attendance>>> getAllAttendanceToday() {
+    public ResponseEntity<ApiResponse<List<AttendanceResponse>>> getAllAttendanceToday() {
         List<Attendance> attendances = attendanceService.getAllAttendanceToday();
-        return ResponseEntity.ok(ApiResponse.<List<Attendance>>builder()
+        List<AttendanceResponse> responses = attendances.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ApiResponse.<List<AttendanceResponse>>builder()
                 .code(1000)
                 .message("Lấy tất cả attendance hôm nay thành công!")
-                .result(attendances)
+                .result(responses)
                 .build());
     }
 
@@ -97,6 +101,7 @@ public class AttendanceController {
                 .checkInTime(attendance.getCheckInTime())
                 .checkOutTime(attendance.getCheckOutTime())
                 .duration(attendance.getDuration())
+                .employee_code(attendance.getEmployee().getCode())
                 .build();
     }
 }

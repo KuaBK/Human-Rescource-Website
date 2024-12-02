@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import com.Phong.BackEnd.entity.personnel.Personnel;
+import com.Phong.BackEnd.repository.PersonnelRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,6 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationService {
     AccountRepository accountRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
+    PersonnelRepository personnelRepository;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -80,9 +83,16 @@ public class AuthenticationService {
 
         var token = generateToken(user);
 
+        String role = user.getRole().toString();
+        if(Objects.equals(user.getRole().toString(), "PERSONNEL")){
+            Personnel personnel = personnelRepository.findByAccountId(user.getId())
+                    .orElseThrow(() -> new RuntimeException("Personel not found with accountID: " + user.getId()));
+            role = personnel.getPosition().toString();
+        }
+
         return AuthenticationResponse.builder()
                 .accountId(user.getId())
-                .role(user.getRole().toString())
+                .role(role)
                 .token(token.token)
                 .expiryTime(token.expiryDate)
                 .authenticated(true)

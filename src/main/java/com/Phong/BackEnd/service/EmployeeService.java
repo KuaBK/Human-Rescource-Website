@@ -209,6 +209,7 @@ public class EmployeeService {
                 .phone(employee.getPhone())
                 .city(employee.getCity())
                 .street(employee.getStreet())
+                .avatar(employee.getAvatar())
                 .gender(employee.getGender())
                 .position(employee.getPosition())
                 .departmentName(department != null ? department.getDepartmentName() : null)
@@ -266,6 +267,7 @@ public class EmployeeService {
         List<EmplResponse> employeeResponses = department.getEmployees().stream()
                 .map(employee -> new EmplResponse(
                         employee.getCode(),
+
                         employee.getFirstName(),
                         employee.getLastName(),
                         employee.getPhone(),
