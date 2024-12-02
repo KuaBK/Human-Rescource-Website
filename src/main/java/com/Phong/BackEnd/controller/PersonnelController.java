@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
@@ -16,11 +17,10 @@ import java.util.List;
 public class PersonnelController {
 
     private final PersonnelService personnelService;
+
     @GetMapping
     public ResponseEntity<ApiResponse<List<PersonnelResponse>>> getAllPersonnel() {
         ApiResponse<List<PersonnelResponse>> response = personnelService.getAllPersonnel();
         return ResponseEntity.ok(response);
     }
-
-
 }
