@@ -20,14 +20,16 @@ const EmployeeInfor = () => {
 
   useEffect(() => {
     if(personnel?.data){
+      console.log("personnel info >>>", personnel.data);
       setProfile((prevProfile) => ({
         ...prevProfile,
         name: `${personnel.data.lastName} ${personnel.data.firstName}`,
         phone: `${personnel.data.phone}`,
         email: `${personnel.data.email}`,
         address: `${personnel.data.street} ${personnel.data.city}`,
-        department: `${personnel.data.deptName}`,
-        position: `${personnel.data.code}`
+        department: `${personnel.data.departmentName}`,
+        position: `${personnel.data.personelCode}`,
+        profileImage: `${personnel.data.avatar}`
       }))
     }
   }, [personnel])

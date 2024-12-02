@@ -7,7 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import store from'./store';
+// import Employee from './components/Employee/Employee';
+
+import Attendance from './components/Attendance/EmployeeAttendance';
+
+// import AdminAttendance from './components/Attendance/AdminAttendance';
+
+import store from './store';
+
 
 // import Salary from './components/Salary/Salary';
 
@@ -94,7 +101,6 @@ root.render(
 
           <Route path="department" element={<Department />} />
           <Route path="project" element={<ManagerProject />} />
-
           <Route path="training" element={<EmployeeTraining />} />
           <Route path="chat" element={<EmployeeChat />} />
         </Route>

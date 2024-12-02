@@ -30,6 +30,17 @@ const EmployeeTraining = () => {
         const newTrainings = [...trainings];
         newTrainings[index].sent = true; // Mark as sent
         setTrainings(newTrainings);
+
+        console.log("pass send");
+    };
+
+    const handleDeleteFile = (index) => {
+        const newTrainings = [...trainings];
+        newTrainings[index].file = null;
+        newTrainings[index].uploaded = false; // Mark as not uploaded
+        newTrainings[index].sent = false; // Reset sent status
+        setTrainings(newTrainings);
+        console.log("pass delete");
     };
 
     const handleRequestPromotion = () => {
@@ -39,6 +50,8 @@ const EmployeeTraining = () => {
             setModalMessage({ title: 'Promotion Denied!', text: 'You still lack certificates to be promoted.' });
         }
         setIsModalOpen(true); // Open the modal
+
+        console.log(" passs promotion")
     };
 
     return (
@@ -76,7 +89,7 @@ const EmployeeTraining = () => {
                             <button
                                 className="send-button"
                                 onClick={() => handleSendClick(index)}
-                                style={{ backgroundColor: '#f44336' }} // Red color for "Send"
+                                style={{ backgroundColor: '#4caf50' }} // Green color for "Send"
                             >
                                 Gửi
                             </button>
@@ -86,6 +99,13 @@ const EmployeeTraining = () => {
                                 Đã hoàn thành
                             </button>
                         )}
+                        <button
+                            className="delete-button"
+                            onClick={() => handleDeleteFile(index)}
+                            style={{ backgroundColor: '#FF5722' }} // Orange for delete button
+                        >
+                            Xóa
+                        </button>
                     </div>
                 ))}
             </div>

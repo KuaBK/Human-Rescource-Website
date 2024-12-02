@@ -1,86 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SubmitTask.css';
 import { useSelector } from 'react-redux';
+import { getTaskByEmployeeCode, submitTask } from '../../services/apiService';
 
 const SubmitTask = () => {
-    const initialTasks = [
-        {
-            id: 1,
-            name: "UI/UX Design",
-            description: "Designing the UI/UX for the new platform.",
-            due: "2024-12-15",
-            status: "COMPLETED",
-            proj_id: 101,
-            dept_id: 1,
-            files: [],
-            isUploaded: false,
-            isSent: false // Track if the files are sent
-        },
-        {
-            id: 2,
-            name: "Website Design",
-            description: "Building the frontend and backend of the new website.",
-            due: "2024-11-30",
-            status: "OVERDUE",
-            proj_id: 102,
-            dept_id: 2,
-            files: [],
-            isUploaded: false,
-            isSent: false
-        },
-        {
-            id: 3,
-            name: "App Development",
-            description: "Developing the mobile application for the company.",
-            due: "2024-12-20",
-            status: "CANCEL",
-            proj_id: 103,
-            dept_id: 3,
-            files: [],
-            isUploaded: false,
-            isSent: false
-        },
-    ];
-
     const {personnel} = useSelector((state) => state);
 
-    const [tasks, setTasks] = useState(initialTasks);
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        if (personnel?.data?.personelCode) {
+            fetchTasks();
+        }
+    }, [personnel?.data?.personelCode])
+
+    const fetchTasks = async () => {
+        try {
+            const response = await getTaskByEmployeeCode(personnel.data.personelCode);
+            if (response.data && response.data.result) {
+                const fetchedTasks = response.data.result.map((task) => ({
+                    id: task.tasksId,
+                    name: task.title,
+                    description: task.description,
+                    due: formatDueDate(task.due),
+                    status: task.status,
+                    proj_id: task.projectName, 
+                    files: task.fileName ? [{ name: task.fileName, url: task.fileUrl }] : [],
+                    isUploaded: false,
+                    isSent: false,
+                }));
+                setTasks(fetchedTasks);
+            } else {
+                console.error("No tasks found for the employee.");
+            }
+
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    }
 
     const handleFileUpload = (event, taskId) => {
         const files = Array.from(event.target.files);
-        setTasks(tasks.map(task =>
-            task.id === taskId
-                ? { ...task, files: [...task.files, ...files.map(file => file.name)], isUploaded: true }
-                : task
-        ));
+        console.log("Uploaded files:", files);
+        setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+                task.id === taskId
+                    ? { ...task, files: [...(task.files || []), ...files], isUploaded: true }
+                    : task
+            )
+        );
+
+        // const file = event.target.files[0]; // Single file upload
+        // if (!file) return;
+
+        // setTasks((prevTasks) =>
+        //     prevTasks.map((task) =>
+        //         task.id === taskId
+        //             ? { ...task, file, isUploaded: true }
+        //             : task
+        //     )
+        // );
+
         console.log("pass upload");
     };
 
     const handleSendFiles = async (taskId) => {
-        const task = tasks.find(task => task.id === taskId);
-        if (task.files.length === 0) {
-            alert("No files to send.");
+        const task = tasks.find((task) => task.id === taskId);
+        if (!task || !task.files || task.files.length === 0) {
+            alert("Please upload a file before submitting.");
             return;
         }
 
         try {
-            const formData = new FormData();
-            task.files.forEach((file) => {
-                formData.append("file", file); // File object, not just name
-            });
-            formData.append("id", personnel.data.code);
-
-            const response = await fetch("/files/upload", {
-                method: "POST",
-                body: formData,
-            });
-    
-            if (!response.ok) {
-                throw new Error("Failed to upload files.");
-            }
-
-            const result = await response.json();
-            console.log("Upload successful:", result);
+            const file = task.files[0];
+            // console.log("Data: >>", taskId, file, personnel.data.personelCode);
+            const response = await submitTask(taskId, file, personnel.data.personelCode);
+            console.log("Response: >>", response);
+           
 
             setTasks((prevTasks) =>
                 prevTasks.map((t) =>
@@ -90,8 +86,6 @@ const SubmitTask = () => {
                 )
             );
 
-            alert(`Files sent successfully for task ID: ${taskId}`);
-
         } catch (error) {
             console.error("Error uploading files:", error);
             alert("An error occurred while uploading files.");
@@ -99,13 +93,26 @@ const SubmitTask = () => {
     };
 
     const handleDeleteFiles = (taskId) => {
-        setTasks(tasks.map(task =>
-            task.id === taskId
-                ? { ...task, files: [], isUploaded: false, isSent: false } // Reset sent status
-                : task
-        ));
-        alert(`All files deleted for task ID: ${taskId}`);
-        console.log("pass delete");
+        setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+                task.id === taskId
+                    ? { ...task, files: null, isUploaded: false, isSent: false }
+                    : task
+            )
+        );
+        alert(`File deleted for task ID: ${taskId}`);
+    };
+
+    const formatDueDate = (due) => {
+        const date = new Date(due); // Parse the ISO string into a Date object
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
     return (
@@ -123,7 +130,7 @@ const SubmitTask = () => {
                             <p className="task-description">{task.description}</p>
                             <p><strong>Ngày hết hạn:</strong> {task.due}</p>
                             <p><strong>Trạng thái:</strong> {task.status}</p>
-                            <p><strong>Mã số dự án:</strong> {task.proj_id}</p>
+                            <p><strong>Tên dự án:</strong> {task.proj_id}</p>
                             <div className="file-upload">
                                 <input
                                     type="file"
@@ -155,7 +162,12 @@ const SubmitTask = () => {
                                 {task && task.files && task.files.length > 0 && (
                                     <div className="uploaded-files">
                                         {task.files.map((file, index) => (
-                                            <p key={index} className="uploaded-file">📄 {file}</p>
+                                            <a href={file.url} target="_blank" rel="noopener noreferrer">
+                                                📄 {file.name}
+                                            </a>
+                                            // <p key={index} className="uploaded-file">
+                                            //     📄 {file.name}
+                                            // </p>
                                         ))}
                                     </div>
                                 )}

@@ -42,15 +42,12 @@ function MSidebar() {
           <FaProjectDiagram />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
         </Link>
-      
-        <Link to="training" className="nav-link-side">
-          <GiTeamUpgrade />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
-        </Link>
+    
         <Link to="chat" className="nav-link-side">
           <BiChat />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Tin nhắn</span>
         </Link>
+        
         <Link to="logout" className="nav-link-side">
           <BiLogOut />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đăng xuất</span>

@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getPersonnelByAccountId } from "../../components/services/apiService";
+import { getEmployeeByAccountId } from "../../components/services/apiService";
 
 export const fetchPersonnel = createAsyncThunk(
     "personnel/fetch",
     async (accountId, thunkAPI) => {
-        const response = await getPersonnelByAccountId(accountId);
-        return response?.data?.data; 
+        const response = await getEmployeeByAccountId(accountId);
+        console.log(response);
+        return response?.data; 
     }
 )
 

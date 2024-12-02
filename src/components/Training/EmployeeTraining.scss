@@ -88,61 +88,61 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .send-button {
+        .send-button, .sent-button {
             display: block;
             margin: 10px auto;
             padding: 10px 20px;
-            background-color: #f44336; // Red for "Send" button
             border: none;
             border-radius: 4px;
             color: white;
             font-size: 1em;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%; // Make buttons full width
 
             &:hover {
-                background-color: #d32f2f; // Darker red on hover
+                background-color: #45a049; // Darker shade on hover for "Send"
             }
         }
 
         .sent-button {
+            background-color: #8bc34a; // Green shade for "Done" state
+        }
+
+        .delete-button {
             display: block;
             margin: 10px auto;
             padding: 10px 20px;
-            background-color: #4caf50; // Green for "Complete" button
-            border: none;
-            border-radius: 4px;
+            background-color: #ff5722;
             color: white;
+            border-radius: 4px;
             font-size: 1em;
-            cursor: not-allowed;
-            pointer-events: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+
+            &:hover {
+                background-color: #e64a19; // Darker shade on hover for delete button
+            }
         }
     }
 
     .promotion-button {
         display: block;
-        margin: 30px auto;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 4px;
+        width: 100%;
+        margin: 20px 0;
+        padding: 15px 0;
         background-color: #4caf50;
         color: white;
         font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 4px;
+        border: none;
         cursor: pointer;
-        transition: background-color 0.3s;
+        transition: background-color 0.3s ease;
 
         &:hover {
-            background-color: #45a049; // Darker green on hover
+            background-color: #45a049;
         }
     }
-
-    .certificate-image {
-        display: block;
-        width: 50px;
-        height: auto;
-        margin: 10px auto;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-
 }

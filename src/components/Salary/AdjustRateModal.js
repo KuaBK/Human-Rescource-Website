@@ -10,6 +10,8 @@ const AdjustRateModal = ({ show, handleClose, rates, handleSave }) => {
         setFormData(updatedFormData);
         console.log(`Updated field: ${name}, Value: ${value}`); // Kiểm tra giá trị mới của trường thay đổi
     };
+
+    
 // // liên kết vs PUT API ở đây
 // {
 //     fullShiftRate : 200

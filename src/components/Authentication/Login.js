@@ -19,7 +19,8 @@ function Login() {
       try {
         const response = await postLogin(username, password);
         if (response && response.data){
-          const { accountId, token, expired, authenticated, role } = response.data?.data;
+          const { accountId, token, expired, authenticated, role } = response.data?.result;
+          console.log(">>>>> ", response.data.result);
           dispatch(
             login({
               accountId,
@@ -29,6 +30,7 @@ function Login() {
               role
             })
           );
+          console.log("role >>>", role);
           if (role === "EMPLOYEE") {
             navigate("/login/employee");
           } else if (role === "MANAGER") {
