@@ -38,10 +38,10 @@ public class SecurityConfig {
         "/tasks/project", "/tasks/employee", "/tasks/submit", "/tasks/unsubmit",
 
         "/attendance/checkIn", "/attendance/checkOut", "/attendance/workingDuration", "/attendance/all/employee",
-        "/attendance/date", "/attendance/today",
+        "/attendance/date", "/attendance/today", "/attendance/month-year",
 
         "/salary", "/salary/edit", "/salary/create", "/salary/payrate-edit", "/salary/bonus-penalty",
-        "/salary/employee", "/salary/employee/month-year",
+        "/salary/employee", "/salary/employee/month-year", "/salary/all",
 
         "/images", "/images/upload",
         "/files", "/files/upload", "/files/personnel",

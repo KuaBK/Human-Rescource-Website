@@ -54,6 +54,24 @@ public class SalaryBoardController {
         }
     }
 
+    @GetMapping("/all")
+    public ApiResponse<List<SalaryBoardResponse>> getAllSalaryBoard(){
+        try{
+            List<SalaryBoardResponse> responses = salaryBoardService.getAllSalaryBoards();
+            return ApiResponse.<List<SalaryBoardResponse>>builder()
+                    .code(1000)
+                    .message("All salary board successfully")
+                    .result(responses)
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<List<SalaryBoardResponse>>builder()
+                    .code(-1)
+                    .message("Error fetch all salary board: " + e.getMessage())
+                    .result(null)
+                    .build();
+        }
+    }
+
     @PatchMapping("/edit")
     public ApiResponse<SalaryBoardResponse> updateSalaryBoard(
             @RequestParam Long id,

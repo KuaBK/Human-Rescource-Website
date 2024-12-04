@@ -1,5 +1,6 @@
 package com.Phong.BackEnd.controller;
 
+import com.Phong.BackEnd.dto.response.Attendance.AttendanceResponse2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,6 +92,22 @@ public class AttendanceController {
                 .message("Lấy tất cả attendance hôm nay thành công!")
                 .result(responses)
                 .build());
+    }
+
+    @GetMapping("/month-year")
+    public ResponseEntity<ApiResponse<List<AttendanceResponse2>>> getAttendanceByMonthYear(
+            @RequestParam int month,
+            @RequestParam int year)
+    {
+        List<AttendanceResponse2> records = attendanceService.getAttendanceForMonth(month, year);
+        ApiResponse<List<AttendanceResponse2>> response = ApiResponse.<List<AttendanceResponse2>>builder()
+                .code(1000)
+                .message("Attendance records fetched successfully")
+                .result(records)
+                .build();
+
+        // Return the response
+        return ResponseEntity.ok(response);
     }
 
 

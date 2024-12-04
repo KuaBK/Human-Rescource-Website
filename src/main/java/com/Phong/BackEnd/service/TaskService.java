@@ -116,7 +116,24 @@ public class TaskService {
 
     public List<TaskResponse> getTasksByEmployeeCode(Long employeeId) {
         List<Tasks> tasks = taskRepository.findByEmployeeCode(employeeId);
-        return tasks.stream().map(this::toDto).collect(Collectors.toList());
+
+        return tasks.stream().map(task -> {
+            String fileUrl = null;
+            String fileName = null;
+
+            if(task.getSubmittedFile() != null) {
+                File uploadedFile = fileRepository.findById(task.getSubmittedFile().getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Submitted file not found"));
+                fileUrl = uploadedFile.getFileUrl();
+                fileName = uploadedFile.getFileName();
+            }
+
+            TaskResponse response = toDto(task);
+            response.setFileUrl(fileUrl);
+            response.setFileName(fileName);
+
+            return response;
+        }).collect(Collectors.toList());
     }
 
     @Transactional

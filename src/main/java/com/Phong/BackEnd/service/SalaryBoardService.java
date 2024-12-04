@@ -28,15 +28,20 @@ public class SalaryBoardService {
     private final SalaryRate salaryProperties;
 
     private SalaryBoardResponse toSalaryBoardResponse(SalaryBoard salaryBoard) {
+        Employee employee = salaryBoard.getEmployee();
         return SalaryBoardResponse.builder()
                 .id(salaryBoard.getId())
-                .employeeCode(salaryBoard.getEmployee().getCode())
+                .employeeCode(employee.getCode())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
                 .month(salaryBoard.getMonth())
                 .year(salaryBoard.getYear())
                 .realPay(salaryBoard.getRealPay())
                 .fullWork(salaryBoard.getFullDayNumber())
                 .halfWork(salaryBoard.getHalfDayNumber())
                 .absence(salaryBoard.getAbsenceDayNumber())
+                .bonus(salaryBoard.getBonus())
+                .penalty(salaryBoard.getPenalties())
                 .build();
     }
 
@@ -77,6 +82,12 @@ public class SalaryBoardService {
         return toSalaryBoardResponse(salaryBoard);
     }
 
+    public List<SalaryBoardResponse> getAllSalaryBoards() {
+        return salaryBoardRepository.findAll().stream()
+                .map(this::toSalaryBoardResponse)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public SalaryBoardResponse updateSalaryBoard(Long id, SalaryBoard updatedFields) {
         SalaryBoard salaryBoard = salaryBoardRepository.findById(id)
@@ -100,6 +111,7 @@ public class SalaryBoardService {
         return toSalaryBoardResponse(salaryBoard);
     }
 
+    @Transactional
     public void updatePayRate(double newFullWorkPay, double newHalfWorkPay) {
         this.salaryProperties.setFullWorkPay(newFullWorkPay);
         this.salaryProperties.setHalfWorkPay(newHalfWorkPay);
