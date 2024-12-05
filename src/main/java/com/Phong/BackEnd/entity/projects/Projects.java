@@ -1,7 +1,9 @@
 package com.Phong.BackEnd.entity.projects;
 
+import java.util.List;
 import java.util.Set;
 
+import com.Phong.BackEnd.entity.tasks.Tasks;
 import jakarta.persistence.*;
 
 import com.Phong.BackEnd.entity.departments.Department;
@@ -42,4 +44,7 @@ public class Projects {
 
     @ManyToMany(mappedBy = "projectList")
     Set<Employee> employees;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Tasks> tasks;
 }

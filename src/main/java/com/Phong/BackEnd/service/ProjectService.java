@@ -3,7 +3,7 @@ package com.Phong.BackEnd.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.Phong.BackEnd.entity.projects.ProjectStatus;
+
 import com.Phong.BackEnd.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,13 +136,15 @@ public class ProjectService {
 
 
     private ProjectResponse toDto(Projects project) {
+        Integer numberOfTasks = project.getTasks() != null ? project.getTasks().size() : 0;
+
         return ProjectResponse.builder()
                 .projectId(project.getProjectId())
                 .projectName(project.getProjectName())
                 .projectDescription(project.getProjectDescription())
-//                .projectStatus(project.getProjectStatus().name())
                 .departmentName(project.getDepartment() != null ? project.getDepartment().getDepartmentName() : null)
                 .participants(project.getParticipants())
+                .numberOfTasks(numberOfTasks)
                 .build();
     }
 }

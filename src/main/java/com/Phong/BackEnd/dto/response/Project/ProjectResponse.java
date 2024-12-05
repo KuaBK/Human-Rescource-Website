@@ -12,8 +12,8 @@ public class ProjectResponse {
     long projectId;
     String projectName;
     String projectDescription;
-//    String projectStatus;
     String departmentName;
     Integer participants;
+    Integer numberOfTasks;
 }
 
