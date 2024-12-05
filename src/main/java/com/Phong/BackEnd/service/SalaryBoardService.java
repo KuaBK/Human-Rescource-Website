@@ -3,8 +3,12 @@ package com.Phong.BackEnd.service;
 import com.Phong.BackEnd.configuration.SalaryRate;
 import com.Phong.BackEnd.dto.request.SalaryBoard.SalaryBoardRequest;
 import com.Phong.BackEnd.dto.response.SalaryBoard.SalaryBoardResponse;
+import com.Phong.BackEnd.entity.attendance.Attendance;
 import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.salaryBoard.SalaryBoard;
+import com.Phong.BackEnd.exception.AppException;
+import com.Phong.BackEnd.exception.ErrorCode;
+import com.Phong.BackEnd.repository.AttendanceRepository;
 import com.Phong.BackEnd.repository.EmployeeRepository;
 import com.Phong.BackEnd.repository.SalaryBoardRepository;
 import lombok.AllArgsConstructor;
@@ -13,8 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +30,7 @@ public class SalaryBoardService {
 
     private final SalaryBoardRepository salaryBoardRepository;
     private final EmployeeRepository employeeRepository;
+    private final AttendanceRepository attendanceRepository;
 
     @Autowired
     private final SalaryRate salaryProperties;
@@ -181,6 +189,78 @@ public class SalaryBoardService {
             salaryBoard.setRealPay(newRealPay);
         }
         salaryBoardRepository.saveAll(salaryBoards);
+    }
+
+    @Transactional
+    public void synchronizeSalaryBoard(Long employeeId, int month, int year){
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
+
+        // Generate all dates in the month
+        YearMonth yearMonth = YearMonth.of(year, month);
+        List<LocalDate> allDatesInMonth = yearMonth.atDay(1)
+                .datesUntil(yearMonth.atEndOfMonth().plusDays(1))
+                .collect(Collectors.toList());
+
+        // Fetch attendance records for the employee in the given month
+        List<Attendance> attendances = attendanceRepository.findAllByMonthAndYear(month, year).stream()
+                .filter(attendance -> attendance.getEmployee().equals(employee))
+                .collect(Collectors.toList());
+
+        // Map attendance records by date for easier comparison
+        Set<LocalDate> attendedDates = attendances.stream()
+                .map(Attendance::getDate)
+                .collect(Collectors.toSet());
+
+        int fullWorkCount = 0;
+        int halfWorkCount = 0;
+        int absenceCount = 0;
+
+        // Iterate through all dates in the month
+        for (LocalDate date : allDatesInMonth) {
+            if (attendedDates.contains(date)) {
+                // Attendance exists for this day
+                Attendance attendance = attendances.stream()
+                        .filter(a -> a.getDate().equals(date))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException("Attendance not found for date: " + date));
+
+                if (attendance.getCheckInTime() != null && attendance.getCheckOutTime() != null) {
+                    Duration duration = Duration.between(attendance.getCheckInTime(), attendance.getCheckOutTime());
+                    long minutesWorked = duration.toMinutes();
+
+                    if (minutesWorked > 25) {
+                        fullWorkCount++;
+                    } else if (minutesWorked > 0) {
+                        halfWorkCount++;
+                    } else {
+                        absenceCount++;
+                    }
+                } else {
+                    absenceCount++;
+                }
+            } else {
+                // No attendance record for this day -> treat as absence
+                absenceCount++;
+            }
+        }
+
+        SalaryBoard salaryBoard = salaryBoardRepository.findByEmployeeAndMonthAndYear(employee, month, year)
+                .orElseThrow(() -> new RuntimeException("Salary Board not found"));
+
+        salaryBoard.setFullDayNumber(fullWorkCount);
+        salaryBoard.setHalfDayNumber(halfWorkCount);
+        salaryBoard.setAbsenceDayNumber(absenceCount);
+
+        salaryBoard.setRealPay(calculateRealPay(
+                fullWorkCount,
+                halfWorkCount,
+                absenceCount,
+                salaryBoard.getBonus(),
+                salaryBoard.getPenalties()
+        ));
+
+        salaryBoardRepository.save(salaryBoard);
     }
 
 }

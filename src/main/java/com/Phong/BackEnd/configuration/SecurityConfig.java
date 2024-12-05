@@ -43,6 +43,8 @@ public class SecurityConfig {
         "/salary", "/salary/edit", "/salary/create", "/salary/payrate-edit", "/salary/bonus-penalty",
         "/salary/employee", "/salary/employee/month-year", "/salary/all",
 
+        "/personnel/all",
+
         "/images", "/images/upload",
         "/files", "/files/upload", "/files/personnel",
 

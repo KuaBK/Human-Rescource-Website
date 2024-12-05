@@ -18,7 +18,7 @@ public class PersonnelController {
 
     private final PersonnelService personnelService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<PersonnelResponse>>> getAllPersonnel() {
         ApiResponse<List<PersonnelResponse>> response = personnelService.getAllPersonnel();
         return ResponseEntity.ok(response);

@@ -19,4 +19,6 @@ public class PersonnelResponse {
     String city;
     String street;
     String avatar;
+    String departmentName;
+    Long departmentID;
 }

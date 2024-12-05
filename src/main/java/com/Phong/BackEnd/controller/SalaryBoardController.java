@@ -158,6 +158,7 @@ public class SalaryBoardController {
             @RequestParam int month,
             @RequestParam int year) {
         try {
+            salaryBoardService.synchronizeSalaryBoard(employeeCode, month, year);
             SalaryBoardResponse response = salaryBoardService.getSalaryBoardByEmployeeAndDate(employeeCode, month, year);
             return ApiResponse.<SalaryBoardResponse>builder()
                     .code(1000)
@@ -172,4 +173,6 @@ public class SalaryBoardController {
                     .build();
         }
     }
+
+
 }
