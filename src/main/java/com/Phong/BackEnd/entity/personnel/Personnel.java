@@ -70,4 +70,8 @@ public class Personnel {
 
     @OneToMany(mappedBy = "uploadedBy", cascade = CascadeType.ALL, orphanRemoval = true)
     List<File> files;
+
+    public Personnel(Long code) {
+        this.code = code;
+    }
 }
