@@ -40,9 +40,7 @@ public class SecurityConfig {
         "/images", "/images/upload",
         "/files", "/files/upload", "/files/personnel",
 
-        "/chat.sendMessage",
-            "/chat.html",
-            "/ws/**", "/api/chat.html", "/chat.js"
+        "/notifications/send", "/notifications/my"
 
     };
 

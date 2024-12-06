@@ -1,7 +1,9 @@
-package com.Phong.BackEnd.dto.response;
+package com.Phong.BackEnd.dto.response.Notification;
+
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.util.Pair;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,8 +17,7 @@ public class NotificationResponse {
     Long id;
     String title;
     String content;
-    boolean isRead;
-    String senderName;
-    List<String> recipientNames;
+    PersonnelInfo sender;
+    List<PersonnelInfo> recipients;
     LocalDateTime createdAt;
 }

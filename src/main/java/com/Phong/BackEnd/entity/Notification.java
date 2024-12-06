@@ -32,8 +32,6 @@ public class Notification {
     @Column(nullable = false)
     private String content;
 
-    @Column(name = "is_read", nullable = false)
-    private boolean isRead;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,7 +43,7 @@ public class Notification {
             joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "personnel_id")
     )
-    List<Personnel> recipients = new ArrayList<>();
+    List<Employee> recipients = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "sender_id")

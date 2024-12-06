@@ -2,7 +2,7 @@ package com.Phong.BackEnd.controller;
 
 import com.Phong.BackEnd.dto.request.NotificationRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
-import com.Phong.BackEnd.dto.response.NotificationResponse;
+import com.Phong.BackEnd.dto.response.Notification.NotificationResponse;
 import com.Phong.BackEnd.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +27,6 @@ public class NotificationController {
     public ResponseEntity<ApiResponse<List<NotificationResponse>>> getMyNotifications(
             @RequestParam Long personnelId) {
         return ResponseEntity.ok(notificationService.getMyNotifications(personnelId));
-    }
-
-    @PostMapping("/read")
-    public ResponseEntity<ApiResponse<Void>> markAsRead(
-            @RequestParam Long notificationId,
-            @RequestParam Long personnelId) {
-        return ResponseEntity.ok(notificationService.markAsRead(notificationId, personnelId));
     }
 }
 
