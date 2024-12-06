@@ -62,9 +62,17 @@ const getAllDepartment = () => {
     return axios.get("http://localhost:8080/api/departments/all");
 };
 
+
 //project API
 const getAllProjects = () => {
     return axios.get("http://localhost:8080/api/projects/all");
+};
+
+// New API for assigning projects
+const postAssignProject = (payload) => {
+    return axios.post("http://localhost:8080/api/projects/assign", payload, {
+        headers: { "Content-Type": "application/json" },
+    });
 };
 
 
@@ -94,8 +102,8 @@ const postEmployeeCheckout = (code) => {
 };
 
 const getEmployeeAttendance = (code) => {
-    return axios.get(`/attendance/employee`, { 
-        params: { employeeId: code },  
+    return axios.get(`/attendance/employee`, {
+        params: { employeeId: code },
     });
 };
 
@@ -134,4 +142,5 @@ export {
     deletePersonel,
     getAllProjects,
     getEmployeeAttendance,
+    postAssignProject,
 };

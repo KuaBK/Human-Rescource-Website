@@ -64,15 +64,34 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease;
 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        /* Đảm bảo nội dung thẻ trải đều */
+        width: 100%;
+        min-height: 370px;
+        /* Đặt chiều cao tối thiểu cho thẻ */
+        max-height: 370px;
+        /* Đặt chiều cao tối đa nếu cần */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+
         &:hover {
             transform: translateY(-5px);
         }
 
         .card-header {
-            display: flex;
-            align-items: center;
-            background: #f8f8f8;
-            padding: 1rem;
+            // display: flex;
+            // align-items: center;
+            // background: #f8f8f8;
+            // padding: 1rem;
+            padding: 10px;
+            background-color: #f8f9fa;
+            font-weight: bold;
+            font-size: 1rem;
+            text-align: center;
+
 
             .project-icon {
                 width: 40px;
@@ -88,7 +107,14 @@
         }
 
         .card-body {
-            padding: 1rem;
+            // padding: 1rem;
+            flex: 1;
+            /* Đảm bảo thân thẻ chiếm không gian còn lại */
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* Cân bằng nội dung */
 
             .project-position {
                 font-size: 1.2rem;
@@ -173,5 +199,30 @@
                 }
             }
         }
+    }
+}
+
+.loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 999;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007bff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
