@@ -1,5 +1,6 @@
 package com.Phong.BackEnd.entity.personnel;
 
+import com.Phong.BackEnd.entity.Notification;
 import com.Phong.BackEnd.entity.files.File;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -12,6 +13,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -74,4 +76,11 @@ public class Personnel {
     public Personnel(Long code) {
         this.code = code;
     }
+
+    @OneToMany(mappedBy = "sender")
+    List<Notification> sentNotifications = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "recipients")
+    List<Notification> receivedNotifications = new ArrayList<>();
+
 }

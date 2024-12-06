@@ -18,7 +18,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Chỉ định rõ các origin được phép
-        config.setAllowedOrigins(Arrays.asList("http://localhost:8080/api/chat.html", "http://localhost:8080/api")); // Thêm origin cụ thể thay vì "*"
+        config.setAllowedOrigins(Arrays.asList("http://localhost:8080/api/chat.html", "http://localhost:63342")); // Thêm origin cụ thể thay vì "*"
 
         // Các phương thức HTTP được phép
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

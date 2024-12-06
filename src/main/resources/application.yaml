@@ -23,3 +23,7 @@ cloudinary:
   cloud_name: "dkamugos5"
   api_key: "699183452242579"
   api_secret: "1pFbBUoout8BGSR0jf2zidml8s8"
+
+logging:
+  level:
+    root: INFO

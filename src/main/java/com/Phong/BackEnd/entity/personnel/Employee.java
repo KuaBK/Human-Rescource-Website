@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.Phong.BackEnd.entity.Notification;
 import com.Phong.BackEnd.entity.tasks.Tasks;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import com.Phong.BackEnd.entity.departments.Department;
