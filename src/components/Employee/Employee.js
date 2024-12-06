@@ -3,24 +3,11 @@ import './Employee.css'
 import { Star, Files, Plus, User, Trash } from 'phosphor-react';
 import EmployeeProfileModal from './EmployeeProfileModal';
 import AddEmployee from './AddEmployee';
-import { Modal } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import axios from "axios"
 import { deletePersonel, getAllPersonel, postCreateNewAccount, postCreateNewPersonel, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
-
-const getPositionColor = (position) => {
-    const colors = {
-        "Mobile Developer": "#FFD700",
-        "QA/QC Engineer": "#ADD8E6",
-        "UI/UX Designer": "#DDA0DD",
-        "Quality Assurance": "#98FB98",
-        "EMPLOYEE": "#87CEFA",
-        "Software Engineer": "#fc88dd",
-    };
-    return colors[position] || "#d3d3d3";
-};
 
 const getRoleColor = (role) => (role === "EMPLOYEE" ? "#0004fc" : "#fc0000");
 
@@ -48,16 +35,18 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                         </div>
 
                         {/* Phần Icons chiếm 1/3 */}
-                        <div className='d-flex justify-content-around align-items-center mt-2 w-100 flex-grow-1'>
+
+                        {/* <div className='d-flex justify-content-around align-items-center mt-2 w-100 flex-grow-1'>
                             <div className='text-center'>
                                 <Files size={30} weight="bold" />
-                                <p className='mb-0'>{employee.task} Tasks</p>  {/*taskcomplete*/}
+                                <p className='mb-0'>{employee.task} Tasks</p>  
                             </div>
                             <div className='text-center'>
                                 <Star size={30} weight="bold" />
                                 <p className='mb-0'>{employee.stars} Stars</p>
                             </div>
-                        </div>
+                        </div> */}
+                        
                     </div>
 
                     {/* BODY */}
@@ -76,18 +65,6 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
 
                             {/* Phần chức vụ chiếm 1/5, chỉ tô màu nền trong phạm vi chữ */}
                             <div className='d-flex align-items-center mt-2' style={{ flex: '1' }}>
-                                <h6 className='card-subtitle mb-0'>
-                                    {/* <span
-                                        style={{
-                                            backgroundColor: getPositionColor(employee.position),
-                                            color: 'white',
-                                            borderRadius: '4px',
-                                            padding: '2px 8px',
-                                        }}
-                                    >
-                                        {employee.position}
-                                    </span> */}
-                                </h6>
                                 
                                 {/* Position tag */}
                                 <h6 className='card-subtitle mb-0 custom-ml'>
@@ -103,6 +80,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                     </span>
                                 </h6>
                                 {/* Code tag */}
+                                
                                 <h6 className='card-subtitle mb-0 custom-ml'>
                                     <span
                                         style={{
@@ -157,18 +135,11 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
 
                             {/* Phần nút chiếm 1/5 */}
                             <div className='d-flex mt-auto' style={{ flex: '1', gap: "30px"}}>
-                                {/* <button className='btn btn-primary me-1'>
-                                    <Plus size={16} className="me-1" /> 
-                                    Thêm Task
-                                </button> */}
 
                                 <button className='btn btn-info text-white me-1' onClick={onProfileClick}>
                                     <User size={16} className="me-1" /> Hồ sơ
                                 </button>
 
-                                <button className='btn btn-danger text-white me-1' onClick={onProfileClick}>
-                                    Chuyển phòng ban
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -178,14 +149,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
     );
 };
 
-
-
 const Employee = ({ x }) => {
-    // console.log('x ở trang employee, x = ', x)
-    // x = x + 1;
-    // console.log('x ở trang employee lần 2, x = ', x)
-
-    // avatar, manageDate
 
     const [employees, setEmployees] = useState([]);
     const [error, setError] = useState(null);
@@ -193,6 +157,42 @@ const Employee = ({ x }) => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
+
+
+   const [showTransferModal, setShowTransferModal] = useState(false);
+    const [transferEmployeeId, setTransferEmployeeId] = useState('');
+    const [transferDepartmentId, setTransferDepartmentId] = useState('');
+
+
+    const handleTransferModalShow = () => {
+        setShowTransferModal(true);
+    };
+
+    const handleTransferModalClose = () => {
+        setShowTransferModal(false);
+        setTransferEmployeeId('');
+        setTransferDepartmentId('');
+    };
+
+    const handleDepartmentTransfer = async () => {
+        if (!transferEmployeeId || !transferDepartmentId) {
+            alert('Vui lòng nhập Employee ID và Department ID');
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `http://localhost:8080/api/employee/assign-to-department?employeeId=${transferEmployeeId}&departmentId=${transferDepartmentId}`
+            );
+            console.log('Employee transferred successfully:', response.data);
+            alert('Chuyển phòng ban thành công!');
+            handleTransferModalClose();
+            fetchEmployees(); // Refresh the employee list
+        } catch (err) {
+            console.error('Error transferring department:', err);
+            alert('Có lỗi xảy ra khi chuyển phòng ban.');
+        }
+    };
 
     const fetchEmployees = async () => {
         try {
@@ -248,7 +248,7 @@ const Employee = ({ x }) => {
         try {
             const response = await postCreateNewAccount(newEmployee.username, newEmployee.password)
             if (response && response.data){
-                const accountId = response.data.data.id;
+                const accountId = response.data.result.id;
                 const payload = {
                     accountId, 
                     firstName: newEmployee.firstName,
@@ -256,11 +256,12 @@ const Employee = ({ x }) => {
                     position: 'EMPLOYEE',
                     city: newEmployee.city,
                     street: newEmployee.street,
-                    sex: newEmployee.gender,
+                    gender: newEmployee.gender,
                     email: newEmployee.email,
                     city: newEmployee.city,
                     street: newEmployee.street,
-                    phoneNumber: newEmployee.phoneNumber
+                    phone: newEmployee.phoneNumber,
+                    departmentId: parseInt(newEmployee.deptId, 10)
                 };
 
                 console.log(payload);
@@ -283,7 +284,7 @@ const Employee = ({ x }) => {
     const handleAddModalShow = () => {
         setShowAddModal(true);
     };
-
+    
     const handleProfileClick = (employee) => {
         setSelectedEmployee(employee);
         setShowModal(true);
@@ -309,6 +310,13 @@ const Employee = ({ x }) => {
                     <Plus size={16} className="me-1" /> {/* Biểu tượng Plus */}
                     Thêm nhân viên
                 </button>
+
+                <button className='btn btn-success text-white' onClick={handleTransferModalShow}>
+                    <Plus size={16} className="me-1" /> {/* Biểu tượng Plus */}
+                    Chuyển phòng ban
+                </button>
+
+               
             </div>
 
             <hr style={{ width: '100%', border: '1px solid #ddd', margin: '10px 0' }} />
@@ -342,8 +350,46 @@ const Employee = ({ x }) => {
                     <AddEmployee onAddEmployee={handleAddEmployee} />
                 </Modal.Body>
             </Modal>
+
+            <Modal show={showTransferModal} onHide={handleTransferModalClose} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Chuyển Phòng Ban</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="mb-3">
+                        <label className="form-label">Employee ID</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={transferEmployeeId}
+                            onChange={(e) => setTransferEmployeeId(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Department ID</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={transferDepartmentId}
+                            onChange={(e) => setTransferDepartmentId(e.target.value)}
+                        />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleTransferModalClose}>
+                        Hủy
+                    </Button>
+                    <Button variant="primary" onClick={handleDepartmentTransfer}>
+                        Chuyển Phòng Ban
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            
         </div>
     );
 };
+
+
 
 export default Employee;

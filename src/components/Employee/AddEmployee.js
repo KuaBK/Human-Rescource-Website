@@ -42,8 +42,8 @@ const AddEmployee = ({ onAddEmployee }) => {
   };
 
   const handleAddClick = () => {
-    console.log(">>>> ", newEmployee);
-    // onAddEmployee(newEmpWithId);
+    // console.log(">>>> ", newEmployee);
+    onAddEmployee(newEmployee);
   };
 
   return (

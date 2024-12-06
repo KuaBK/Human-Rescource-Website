@@ -1,26 +1,50 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 
 const AdjustRateModal = ({ show, handleClose, rates, handleSave }) => {
     const [formData, setFormData] = useState(rates);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         const updatedFormData = { ...formData, [name]: parseFloat(value) };
         setFormData(updatedFormData);
-        console.log(`Updated field: ${name}, Value: ${value}`); // Kiểm tra giá trị mới của trường thay đổi
+        console.log(`Updated field: ${name}, Value: ${value}`); // For debugging
     };
 
-    
-// // liên kết vs PUT API ở đây
-// {
-//     fullShiftRate : 200
-//    halfShiftRate :  100
-// }
+    const handleSubmit = async () => {
+        console.log('Final data before save:', formData); // For debugging
 
-    const handleSubmit = () => {
-        console.log('Final data before save:', formData); // Kiểm tra toàn bộ dữ liệu trước khi lưu
-        handleSave(formData);
+        // Start loading state
+        setLoading(true);
+
+        try {
+            // Call API to update rates
+            const response = await axios.patch(
+                `http://localhost:8080/api/salary/payrate-edit`,
+                null,
+                {
+                    params: {
+                        fullWorkPay: formData.fullShiftRate,
+                        halfWorkPay: formData.halfShiftRate,
+                    },
+                }
+            );
+
+            if (response.data.code === 1000) {
+                alert('Cập nhật hệ số thành công!');
+                handleSave(formData); // Update parent state with new rates
+                handleClose();
+            } else {
+                alert('Đã có lỗi xảy ra, vui lòng thử lại!');
+            }
+        } catch (error) {
+            console.error('Error updating rates:', error);
+            alert('Không thể cập nhật hệ số. Vui lòng kiểm tra kết nối!');
+        } finally {
+            setLoading(false); // Stop loading state
+        }
     };
 
     return (
@@ -37,6 +61,7 @@ const AdjustRateModal = ({ show, handleClose, rates, handleSave }) => {
                         name="fullShiftRate"
                         value={formData.fullShiftRate}
                         onChange={handleChange}
+                        disabled={loading} // Disable input during loading
                     />
                 </div>
                 <div className="mb-3">
@@ -47,15 +72,16 @@ const AdjustRateModal = ({ show, handleClose, rates, handleSave }) => {
                         name="halfShiftRate"
                         value={formData.halfShiftRate}
                         onChange={handleChange}
+                        disabled={loading} // Disable input during loading
                     />
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={handleClose} disabled={loading}>
                     Đóng
                 </Button>
-                <Button variant="primary" onClick={handleSubmit}>
-                    Lưu thay đổi
+                <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+                    {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
                 </Button>
             </Modal.Footer>
         </Modal>

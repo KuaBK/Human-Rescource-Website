@@ -50,16 +50,6 @@ const SubmitTask = () => {
             )
         );
 
-        // const file = event.target.files[0]; // Single file upload
-        // if (!file) return;
-
-        // setTasks((prevTasks) =>
-        //     prevTasks.map((task) =>
-        //         task.id === taskId
-        //             ? { ...task, file, isUploaded: true }
-        //             : task
-        //     )
-        // );
 
         console.log("pass upload");
     };

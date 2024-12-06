@@ -27,7 +27,7 @@ const deleteAccount = (id) => {
 
 // Personnel APIs
 const postCreateNewPersonel = (payload) => {
-    return axios.post("/personnel/add", payload, {
+    return axios.post("/employee/create", payload, {
         headers: { "Content-Type": "application/json" },
     });
 };

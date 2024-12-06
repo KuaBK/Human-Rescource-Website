@@ -1,121 +1,139 @@
-import React, { useEffect, useState } from 'react';
-import './EmployeeInfor.scss';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaBuilding } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import "./EmployeeInfor.scss";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase } from "react-icons/fa";
 
 const EmployeeInfor = () => {
-
-  const {personnel} = useSelector((state) => state);
-
   // State for profile data
   const [profile, setProfile] = useState({
-    name: '',
-    position: '',
-    phone: '',
-    email: '',
-    address: '',
-    department: '',
-    profileImage: '', // New state for the profile image
+    name: "",
+    position: "",
+    phone: "",
+    email: "",
+    address: "",
+    department: "",
+    profileImage: "",
   });
 
+  const [isEditing, setIsEditing] = useState(false); // Track edit mode
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [error, setError] = useState(""); // Track error state
+  const [isUploading, setIsUploading] = useState(false); // Track upload state
+
   useEffect(() => {
-    if(personnel?.data){
-      console.log("personnel info >>>", personnel.data);
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        name: `${personnel.data.lastName} ${personnel.data.firstName}`,
-        phone: `${personnel.data.phone}`,
-        email: `${personnel.data.email}`,
-        address: `${personnel.data.street} ${personnel.data.city}`,
-        department: `${personnel.data.departmentName}`,
-        position: `${personnel.data.personelCode}`,
-        profileImage: `${personnel.data.avatar}`
-      }))
-    }
-  }, [personnel])
+    // Fetch data from API
+    const fetchEmployeeData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const accountId = localStorage.getItem("accountId");
 
-  // State to track if in edit mode
-  const [isEditing, setIsEditing] = useState(false);
+        if (!token || !accountId) {
+          setError("Authentication token or account ID not found");
+          setLoading(false);
+          return;
+        }
 
-  // Function to handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      [name]: value,
-    }));
-  };
+        const response = await fetch(
+          `http://localhost:8080/api/employee/account?id=${accountId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-  // Function to handle profile image upload
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    console.log("file >>>", file);
+        if (!response.ok) {
+          throw new Error("Failed to fetch employee data");
+        }
 
-    if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
-        console.log("formData >>>>", formData);
+        const data = await response.json();
 
-        const imageUrl = URL.createObjectURL(file);
-        setProfile((prevProfile) => ({
-            ...prevProfile,
-            profileImage: imageUrl,
-        }));
+        // Save personelCode to localStorage
+        localStorage.setItem("personelCode", data.personelCode);
+        console.log("personelCode >>>> ", data.personelCode);
+        localStorage.setItem("name", `${data.lastName} ${data.firstName}`);
+        console.log("myname >>>", `${data.lastName} ${data.firstName}`);
+        setProfile({
+          name: `${data.lastName} ${data.firstName}`,
+          phone: data.phone,
+          email: data.email,
+          address: `${data.street}, ${data.city}`,
+          department: data.departmentName,
+          position: data.position,
+          profileImage: data.avatar,
+        });
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching employee data:", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
 
-        // try {
-        //   const response = await fetch('/api/upload', {
-        //     method: 'POST',
-        //     body: formData,
-        //   });
+    fetchEmployeeData();
+  }, []);
 
-        //   if (response.ok) {
-        //     const data = await response.json();
-        //     console.log("Uploaded image URL >> ", data.imageUrl);
-
-        //     // Save the URL to the database or state
-        //     setProfile((prevProfile) => ({
-        //         ...prevProfile,
-        //         profileImage: data.imageUrl, // Save the image URL returned from the server
-        //     }));
-        //   } else {
-        //       console.error("Failed to upload the image.");
-        //   }
-        // } catch (error) {
-        //   console.error("Error uploading image: ", error);
-        // }
-
-    } 
-
-
-    // console.log("file >> ", file);
-    // if (file) {
-    //   const imageUrl = URL.createObjectURL(file); // Create a local URL for the image
-    //   console.log("image >> ", imageUrl);
-    //   setProfile((prevProfile) => ({
-    //     ...prevProfile,
-    //     profileImage: imageUrl,
-    //   }));
-    // }
-  };
-
-  // Function to toggle edit mode
+  // Toggle edit mode
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
   };
 
-  // Function to save changes
+  // Save changes
   const handleSave = () => {
     setIsEditing(false);
-    // Here, you would typically send the updated profile data to a server.
-    console.log('Updated profile:', profile);
+    console.log("Updated profile:", profile);
   };
+
+  // Handle file input for avatar upload
+  const handleAvatarUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file || file.type !== "image/png") {
+      alert("Please upload a PNG image");
+      return;
+    }
+
+    setIsUploading(true);
+    const token = localStorage.getItem("token");
+
+    // Create FormData object for the image upload
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/images/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        profileImage: data.imageUrl, // Assuming the response contains the URL to the uploaded image
+      }));
+    } catch (err) {
+      console.error("Error uploading avatar:", err);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="employee-profile">
       {/* Profile Header */}
       <div className="profile-header">
         <img
-          src={profile.profileImage || "default_profile_picture.png"} // Use a default image if none is uploaded
+          src={profile.profileImage || "default_profile_picture.png"}
           alt="Employee Profile"
           className="profile-image"
         />
@@ -125,7 +143,9 @@ const EmployeeInfor = () => {
               type="text"
               name="name"
               value={profile.name}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setProfile({ ...profile, name: e.target.value })
+              }
               className="editable-input"
             />
           ) : (
@@ -136,7 +156,9 @@ const EmployeeInfor = () => {
               type="text"
               name="position"
               value={profile.position}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setProfile({ ...profile, position: e.target.value })
+              }
               className="editable-input"
             />
           ) : (
@@ -145,84 +167,55 @@ const EmployeeInfor = () => {
         </div>
       </div>
 
-      {/* Profile Image Upload */}
-      {isEditing && (
-        <div className="image-upload">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="file-upload"
-            id="file-upload"
-          />
-          <label htmlFor="file-upload" className="upload-button">
-            <i className="fas fa-upload"></i> Upload Profile Picture
+      {/* Avatar upload */}
+      <div className="avatar-upload">
+        {isUploading ? (
+          <p>Uploading...</p>
+        ) : (
+          <label className="upload-button">
+            <input
+              type="file"
+              accept="image/png"
+              onChange={handleAvatarUpload}
+              className="file-input"
+            />
+            Chọn ảnh đại diện
           </label>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Profile Details */}
       <div className="profile-details">
         <div className="info-group">
           <h3>Thông tin liên lạc</h3>
           <p>
-            <FaPhone />{' '}
-            {isEditing ? (
-              <input
-                type="text"
-                name="phone"
-                value={profile.phone}
-                onChange={handleInputChange}
-                className="editable-input"
-              />
-            ) : (
-              profile.phone
-            )}
+            <FaPhone /> {profile.phone}
           </p>
           <p>
-            <FaEnvelope />{' '}
-            {isEditing ? (
-              <input
-                type="text"
-                name="email"
-                value={profile.email}
-                onChange={handleInputChange}
-                className="editable-input"
-              />
-            ) : (
-              profile.email
-            )}
+            <FaEnvelope /> {profile.email}
           </p>
           <p>
-            <FaMapMarkerAlt />{' '}
-            {isEditing ? (
-              <input
-                type="text"
-                name="address"
-                value={profile.address}
-                onChange={handleInputChange}
-                className="editable-input"
-              />
-            ) : (
-              profile.address
-            )}
+            <FaMapMarkerAlt /> {profile.address}
           </p>
         </div>
-
         <div className="info-group">
           <h3>Thông tin công việc</h3>
-          <p><FaBriefcase /> Phòng ban: {profile.department}</p>
-          {/* <p><FaBuilding /> Địa chỉ phòng ban: {profile.officeLocation}</p>
-          <p>Mã số nhân viên: {profile.employeeID}</p> */}
+          <p>
+            <FaBriefcase /> Phòng ban: {profile.department}
+          </p>
         </div>
       </div>
 
       {/* Edit and Save Buttons */}
       <div className="button-group">
         {isEditing ? (
-          <button className="save-button" onClick={handleSave}>Lưu</button>
+          <button className="save-button" onClick={handleSave}>
+            Lưu
+          </button>
         ) : (
-          <button className="edit-button" onClick={toggleEditMode}>Chỉnh sửa</button>
+          <button className="edit-button" onClick={toggleEditMode}>
+            Chỉnh sửa
+          </button>
         )}
       </div>
     </div>

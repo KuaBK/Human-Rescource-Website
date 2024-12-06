@@ -1,70 +1,78 @@
+import React, { useEffect, useState } from "react";
+import "./EHeader.scss";
+import { Navbar, NavDropdown, Container } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
-import React, { useEffect, useState } from 'react';
-import './EHeader.scss';
-
-import { Navbar, NavDropdown, Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getPersonnelByAccountId } from '../../components/services/apiService';
-
-const EHeader = ({ personnel }) => {
-  // const {user} = useSelector((state) => state);
-  // const [personnel, setPersonnel] = useState(null);
-  // const [errorMessage, setErrorMessage] = useState("");
-
-  // const fetchPersonnel = async () => {
-  //   try {
-  //     if (user) {
-  //         let response = await getPersonnelByAccountId(user.accountId);
-  //         if(response && response?.data?.data){
-  //           setPersonnel(response.data.data);
-  //         }
-          
-  //     }
-  //   } catch (err) {
-  //       setErrorMessage(err.message); // Log error
-  //       console.error("Error fetching personnel:", err);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchPersonnel();
-  // }, [])
+const EHeader = () => {
+  const [name, setName] = useState("Loading...");
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("Header personnel >>>", personnel); 
+    const fetchEmployeeName = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const accountId = localStorage.getItem("accountId");
+
+        if (!token || !accountId) {
+          setError("Authentication token or account ID not found");
+          return;
+        }
+
+        const response = await fetch(
+          `http://localhost:8080/api/employee/account?id=${accountId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch employee data");
+        }
+
+        const data = await response.json();
+        setName(`${data.lastName} ${data.firstName}`);
+      } catch (err) {
+        console.error("Error fetching employee name:", err);
+        setError(err.message);
+      }
+    };
+
+    fetchEmployeeName();
   }, []);
 
   return (
     <Navbar className="custom-navbar" expand="lg">
       <Container>
         <NavLink to="/" className="navbar-brand">
-          {/* Logo text or image */}
+          {/* Logo or Brand Name */}
         </NavLink>
 
         <div className="header-icons">
-          {/* Notification icon with shake effect */}
+          {/* Notification Icon */}
           <div className="bell">
             <span className="material-icons layer-1">notifications_active</span>
             <span className="material-icons layer-2">notifications</span>
             <span className="material-icons layer-3">notifications</span>
           </div>
 
-          {/* Message icon from Material Icons */}
+          {/* Message Icon */}
           <span className="material-icons icon">message</span>
 
+          {/* Profile Dropdown */}
           <NavDropdown
             title={
               <>
-                <img
+                {/* <img
                   className="avatar rounded-circle"
-                  src="https://randomuser.me/api/portraits/women/1.jpg"
+                  src="https://randomuser.me/api/portraits/men/1.jpg"
                   alt="User Avatar"
-                  style={{ width: '30px', height: '30px', marginRight: '8px' }}
-                />
-                <span className="profile-name">
-                  {personnel?.firstName ? personnel.firstName : "Loading..."}
-                </span>
+                  style={{ width: "30px", height: "30px", marginRight: "8px" }}
+                /> */}
+                <span className="profile-name">{name}</span>
               </>
             }
             id="profile-dropdown"
@@ -79,4 +87,3 @@ const EHeader = ({ personnel }) => {
 };
 
 export default EHeader;
-

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import axios from 'axios';
 import './AdminSalaryModal.scss';
 
 const AdminSalaryModal = ({ show, handleClose, record, handleSave }) => {
@@ -14,7 +15,7 @@ const AdminSalaryModal = ({ show, handleClose, record, handleSave }) => {
             setFormData({
                 bonus: record.bonus || '',
                 penalty: record.penalty || '',
-                real_pay: record.real_pay || '',
+                real_pay: record.realPay || '',
             });
         }
     }, [record]);
@@ -24,26 +25,34 @@ const AdminSalaryModal = ({ show, handleClose, record, handleSave }) => {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleSubmit = () => {
-        if (!formData.real_pay) {
-            alert('Vui lòng điền đầy đủ thông tin lương thực tế!');
+    const handleSubmit = async () => {
+        if (!formData.bonus || !formData.penalty) {
+            alert('Vui lòng điền đầy đủ thông tin tiền thưởng và tiền phạt!');
             return;
         }
 
-        handleSave({
-            ...record, // Pass the full record back with updated fields
-            bonus: parseFloat(formData.bonus),
-            penalty: parseFloat(formData.penalty),
-            real_pay: parseFloat(formData.real_pay),
-        });
+        try {
+            const response = await axios.patch(
+                `http://localhost:8080/api/salary/bonus-penalty?id=${record.id}&bonus=${formData.bonus}&penalty=${formData.penalty}`
+            );
 
-        handleClose();
+            if (response.data.code === 1000) {
+                alert('Cập nhật thành công!');
+                handleSave(response.data.result); // Update the parent component
+                handleClose();
+            } else {
+                alert('Đã có lỗi xảy ra. Vui lòng thử lại!');
+            }
+        } catch (error) {
+            console.error('Error updating bonus and penalty:', error);
+            alert('Không thể cập nhật. Vui lòng kiểm tra lại!');
+        }
     };
 
     return (
         <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Sửa lương lại cho {record?.name}</Modal.Title>
+                <Modal.Title>Sửa lương lại cho {record?.firstName} {record?.lastName}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="mb-3">

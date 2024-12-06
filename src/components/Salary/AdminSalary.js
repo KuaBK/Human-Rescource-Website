@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { NotePencil } from 'phosphor-react';
 import AdminSalaryModal from './AdminSalaryModal';
 import AdjustRateModal from './AdjustRateModal';
@@ -12,19 +13,28 @@ const AdminSalary = () => {
 
     const [filterMonth, setFilterMonth] = useState('');
     const [filterYear, setFilterYear] = useState('');
+    const [Salary, setSalary] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const [Salary, setSalary] = useState([
-        { emp_code: 'LP-0101', id: 1, month: 1, year: 2022, bonus: 500, penalty: 100, real_pay: 3900, full_work: 22, half_work: 0, absence: 1, name: 'Joan Dyer', image: 'https://randomuser.me/api/portraits/men/1.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-        { emp_code: 'LP-2007', id: 2, month: 1, year: 2023, bonus: 500, penalty: 100, real_pay: 3900, full_work: 22, half_work: 0, absence: 1, name: 'Ly Quang', image: 'https://randomuser.me/api/portraits/men/2.jpg' },
-        { emp_code: 'LP-3008', id: 3, month: 2, year: 2023, bonus: 400, penalty: 200, real_pay: 3600, full_work: 20, half_work: 2, absence: 2, name: 'Jane Smith', image: 'https://randomuser.me/api/portraits/women/1.jpg' },
-    ]);
+    // Fetch salary data from API
+    useEffect(() => {
+        const fetchSalaryData = async () => {
+            setLoading(true);
+            setError('');
+            try {
+                const response = await axios.get('http://localhost:8080/api/salary/all');
+                const data = response.data?.result || [];
+                setSalary(data);
+            } catch (err) {
+                setError('Error fetching salary data. Please try again.');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchSalaryData();
+    }, []);
 
     const handleModalOpen = (record) => {
         setSelectedRecord(record);
@@ -38,9 +48,12 @@ const AdminSalary = () => {
 
     const handleSave = (updatedRecord) => {
         setSalary((prevSalary) =>
-            prevSalary.map((record) => (record.id === updatedRecord.id ? updatedRecord : record))
+            prevSalary.map((record) =>
+                record.id === updatedRecord.id ? updatedRecord : record
+            )
         );
     };
+    
 
     const handleAdjustRateModalClose = () => {
         setShowAdjustRateModal(false);
@@ -48,20 +61,13 @@ const AdminSalary = () => {
 
     const handleRateSave = async (updatedRates) => {
         try {
-            // API call to save updated rates
-            // const response = await axios.post('/api/salaries/rates', updatedRates);
-           // console.log(response.data); // Optionally log the response from the backend
-    
-            // Update local state after successful save
             setRates(updatedRates);
             setShowAdjustRateModal(false);
         } catch (error) {
-            console.error("Failed to update rates:", error);
+            console.error('Failed to update rates:', error);
         }
     };
-    
 
-    // Filter the salary records based on the selected month and year
     const filteredSalary = Salary.filter((record) => {
         const monthMatch = filterMonth ? record.month === parseInt(filterMonth) : true;
         const yearMatch = filterYear ? record.year === parseInt(filterYear) : true;
@@ -106,6 +112,11 @@ const AdminSalary = () => {
                 </div>
             </div>
 
+            {/* Error and Loading */}
+            {loading && <p>Đang tải dữ liệu...</p>}
+            {error && <p className="error">{error}</p>}
+
+            {/* Salary Table */}
             <div className="salary-table">
                 <table className="table table-hover">
                     <thead>
@@ -126,19 +137,16 @@ const AdminSalary = () => {
                     <tbody>
                         {filteredSalary.map((record, index) => (
                             <tr key={index}>
-                                <td>{record.emp_code}</td>
-                                <td className="employee-info">
-                                    <img src={record.image} alt="avatar" className="avatar" />
-                                    <span>{record.name}</span>
-                                </td>
+                                <td>{record.employeeCode}</td>
+                                <td>{`  ${record.lastName} ${record.firstName} `}</td>
                                 <td>{record.month}</td>
                                 <td>{record.year}</td>
-                                <td>{record.full_work}</td>
-                                <td>{record.half_work}</td>
+                                <td>{record.fullWork}</td>
+                                <td>{record.halfWork}</td>
                                 <td>{record.absence}</td>
                                 <td className="text-success">{record.bonus}Đ</td>
                                 <td className="text-danger">{record.penalty}Đ</td>
-                                <td className="text-success">{record.real_pay}Đ</td>
+                                <td className="text-success">{record.realPay}Đ</td>
                                 <td>
                                     <button
                                         className="btn-edit"
