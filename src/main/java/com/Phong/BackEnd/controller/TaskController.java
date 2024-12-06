@@ -2,14 +2,13 @@ package com.Phong.BackEnd.controller;
 
 import com.Phong.BackEnd.dto.request.Task.TaskRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
-import com.Phong.BackEnd.dto.response.File.FileResponse;
 import com.Phong.BackEnd.dto.response.Task.TaskResponse;
+import com.Phong.BackEnd.dto.response.File.FileResponse;
 import com.Phong.BackEnd.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @RestController
@@ -90,12 +89,10 @@ public class TaskController {
             @RequestParam MultipartFile file,
             @RequestParam Long personnelId) {
         FileResponse fileResponse = taskService.submitTaskWithFile(file, taskId, personnelId);
-
         ApiResponse<FileResponse> response = ApiResponse.<FileResponse>builder()
                 .message("Task submitted successfully")
                 .result(fileResponse)
                 .build();
-
         return ResponseEntity.ok(response);
     }
 

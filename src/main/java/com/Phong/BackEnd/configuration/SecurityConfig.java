@@ -35,7 +35,15 @@ public class SecurityConfig {
        "/projects/assign", "/projects/remove", "/projects/department", "/projects/employees",
 
         "/tasks", "/tasks/create", "/tasks/all", "/tasks/status-update", "/tasks/assign",
-        "/tasks/project", "/tasks/employee",
+        "/tasks/project", "/tasks/employee", "/tasks/submit", "/tasks/unsubmit",
+
+        "/attendance/checkIn", "/attendance/checkOut", "/attendance/workingDuration", "/attendance/all/employee",
+        "/attendance/date", "/attendance/today", "/attendance/month-year",
+
+        "/salary", "/salary/edit", "/salary/create", "/salary/payrate-edit", "/salary/bonus-penalty",
+        "/salary/employee", "/salary/employee/month-year", "/salary/all",
+
+        "/personnel/all",
 
         "/images", "/images/upload",
         "/files", "/files/upload", "/files/personnel",

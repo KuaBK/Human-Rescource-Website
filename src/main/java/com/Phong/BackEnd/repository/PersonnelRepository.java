@@ -10,4 +10,5 @@ import com.Phong.BackEnd.entity.personnel.Personnel;
 @Repository
 public interface PersonnelRepository extends JpaRepository<Personnel, Long> {
     Optional<Personnel> findByAccountUsername(String username);
+    Optional<Personnel> findByAccountId(String id);
 }

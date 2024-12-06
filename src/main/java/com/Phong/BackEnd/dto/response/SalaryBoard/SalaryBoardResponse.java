@@ -12,10 +12,14 @@ import lombok.experimental.FieldDefaults;
 public class SalaryBoardResponse {
     Long id;
     Long employeeCode;
+    String firstName;
+    String lastName;
     Integer month;
     Integer year;
     Double realPay;
     Integer fullWork;
     Integer halfWork;
     Integer absence;
+    Double bonus;
+    Double penalty;
 }
