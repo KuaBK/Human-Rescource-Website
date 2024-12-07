@@ -2,6 +2,7 @@ package com.Phong.BackEnd.entity.notification;
 
 import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.personnel.Manager;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -32,6 +33,7 @@ public class Notification {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm - dd/MM/yyyy")
     private LocalDateTime createdAt;
 
     @ManyToMany

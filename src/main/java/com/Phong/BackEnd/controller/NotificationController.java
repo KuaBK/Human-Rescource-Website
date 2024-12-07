@@ -2,6 +2,7 @@ package com.Phong.BackEnd.controller;
 
 import com.Phong.BackEnd.dto.request.NotificationRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
+import com.Phong.BackEnd.dto.response.Notification.GetNotiResponse;
 import com.Phong.BackEnd.dto.response.Notification.NotificationResponse;
 import com.Phong.BackEnd.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class NotificationController {
     }
 
     @GetMapping("/my")
-    public ResponseEntity<ApiResponse<List<NotificationResponse>>> getMyNotifications(
+    public ResponseEntity<ApiResponse<List<GetNotiResponse>>> getMyNotifications(
             @RequestParam Long personnelId) {
         return ResponseEntity.ok(notificationService.getMyNotifications(personnelId));
     }

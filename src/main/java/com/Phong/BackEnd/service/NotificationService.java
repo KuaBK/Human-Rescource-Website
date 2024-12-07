@@ -2,6 +2,7 @@ package com.Phong.BackEnd.service;
 
 import com.Phong.BackEnd.dto.request.NotificationRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
+import com.Phong.BackEnd.dto.response.Notification.GetNotiResponse;
 import com.Phong.BackEnd.dto.response.Notification.NotificationResponse;
 import com.Phong.BackEnd.dto.response.Notification.PersonnelInfo;
 import com.Phong.BackEnd.entity.notification.Notification;
@@ -20,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -96,6 +98,8 @@ public class NotificationService {
             }
         });
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy");
+
         return ApiResponse.<NotificationResponse>builder()
                 .code(1000)
                 .message("Notification sent successfully")
@@ -112,19 +116,20 @@ public class NotificationService {
                                         .name(r.getFirstName() + " " + r.getLastName())
                                         .build())
                                 .collect(Collectors.toList()))
-                        .createdAt(notification.getCreatedAt())
+                        .createdAt(notification.getCreatedAt().format(formatter))
                         .build())
                 .build();
     }
 
-    public ApiResponse<List<NotificationResponse>> getMyNotifications(Long employeeId) {
+    public ApiResponse<List<GetNotiResponse>> getMyNotifications(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new RuntimeException("Personnel not found"));
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        List<NotificationResponse> notifications = notificationStatusRepository.findByEmployee(employee).stream()
+        List<GetNotiResponse> notifications = notificationStatusRepository.findByEmployee(employee).stream()
                 .map(status -> {
                     Notification notification = status.getNotification();
-                    return NotificationResponse.builder()
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy");
+                    return GetNotiResponse.builder()
                             .id(notification.getId())
                             .title(notification.getTitle())
                             .content(notification.getContent())
@@ -133,12 +138,12 @@ public class NotificationService {
                                     .code(notification.getSender().getCode())
                                     .name(notification.getSender().getFirstName() + " " + notification.getSender().getLastName())
                                     .build())
-                            .createdAt(notification.getCreatedAt())
+                            .createdAt(notification.getCreatedAt().format(formatter))
                             .build();
                 })
                 .toList();
 
-        return ApiResponse.<List<NotificationResponse>>builder()
+        return ApiResponse.<List<GetNotiResponse>>builder()
                 .code(1000)
                 .message("Notifications retrieved successfully")
                 .result(notifications)
