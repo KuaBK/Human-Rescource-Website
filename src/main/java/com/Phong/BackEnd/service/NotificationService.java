@@ -4,16 +4,17 @@ import com.Phong.BackEnd.dto.request.NotificationRequest;
 import com.Phong.BackEnd.dto.response.ApiResponse;
 import com.Phong.BackEnd.dto.response.Notification.NotificationResponse;
 import com.Phong.BackEnd.dto.response.Notification.PersonnelInfo;
-import com.Phong.BackEnd.entity.Notification;
+import com.Phong.BackEnd.entity.notification.Notification;
 import com.Phong.BackEnd.entity.departments.Department;
+import com.Phong.BackEnd.entity.notification.NotificationStatus;
 import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.personnel.Manager;
 import com.Phong.BackEnd.entity.personnel.Personnel;
 import com.Phong.BackEnd.repository.EmployeeRepository;
 import com.Phong.BackEnd.repository.NotificationRepository;
+import com.Phong.BackEnd.repository.NotificationStatusRepository;
 import com.Phong.BackEnd.repository.PersonnelRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class NotificationService {
     private final PersonnelRepository personnelRepository;
     private final JavaMailSender mailSender;
     private final EmployeeRepository employeeRepository;
+    private final NotificationStatusRepository notificationStatusRepository;
 
     public void sendEmail(String to, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -75,6 +77,15 @@ public class NotificationService {
         notificationRepository.save(notification);
 
         recipients.forEach(recipient -> {
+            NotificationStatus status = NotificationStatus.builder()
+                    .notification(notification)
+                    .employee(recipient)
+                    .isRead(false)
+                    .build();
+            notificationStatusRepository.save(status);
+        });
+
+        recipients.forEach(recipient -> {
             String email = recipient.getEmail();
             if (email != null && !email.isEmpty()) {
                         sendEmail(
@@ -106,27 +117,52 @@ public class NotificationService {
                 .build();
     }
 
-    public ApiResponse<List<NotificationResponse>> getMyNotifications(Long personnelId) {
-        Personnel personnel = personnelRepository.findById(personnelId)
+    public ApiResponse<List<NotificationResponse>> getMyNotifications(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Personnel not found"));
 
-        List<NotificationResponse> notifications = personnel.getReceivedNotifications().stream()
-                .map(notification -> NotificationResponse.builder()
-                        .id(notification.getId())
-                        .title(notification.getTitle())
-                        .content(notification.getContent())
-                        .sender(PersonnelInfo.builder()
-                                .code(notification.getSender().getCode())
-                                .name(notification.getSender().getFirstName() + " " + notification.getSender().getLastName())
-                                .build())
-                        .createdAt(notification.getCreatedAt())
-                        .build())
+        List<NotificationResponse> notifications = notificationStatusRepository.findByEmployee(employee).stream()
+                .map(status -> {
+                    Notification notification = status.getNotification();
+                    return NotificationResponse.builder()
+                            .id(notification.getId())
+                            .title(notification.getTitle())
+                            .content(notification.getContent())
+                            .isRead(status.isRead())
+                            .sender(PersonnelInfo.builder()
+                                    .code(notification.getSender().getCode())
+                                    .name(notification.getSender().getFirstName() + " " + notification.getSender().getLastName())
+                                    .build())
+                            .createdAt(notification.getCreatedAt())
+                            .build();
+                })
                 .toList();
 
         return ApiResponse.<List<NotificationResponse>>builder()
                 .code(1000)
                 .message("Notifications retrieved successfully")
                 .result(notifications)
+                .build();
+    }
+
+    public ApiResponse<Void> markAsRead(Long notificationId, Long personnelId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new RuntimeException("Notification not found"));
+
+        Employee employee = employeeRepository.findById(personnelId)
+                .orElseThrow(() -> new RuntimeException("Personnel not found"));
+
+        NotificationStatus status = notificationStatusRepository.findByNotificationAndEmployee(notification, employee);
+        if (status == null) {
+            throw new RuntimeException("No status found for this notification and personnel");
+        }
+
+        status.setRead(true);
+        notificationStatusRepository.save(status);
+
+        return ApiResponse.<Void>builder()
+                .code(1000)
+                .message("Notification marked as read")
                 .build();
     }
 }

@@ -20,4 +20,5 @@ public class NotificationResponse {
     PersonnelInfo sender;
     List<PersonnelInfo> recipients;
     LocalDateTime createdAt;
+    boolean isRead;
 }

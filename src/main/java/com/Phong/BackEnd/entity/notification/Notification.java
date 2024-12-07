@@ -1,16 +1,13 @@
-package com.Phong.BackEnd.entity;
+package com.Phong.BackEnd.entity.notification;
 
 import com.Phong.BackEnd.entity.personnel.Employee;
 import com.Phong.BackEnd.entity.personnel.Manager;
-import com.Phong.BackEnd.entity.personnel.Personnel;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -48,5 +45,8 @@ public class Notification {
     @ManyToOne
     @JoinColumn(name = "sender_id")
     Manager sender;
+
+    @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NotificationStatus> notificationStatuses = new ArrayList<>();
 }
 

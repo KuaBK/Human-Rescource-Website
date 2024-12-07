@@ -90,19 +90,19 @@ public class ManagerService {
         Manager manager = managerRepository.findById(id).orElseThrow(() -> new RuntimeException("Manager not found"));
 
         if (updates.getEmail() != null) manager.setEmail(updates.getEmail());
-        if (updates.getFirstName() != null) manager.setFirstName(updates.getFirstName());
-        if (updates.getLastName() != null) manager.setLastName(updates.getLastName());
+//        if (updates.getFirstName() != null) manager.setFirstName(updates.getFirstName());
+//        if (updates.getLastName() != null) manager.setLastName(updates.getLastName());
         if (updates.getPhone() != null) manager.setPhone(updates.getPhone());
         if (updates.getCity() != null) manager.setCity(updates.getCity());
         if (updates.getStreet() != null) manager.setStreet(updates.getStreet());
-        if (updates.getGender() != null) manager.setGender(updates.getGender());
-        if (updates.getPosition() != null) manager.setPosition(updates.getPosition());
-        if (updates.getDepartmentId() != null) {
-            Department department = departmentRepository
-                    .findById(updates.getDepartmentId())
-                    .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
-            manager.setDepartment(department);
-        }
+//        if (updates.getGender() != null) manager.setGender(updates.getGender());
+//        if (updates.getPosition() != null) manager.setPosition(updates.getPosition());
+//        if (updates.getDepartmentId() != null) {
+//            Department department = departmentRepository
+//                    .findById(updates.getDepartmentId())
+//                    .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
+//            manager.setDepartment(department);
+//        }
 
         return managerRepository.save(manager);
     }

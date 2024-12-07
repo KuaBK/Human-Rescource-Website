@@ -40,7 +40,7 @@ public class SecurityConfig {
         "/images", "/images/upload",
         "/files", "/files/upload", "/files/personnel",
 
-        "/notifications/send", "/notifications/my"
+        "/notifications/send", "/notifications/my", "/notifications/{notificationId}/mark"
 
     };
 

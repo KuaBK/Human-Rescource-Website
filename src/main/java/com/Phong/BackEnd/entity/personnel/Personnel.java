@@ -1,6 +1,6 @@
 package com.Phong.BackEnd.entity.personnel;
 
-import com.Phong.BackEnd.entity.Notification;
+import com.Phong.BackEnd.entity.notification.Notification;
 import com.Phong.BackEnd.entity.files.File;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

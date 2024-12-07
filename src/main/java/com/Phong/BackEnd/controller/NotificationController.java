@@ -28,5 +28,13 @@ public class NotificationController {
             @RequestParam Long personnelId) {
         return ResponseEntity.ok(notificationService.getMyNotifications(personnelId));
     }
+
+    @PostMapping("/{notificationId}/mark")
+    public ApiResponse<Void> markAsRead(
+            @PathVariable Long notificationId,
+            @RequestParam Long personnelId
+    ) {
+        return notificationService.markAsRead(notificationId, personnelId);
+    }
 }
 

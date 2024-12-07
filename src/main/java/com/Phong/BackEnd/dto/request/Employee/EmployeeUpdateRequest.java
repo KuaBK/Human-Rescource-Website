@@ -15,16 +15,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeUpdateRequest {
     String email;
-    String firstName;
-    String lastName;
     String phone;
     String city;
     String street;
-    Gender gender;
-    Position position;
-    Long departmentId;
-    List<String> TaskList;
-    Integer tasksCompleteNumber;
-    List<String> projectList;
-    Integer projectsInvolved;
 }
