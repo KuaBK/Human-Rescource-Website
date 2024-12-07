@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,6 +22,13 @@ public class PersonnelController {
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<PersonnelResponse>>> getAllPersonnel() {
         ApiResponse<List<PersonnelResponse>> response = personnelService.getAllPersonnel();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping()
+    public ResponseEntity<ApiResponse<PersonnelResponse>> getPersonnelByCode(
+            @RequestParam Long personnelCode) {
+        ApiResponse<PersonnelResponse> response = personnelService.getPersonnelByCode(personnelCode);
         return ResponseEntity.ok(response);
     }
 }

@@ -13,13 +13,11 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ManagerUpdateRequest {
-    String email;
     String firstName;
     String lastName;
+    String email;
+    Gender gender;
     String phone;
     String city;
     String street;
-    Gender gender;
-    Position position;
-    Long departmentId;
 }

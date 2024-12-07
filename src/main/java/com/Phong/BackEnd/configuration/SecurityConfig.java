@@ -43,11 +43,12 @@ public class SecurityConfig {
         "/salary", "/salary/edit", "/salary/create", "/salary/payrate-edit", "/salary/bonus-penalty",
         "/salary/employee", "/salary/employee/month-year", "/salary/all",
 
-        "/personnel/all",
+        "/personnel" , "/personnel/all",
 
         "/images", "/images/upload",
         "/files", "/files/upload", "/files/personnel",
 
+        "/notifications/send", "/notifications/my-notification", "/notifications/{notificationId}/mark"
     };
 
     private final CustomJwtDecoder customJwtDecoder;

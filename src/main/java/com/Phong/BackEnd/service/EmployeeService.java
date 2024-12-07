@@ -73,7 +73,7 @@ public class EmployeeService {
                 .phone(request.getPhone())
                 .city(request.getCity())
                 .street(request.getStreet())
-//                .avatar(request.getAvatar())
+                .avatar(request.getAvatar())
                 .gender(request.getGender())
                 .department(department)
                 .position(position)
@@ -93,7 +93,7 @@ public class EmployeeService {
                 .phone(savedEmployee.getPhone())
                 .city(savedEmployee.getCity())
                 .street(savedEmployee.getStreet())
-//                .avatar(savedEmployee.getAvatar())
+                .avatar(savedEmployee.getAvatar())
                 .gender(savedEmployee.getGender())
                 .departmentName(department != null ? department.getDepartmentName() : null)
                 .position(savedEmployee.getPosition())
@@ -113,57 +113,11 @@ public class EmployeeService {
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee không tồn tại"));
 
-        Department previousDepartment = employee.getDepartment();
-        if (updates.getDepartmentId() != null) {
-            Department newDepartment = departmentRepository
-                    .findById(updates.getDepartmentId())
-                    .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
-            if (newDepartment != previousDepartment) {
-
-                if (previousDepartment != null) {
-                    previousDepartment.setEmployeeNumber(previousDepartment.getEmployeeNumber() - 1);
-                    departmentRepository.save(previousDepartment);
-                }
-                newDepartment.setEmployeeNumber(newDepartment.getEmployeeNumber() + 1);
-                departmentRepository.save(newDepartment);
-            }
-            employee.setDepartment(newDepartment);
-        }
-
         if (updates.getEmail() != null) employee.setEmail(updates.getEmail());
-        if (updates.getFirstName() != null) employee.setFirstName(updates.getFirstName());
-        if (updates.getLastName() != null) employee.setLastName(updates.getLastName());
         if (updates.getPhone() != null) employee.setPhone(updates.getPhone());
         if (updates.getCity() != null) employee.setCity(updates.getCity());
         if (updates.getStreet() != null) employee.setStreet(updates.getStreet());
-        if (updates.getGender() != null) employee.setGender(updates.getGender());
-        if (updates.getPosition() != null) employee.setPosition(updates.getPosition());
-        if (updates.getDepartmentId() != null) {
-            Department department = departmentRepository
-                    .findById(updates.getDepartmentId())
-                    .orElseThrow(() -> new EntityNotFoundException("Department không tồn tại"));
-            employee.setDepartment(department);
-        }
-        if (updates.getTasksCompleteNumber() != null) {
-            employee.setTasksCompleteNumber(updates.getTasksCompleteNumber());
-        }
-        if  (updates.getProjectsInvolved() != null) {
-            employee.setProject_involved(updates.getProjectsInvolved());
-        }
-        if (updates.getTaskList() != null) {
-            List<Long> TasksId = updates.getTaskList().stream()
-                    .map(Long::valueOf)
-                    .collect(Collectors.toList());
-            List<Tasks> tasks = new ArrayList<>(taskRepository.findAllById(TasksId));
-            employee.setTaskList(tasks);
-        }
-        if (updates.getProjectList() != null && !updates.getProjectList().isEmpty()) {
-            List<Long> projectIds = updates.getProjectList().stream()
-                    .map(Long::valueOf)
-                    .collect(Collectors.toList());
-            Set<Projects> projects = new HashSet<>(projectRepository.findAllById(projectIds));
-            employee.setProjectList(projects);
-        }
+
         return employeeRepository.save(employee);
     }
 
@@ -253,6 +207,24 @@ public class EmployeeService {
         employeeRepository.save(employee);
 
         return toDTO(newDepartment);
+    }
+    
+    @Transactional
+    public void removeEmployeeFromDepartment(Long employeeId){
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException("Nhân viên không tồn tại"));
+
+        Department department = employee.getDepartment();
+        if (department == null) {
+            throw new IllegalArgumentException("Nhân viên chưa tham gia phòng ban nào");
+        }
+
+        department.getEmployees().remove(employee);
+        department.setEmployeeNumber(department.getEmployeeNumber() - 1);
+        departmentRepository.save(department);
+
+        employee.setDepartment(null);
+        employeeRepository.save(employee);
     }
 
     public EWDResponse getAllEmployeeInDepartment(Long departmentId) {

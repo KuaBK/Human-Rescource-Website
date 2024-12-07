@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.Phong.BackEnd.dto.response.Employee.EWDResponse;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -119,6 +120,27 @@ public class EmployeeController {
                     .code(4000)
                     .message(ex.getMessage())
                     .result(null)
+                    .build());
+        }
+    }
+
+    @PostMapping("/remove-from-department")
+    public ResponseEntity<ApiResponse<Void>> removeEmployeeFromDepartment(
+            @RequestParam Long employeeId) {
+        try {
+            employeeService.removeEmployeeFromDepartment(employeeId);
+            return ResponseEntity.ok(ApiResponse.<Void>builder()
+                    .message("Employee removed from department successfully")
+                    .build());
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.<Void>builder()
+                    .code(4040)
+                    .message(ex.getMessage())
+                    .build());
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.<Void>builder()
+                    .code(4000)
+                    .message(ex.getMessage())
                     .build());
         }
     }

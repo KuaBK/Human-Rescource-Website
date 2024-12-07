@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import com.Phong.BackEnd.entity.notification.Notification;
 
 import com.Phong.BackEnd.entity.Account;
 
@@ -12,6 +13,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -70,4 +72,10 @@ public class Personnel {
 
     @OneToMany(mappedBy = "uploadedBy", cascade = CascadeType.ALL, orphanRemoval = true)
     List<File> files;
+
+    @OneToMany(mappedBy = "sender")
+    List<Notification> sentNotifications = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "recipients")
+    List<Notification> receivedNotifications = new ArrayList<>();
 }
