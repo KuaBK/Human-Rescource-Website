@@ -53,8 +53,10 @@ import SubmitTask from './components/Project/Employee/SubmitTask';
 import EmployeeInfor from './components/Information/EmployeeInfor';
 import EmployeeAttendance from './components/Attendance/EmployeeAttendance';
 import EmployeeTraining from './components/Training/EmployeeTraining';
-import EmployeeChat from './components/Chat/EmployeeChat';
+import EmployeeChat from './components/Chat/EmployeeNotifications';
 import Participation from './components/Project/Employee/Participation';
+import ManagerInfor from './components/Information/ManagerInfor';
+import EmployeeNotifications from './components/Chat/EmployeeNotifications';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -88,13 +90,13 @@ root.render(
           <Route path="participation" element={<Participation />} />
           <Route path="submittask" element={<SubmitTask />} />
           <Route path="training" element={<EmployeeTraining />} />
-          <Route path="chat" element={<EmployeeChat />} />
+          <Route path="notification" element={<EmployeeNotifications />} />
         </Route>
 
         <Route exact path="/login/manager" element={<ManagerPage />}>
 
           {/* <Route index element={<Dashboard />}></Route> */}
-          <Route path="infor" element={<EmployeeInfor />} />
+          <Route path="infor" element={<ManagerInfor/>} />
           <Route path="attendance" element={<EmployeeAttendance />} />
 
           {/* <Route path="salary" element={<Salary />} /> */}
@@ -102,7 +104,7 @@ root.render(
           <Route path="department" element={<Department />} />
           <Route path="project" element={<ManagerProject />} />
           <Route path="training" element={<EmployeeTraining />} />
-          <Route path="chat" element={<EmployeeChat />} />
+          <Route path="notification" element={<EmployeeNotifications />} />
         </Route>
       </Routes>
     </BrowserRouter>

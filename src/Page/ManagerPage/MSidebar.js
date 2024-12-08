@@ -43,9 +43,9 @@ function MSidebar() {
           <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
         </Link>
     
-        <Link to="chat" className="nav-link-side">
+        <Link to="notification" className="nav-link-side">
           <BiChat />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Tin nhắn</span>
+          <span className={`link-text ${expanded ? 'show' : ''}`}>Thông báo</span>
         </Link>
         
         <Link to="logout" className="nav-link-side">

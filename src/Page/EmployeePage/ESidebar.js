@@ -139,9 +139,9 @@ function ESidebar({ accountId, token }) {
           <GiTeamUpgrade />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
         </NavLink>
-        <NavLink to="chat" className="nav-link-side" activeClassName="active-link">
+        <NavLink to="notification" className="nav-link-side" activeClassName="active-link">
           <BiChat />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Tin nhắn</span>
+          <span className={`link-text ${expanded ? 'show' : ''}`}>Thông báo</span>
         </NavLink>
         <NavLink
           to="logout"

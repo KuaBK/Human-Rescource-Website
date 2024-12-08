@@ -138,7 +138,7 @@ const EHeader = ({ personnel }) => {
                 </div>
                 <a
                   className="card-footer text-center border-top-0 text-primary"
-                  href="#"
+                  href="employee/notification"
                   style={{ textDecoration: "none" }}
                 >
                   View all notifications

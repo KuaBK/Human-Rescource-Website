@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./EmployeeInfor.scss";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase } from "react-icons/fa";
 
-const EmployeeInfor = () => {
+const ManagerInfor = () => {
   // State for profile data
   const [profile, setProfile] = useState({
     name: "",
@@ -33,7 +33,7 @@ const EmployeeInfor = () => {
         }
 
         const response = await fetch(
-          `http://localhost:8080/api/employee/account?id=${accountId}`,
+          `http://localhost:8080/api/managers/account?id=${accountId}`,
           {
             method: "GET",
             headers: {
@@ -108,6 +108,8 @@ const EmployeeInfor = () => {
         },
         body: formData,
       });
+
+      console.log("pass uup")
 
       if (!response.ok) {
         throw new Error("Failed to upload image");
@@ -222,4 +224,4 @@ const EmployeeInfor = () => {
   );
 };
 
-export default EmployeeInfor;
+export default ManagerInfor;

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 const userSlice = createSlice({
   name: "user",
@@ -26,6 +27,7 @@ const userSlice = createSlice({
     },
   },
 });
+
 
 export const { login, logout } = userSlice.actions;
 export default userSlice.reducer;
