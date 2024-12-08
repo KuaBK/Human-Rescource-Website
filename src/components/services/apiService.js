@@ -25,15 +25,21 @@ const deleteAccount = (id) => {
     return axios.delete(`/account/delete?accountId=${id}`);
 };
 
-// Personnel APIs
-const postCreateNewPersonel = (payload) => {
+// Personnel APIs con
+const postCreateNewPersonelEmployee = (payload) => {
     return axios.post("/employee/create", payload, {
         headers: { "Content-Type": "application/json" },
     });
 };
 
+const postCreateNewPersonelManager = (payload) => {
+    return axios.post("/manager/create", payload, {
+        headers: { "Content-Type": "application/json" },
+    });
+};
+
 const getAllPersonel = () => {
-    return axios.get("/employee/all");
+    return axios.get("/personel/all");
 };
 
 const getPersonelByCode = (code) => {
@@ -124,7 +130,8 @@ const submitTask = (taskId, file, personnelId) => {
 export {
     postLogin,
     postCreateNewAccount,
-    postCreateNewPersonel,
+    postCreateNewPersonelEmployee,
+    postCreateNewPersonelManager,
     postCreateNewDepartment,
     postEmployeeCheckin,
     postEmployeeCheckout,

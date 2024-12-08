@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './MHeader.scss';
 import { Navbar, NavDropdown, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import { GiConsoleController } from 'react-icons/gi';
 
 const MHeader = ({ personnel }) => {
+  const [name, setName] = useState("Loading...");
+  const [error, setError] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
 
   // Mock danh sách thông báo
@@ -62,9 +65,48 @@ const MHeader = ({ personnel }) => {
     setShowNotifications(!showNotifications);
   };
 
+  
+
   useEffect(() => {
-    console.log('MHeader personnel >>>', personnel);
-  }, [personnel]);
+    const fetchEmployeeName = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const accountId = localStorage.getItem("accountId");
+
+        console.log("accid",accountId);
+        console.log("ttt",token);
+
+        if (!token || !accountId) {
+          setError("Authentication token or account ID not found");
+          return;
+        }
+
+        const response = await fetch(
+          `http://localhost:8080/api/managers/account?id=${accountId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch manager data");
+        }
+
+        const data = await response.json();
+        setName(`${data.lastName} ${data.firstName}`);
+        console.log("mananana", `${data.lastName} ${data.firstName}`);
+      } catch (err) {
+        console.error("Error fetching manager name:", err);
+        setError(err.message);
+      }
+    };
+
+    fetchEmployeeName();
+  }, []);
 
   return (
     <Navbar className="custom-navbar" expand="lg">
@@ -156,21 +198,15 @@ const MHeader = ({ personnel }) => {
 
           {/* User Dropdown */}
           <NavDropdown
-            title={
-              <>
-                <img
-                  className="avatar rounded-circle"
-                  src="https://randomuser.me/api/portraits/women/1.jpg"
-                  alt="User Avatar"
-                  style={{ width: '30px', height: '30px', marginRight: '8px' }}
-                />
-                <span className="profile-name">
-                  {personnel?.firstName ? personnel.firstName : 'Loading...'}
-                </span>
-              </>
-            }
-            id="profile-dropdown"
-          >
+              title={
+                <>
+                  <span className="profile-name">
+                    {name ? name : "Loading..."}
+                  </span>
+                </>
+              }
+              id="profile-dropdown"
+            >
             <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
             <NavDropdown.Item>Đăng xuất</NavDropdown.Item>
           </NavDropdown>

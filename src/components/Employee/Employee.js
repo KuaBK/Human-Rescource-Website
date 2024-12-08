@@ -5,7 +5,7 @@ import EmployeeProfileModal from './EmployeeProfileModal';
 import AddEmployee from './AddEmployee';
 import { Modal, Button } from 'react-bootstrap';
 import axios from "axios"
-import { deletePersonel, postCreateNewAccount, postCreateNewPersonel, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
+import { deletePersonel, postCreateNewAccount, postCreateNewPersonelEmployee,  postCreateNewPersonelManager, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
@@ -246,10 +246,18 @@ const Employee = ({ x }) => {
         handleModalClose();
     };
 
+
+    // API THÊM EMPLOYEE
     const handleAddEmployee = async (newEmployee) => {
         console.log(newEmployee);
         try {
-            const response = await postCreateNewAccount(newEmployee.username, newEmployee.password)
+           // const response = await postCreateNewAccount(newEmployee.username, newEmployee.password) http://localhost:8080/api/account/create
+
+           const response = await axios.post('http://localhost:8080/api/account/create', {
+            username: newEmployee.username,
+            password: newEmployee.password,
+        });
+        
             if (response && response.data){
                 const accountId = response.data.result.id;
                 const payload = {
@@ -269,9 +277,53 @@ const Employee = ({ x }) => {
 
                 console.log(payload);
             
-                const result = await postCreateNewPersonel(payload);
+                const result = await postCreateNewPersonelEmployee(payload);
                 if (result && result.data){
-                    console.log("New personel created:", result.data);
+                    console.log("New personel EMPLOYEE created:", result.data);
+                    fetchEmployees();
+                }
+            }
+        } catch (err) {
+            setError(err.message);
+            console.log(err);
+        }
+
+        // setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
+        setShowAddModal(false);
+    };
+
+    // API THÊM MANAGER
+    const handleAddManager = async (newEmployee) => {
+        console.log(newEmployee);
+        try {
+
+           const response = await axios.post('http://localhost:8080/api/account/create', {
+            username: newEmployee.username,
+            password: newEmployee.password,
+        });
+        
+            if (response && response.data){
+                const accountId = response.data.result.id;
+                const payload = {
+                    accountId, 
+                    firstName: newEmployee.firstName,
+                    lastName: newEmployee.lastName,
+                    position: 'MANAGER',
+                    city: newEmployee.city,
+                    street: newEmployee.street,
+                    gender: newEmployee.gender,
+                    email: newEmployee.email,
+                    city: newEmployee.city,
+                    street: newEmployee.street,
+                    phone: newEmployee.phoneNumber,
+                    departmentId: parseInt(newEmployee.deptId, 10)
+                };
+
+                console.log(payload);
+            
+                const result = await postCreateNewPersonelManager(payload);
+                if (result && result.data){
+                    console.log("New personel mananager created:", result.data);
                     fetchEmployees();
                 }
             }
