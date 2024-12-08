@@ -1,117 +1,85 @@
+/* Form Container */
+.add-employee-form {
+    width: 100%;
+    max-width: 600px; /* Limit max-width for better focus */
+    padding: 25px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Input Fields */
 .add-employee-form input[type="text"],
 .add-employee-form input[type="number"],
 .add-employee-form input[type="date"],
 .add-employee-form input[type="email"],
 .add-employee-form select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
     font-size: 16px;
-}
-
-.add-employee-form input[type="file"] {
-    margin-top: 10px;
-}
-
-.add-employee-form {
-    width: 100%;
-    /* max-width: 500px; */
-    /* Giới hạn chiều rộng form */
-    padding: 20px;
-    margin: 0 auto;
     background-color: #fff;
-    border-radius: 10px;
-    /* Bo góc */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    /* Bóng đổ */
+    transition: border-color 0.3s ease;
 }
 
+.add-employee-form input[type="text"]:focus,
+.add-employee-form input[type="number"]:focus,
+.add-employee-form input[type="date"]:focus,
+.add-employee-form input[type="email"]:focus,
+.add-employee-form select:focus {
+    border-color: #747ab0; /* Highlight color on focus */
+    outline: none;
+}
+
+/* File Input */
+.add-employee-form input[type="file"] {
+    margin-top: 15px;
+}
+
+/* Buttons */
 .add-employee-form button {
-    background-color: #4CAF50;
-    /* Màu nút thêm */
+    background-color: #4caf50;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
 }
 
 .add-employee-form button:hover {
     background-color: #45a049;
+    transform: translateY(-2px);
 }
 
-.avatar-preview {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-top: 10px;
-    object-fit: cover;
-    border: 1px solid #ccc;
-}
-
-.role-selection {
-    display: flex;
-    justify-content: space-between;
-    /* Cách đều giữa hai nút */
-    gap: 10px;
-    /* Tạo khoảng cách rộng hơn giữa các nút */
-    margin-top: 20px;
-}
-
-.role-selection button {
-    padding: 15px 30px;
-    /* Tăng kích thước nút */
-    font-size: 18px;
-    /* Tăng kích thước chữ */
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.role-selection .btn-primary {
-    background-color: #007bff;
-    /* Màu xanh nước */
-    color: white;
-}
-
-.role-selection .btn-primary:hover {
-    background-color: #0056b3;
-    /* Màu xanh nước đậm khi hover */
-}
-
-.role-selection .btn-secondary {
-    background-color: #dc3545;
-    /* Màu đỏ */
-    color: white;
-}
-
-.role-selection .btn-secondary:hover {
-    background-color: #a71d2a;
-    /* Màu đỏ đậm khi hover */
-}
-
+/* Avatar Section */
 .avatar-upload-container {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .avatar-wrapper {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto;
     position: relative;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid #ccc;
-    background-color: #f9f9f9;
+    border: 2px dashed #dcdcdc;
+    background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: border-color 0.3s ease;
+}
+
+.avatar-wrapper:hover {
+    border-color: #747ab0;
 }
 
 .avatar-preview-circle {
@@ -121,19 +89,70 @@
 }
 
 .avatar-placeholder {
-    font-size: 32px;
+    font-size: 36px;
     color: #ccc;
 }
 
+/* Hidden File Input */
 #avatar-input {
     display: none;
 }
 
-
-.btn-primary {
-    background-color: #747ab0 !important;
+/* Role Selection */
+.role-selection {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
 }
 
-.btn-secondary {
-    background-color: #e85460 !important;
+.role-selection button {
+    flex: 1;
+    padding: 15px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.role-selection .btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.role-selection .btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.role-selection .btn-secondary {
+    background-color: #e85460;
+    color: white;
+}
+
+.role-selection .btn-secondary:hover {
+    background-color: #a71d2a;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .role-selection {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .add-employee-form {
+        padding: 20px;
+    }
+
+    .avatar-wrapper {
+        width: 100px;
+        height: 100px;
+    }
+
+    .role-selection button {
+        font-size: 16px;
+    }
 }

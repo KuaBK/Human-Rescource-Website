@@ -5,7 +5,7 @@ import EmployeeProfileModal from './EmployeeProfileModal';
 import AddEmployee from './AddEmployee';
 import { Modal, Button } from 'react-bootstrap';
 import axios from "axios"
-import { deletePersonel, getAllPersonel, postCreateNewAccount, postCreateNewPersonel, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
+import { deletePersonel, postCreateNewAccount, postCreateNewPersonel, putUpdateAccount, putUpdatePersonel,  } from '../services/apiService';
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
@@ -91,7 +91,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                             padding: '2px 8px',
                                         }}
                                     >
-                                        {employee.personelCode}
+                                        {employee.code}
                                     </span>
                                 </h6>
 
@@ -105,7 +105,7 @@ const EmployeeCard = ({ employee, onProfileClick, index, onDeleteClick }) => {
                                             padding: '2px 8px',
                                         }}
                                     >
-                                        {employee.department}
+                                        {employee.departmentID}
                                     </span>
                                 </h6>
 
@@ -174,6 +174,7 @@ const Employee = ({ x }) => {
         setTransferDepartmentId('');
     };
 
+    // api chuyeenr phong ban
     const handleDepartmentTransfer = async () => {
         if (!transferEmployeeId || !transferDepartmentId) {
             alert('Vui lòng nhập Employee ID và Department ID');
@@ -194,11 +195,13 @@ const Employee = ({ x }) => {
         }
     };
 
+    // api lay tat ca personel
     const fetchEmployees = async () => {
         try {
-            const response = await getAllPersonel();
+            const response = await axios.get('http://localhost:8080/api/personnel/all');
             if (response && response.data) {
                 setEmployees(response.data.result); // Update employees state
+                console.log("personel", response.data.result);
             }
             console.log(response);
         } catch (err) {
@@ -342,6 +345,7 @@ const Employee = ({ x }) => {
                     />
                 )}
             </div>
+
             <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered className="custom-modal modal-lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm Nhân Viên Mới</Modal.Title>

@@ -71,11 +71,6 @@
                 text-transform: uppercase;
             }
 
-            // td.status.absence {
-            //     color: red;
-            //     background-color: #ffe6e6; /* Light red for visibility */
-            // }
-
             /* Status Styling */
             td.status {
                 &.full_day_work {
@@ -94,9 +89,6 @@
                 }
             }
 
-           
-            
-
             /* Edit Button */
             .edit-btn {
                 border: none;
@@ -108,6 +100,69 @@
                 &:hover {
                     color: #0056b3;
                 }
+            }
+        }
+    }
+
+    /* Modal Styles */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 2rem;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+
+        h4 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                margin: 0.5rem 0;
+                font-size: 1rem;
+                color: #555;
+            }
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: #0056b3;
             }
         }
     }
@@ -154,68 +209,26 @@
                 }
             }
         }
+
+        .modal-content {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+
+            h4 {
+                font-size: 1.25rem;
+            }
+        }
     }
 }
 
-.modal {
-    position: fixed;
-     top: 50%;
-     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-   height: 200px;
-    background-color: transparent;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease-out;
-}
-
-.modal-content {
-    padding: 20px;
-    text-align: center;
-}
-
-.modal-content h4 {
-    margin-bottom: 20px;
-    font-size: 1.25rem;
-    color: #333;
-}
-
-.modal-content ul {
-    list-style: none;
-    padding: 0;
-}
-
-.modal-content li {
-    margin: 10px 0;
-    font-size: 1rem;
-    color: #555;
-}
-
-.close-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.close-btn:hover {
-    background-color: #0056b3;
-}
-
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translate(-50%, -60%);
+        transform: scale(0.9);
     }
     to {
         opacity: 1;
-        transform: translate(-50%, -50%);
+        transform: scale(1);
     }
 }
-
