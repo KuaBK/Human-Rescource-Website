@@ -80,7 +80,7 @@ function ESidebar({ accountId, token }) {
       </div>
 
       <div className="nav-links">
-        <NavLink to="/" className="nav-link-side" activeClassName="active-link">
+        <NavLink to="/login/employee" className="nav-link-side" activeClassName="active-link">
           <FaHome />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Trang chủ</span>
         </NavLink>
@@ -103,15 +103,16 @@ function ESidebar({ accountId, token }) {
           <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
         </NavLink>
 
-        <div className="nav-link-side dropdown" onClick={toggleProjectDropdown}>
+        <NavLink
+          to="submittask"
+          className="nav-link-side"
+          activeClassName="active-link"
+        >
           <FaProjectDiagram />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
-          {expanded && (
-            <BiChevronDown
-              className={`dropdown-icon ${projectDropdown ? 'open' : ''}`}
-            />
-          )}
-        </div>
+          <span className={`link-text ${expanded ? 'show' : ''}`}>Nộp task</span>
+        </NavLink>
+
+
         {expanded && projectDropdown && (
           <div className="dropdown-content">
             <NavLink
@@ -131,14 +132,6 @@ function ESidebar({ accountId, token }) {
           </div>
         )}
 
-        <NavLink
-          to="training"
-          className="nav-link-side"
-          activeClassName="active-link"
-        >
-          <GiTeamUpgrade />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
-        </NavLink>
         <NavLink to="notification" className="nav-link-side" activeClassName="active-link">
           <BiChat />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Thông báo</span>

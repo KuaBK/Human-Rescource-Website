@@ -110,16 +110,17 @@ const AdminAttendance = () => {
                                         <span>{employee.name}</span>
                                     </td>
                                     {filteredDays.map(day => {
+
                                         const attendanceEntry = employee.attendance.find(a => new Date(a.work_date).getDate() === day);
                                         const status = attendanceEntry ? attendanceEntry.attendanceType : "absence";
 
-                                      const dateString = `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                                        const dateString = `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
                                         return (
                                             <td
                                                 key={day}
                                                 className={`status ${status}`}
-                                               onClick={() => handleDateClick(employee.id, dateString)}
+                                                onClick={() => handleDateClick(employee.id, dateString)}
                                             >
                                                 {status === "full_day_work" && <CheckCircle size={20} />}
                                                 {status === "half_day_work" && <Clock size={20} />}

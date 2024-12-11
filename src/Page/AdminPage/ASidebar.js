@@ -90,20 +90,7 @@ function ASidebar({ expanded, toggleSidebar }) {
           <span className={`link-text ${expanded ? 'show' : ''}`}>Tiền lương và phúc lợi</span>
         </NavLink>
 
-        <NavLink to="admin-training" className="nav-link-side" activeClassName="active-link">
-          <GiTeamUpgrade />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
-        </NavLink>
 
-        <NavLink to="statistic" className="nav-link-side" activeClassName="active-link">
-          <TfiStatsUp />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Thống kê</span>
-        </NavLink>
-
-        <NavLink to="chat" className="nav-link-side" activeClassName="active-link">
-          <BiChat />
-          <span className={`link-text ${expanded ? 'show' : ''}`}>Tin nhắn</span>
-        </NavLink>
 
         <NavLink to="logout" className="nav-link-side" activeClassName="active-link">
           <BiLogOut />

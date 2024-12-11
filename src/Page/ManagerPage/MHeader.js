@@ -1,11 +1,10 @@
-
 import React, { useEffect, useState } from "react";
 import "./MHeader.scss";
 import { Navbar, NavDropdown, Container } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const MHeader = () => {
-  const [name, setName] = useState("Loading...");
+  const [firstName, setFirstName] = useState("Loading...");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -13,14 +12,11 @@ const MHeader = () => {
     navigate("/");
   };
 
-
-
   useEffect(() => {
-    const fetchManagerName = async () => {
+    const fetchManagerFirstName = async () => {
       try {
         const token = localStorage.getItem("token");
         const accountId = localStorage.getItem("accountId");
-
 
         if (!token || !accountId) {
           setError("Authentication token or account ID not found");
@@ -43,15 +39,14 @@ const MHeader = () => {
         }
 
         const data = await response.json();
-        setName(`${data.lastName} ${data.firstName}`);
-
+        setFirstName(data.firstName); // Chỉ lấy firstName từ dữ liệu API
       } catch (err) {
-        console.error("Error fetching manager name:", err);
+        console.error("Error fetching manager first name:", err);
         setError(err.message);
       }
     };
 
-
+    fetchManagerFirstName();
   }, []);
 
   return (
@@ -65,9 +60,7 @@ const MHeader = () => {
         <NavDropdown
           title={
             <>
-              <span className="profile-name">
-                {name}
-              </span>
+              <span className="profile-name">{firstName}</span>
             </>
           }
           id="profile-dropdown"
@@ -75,9 +68,8 @@ const MHeader = () => {
           <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
           <NavDropdown.Item onClick={handleLogout}>Đăng xuất</NavDropdown.Item>
         </NavDropdown>
-
-      </Container >
-    </Navbar >
+      </Container>
+    </Navbar>
   );
 };
 

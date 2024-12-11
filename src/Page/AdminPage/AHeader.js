@@ -4,7 +4,6 @@ import { Navbar, NavDropdown, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 const Header = () => {
-  const [showNotifications, setShowNotifications] = useState(false);
 
   return (
     <Navbar className="custom-navbar" expand="lg">
@@ -22,12 +21,11 @@ const Header = () => {
                 alt="User Avatar"
                 style={{ width: '30px', height: '30px', marginRight: '8px' }}
               />
-              <span className="profile-name">John Doe</span>
+              <span className="profile-name">Admin</span>
             </>
           }
           id="profile-dropdown"
         >
-          <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
           <NavDropdown.Item as={NavLink} to="/login">
             Đăng xuất
           </NavDropdown.Item>

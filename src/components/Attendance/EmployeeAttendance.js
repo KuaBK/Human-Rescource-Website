@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './EmployeeAttendance.scss';
 
 const EmployeeAttendance = () => {
@@ -50,20 +52,18 @@ const EmployeeAttendance = () => {
         fetchAttendanceData(selectedMonth, selectedYear);
     }, [selectedMonth, selectedYear]);
 
-    const daysInMonth = Array.from(
-        { length: new Date(selectedYear, selectedMonth, 0).getDate() },
-        (_, i) => i + 1
-    );
-
     const handleCheckIn = async () => {
         try {
             await axios.post(`http://localhost:8080/api/attendance/checkIn`, null, {
                 params: { code: employeeCode },
             });
+            toast.success('You have successfully checked in!');
+
             alert('Check-in successful!');
             //  fetchAttendanceData(selectedMonth, selectedYear);
+
         } catch (err) {
-            alert('Check-in failed. Please try again.');
+            toast.error('Check-in failed. Please try again.');
         }
     };
 
@@ -72,11 +72,19 @@ const EmployeeAttendance = () => {
             await axios.post(`http://localhost:8080/api/attendance/checkOut`, null, {
                 params: { code: employeeCode },
             });
-            alert('Check-out successful!');
-            // fetchAttendanceData(selectedMonth, selectedYear);
+            toast.success('You have successfully checked out!');
+
         } catch (err) {
-            alert('Check-out failed. Please try again.');
+            toast.error('Check-out failed. Please try again.');
         }
+    };
+
+    const calculateDurationInMinutes = (duration) => {
+        if (!duration) {
+            return 0; // Default to 0 if duration is null or undefined
+        }
+        const [hours, minutes] = duration.split(':').map(Number);
+        return hours * 60 + minutes;
     };
 
     const getDayStatus = (day) => {
@@ -92,19 +100,26 @@ const EmployeeAttendance = () => {
         }
 
         const durationMinutes = calculateDurationInMinutes(match.duration);
-        const durationStatus = durationMinutes > 25 ? 'Full work' : 'Half work';
-        const color = durationStatus === 'Full work' ? '#52c41a' : '#faad14';
+        let durationStatus = '';
+        let color = '';
+
+        if (durationMinutes >= 5) {
+            durationStatus = 'Full work';
+            color = '#52c41a'; // Green for full work
+        } else if (durationMinutes >= 3 && durationMinutes < 5) {
+            durationStatus = 'Half work';
+            color = '#faad14'; // Yellow for half work
+        } else {
+            durationStatus = 'Absent';
+            color = '#ff4d4f'; // Red for absent
+        }
 
         return { color, text: durationStatus };
     };
 
-    const calculateDurationInMinutes = (duration) => {
-        const [hours, minutes] = duration.split(':').map(Number);
-        return hours * 60 + minutes;
-    };
-
     return (
         <div className="employee-attendance">
+            <ToastContainer />
             <div className="header">
                 <h2 className="title">My Attendance</h2>
                 <div className="filters">
@@ -134,7 +149,10 @@ const EmployeeAttendance = () => {
 
             <div className="calendar">
                 <div className="calendar-row">
-                    {daysInMonth.map((day) => {
+                    {Array.from(
+                        { length: new Date(selectedYear, selectedMonth, 0).getDate() },
+                        (_, i) => i + 1
+                    ).map((day) => {
                         const { color, text } = getDayStatus(day);
                         return (
                             <div
