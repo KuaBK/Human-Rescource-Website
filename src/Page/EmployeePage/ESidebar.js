@@ -18,7 +18,7 @@ function ESidebar({ accountId, token }) {
     const accountId = localStorage.getItem("accountId");
     console.log("accountID, token", accountId, token);
     if (!accountId || !token) return; // Avoid making the call if accountId or token is not available
-    
+
     const fetchPersonnel = async () => {
       try {
         const response = await fetch(
@@ -42,10 +42,10 @@ function ESidebar({ accountId, token }) {
         console.error('Error fetching personnel data:', error);
       }
     };
-  
+
     fetchPersonnel();
   }, [accountId, token]);  // Only re-run if accountId or token change
-  
+
   const toggleProjectDropdown = () => {
     setProjectDropdown((prev) => !prev);
   };

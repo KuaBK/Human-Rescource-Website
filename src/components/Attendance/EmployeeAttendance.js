@@ -4,7 +4,7 @@ import './EmployeeAttendance.scss';
 
 const EmployeeAttendance = () => {
     const [attendanceData, setAttendanceData] = useState([]);
-    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); 
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -61,7 +61,7 @@ const EmployeeAttendance = () => {
                 params: { code: employeeCode },
             });
             alert('Check-in successful!');
-          //  fetchAttendanceData(selectedMonth, selectedYear);
+            //  fetchAttendanceData(selectedMonth, selectedYear);
         } catch (err) {
             alert('Check-in failed. Please try again.');
         }
@@ -73,7 +73,7 @@ const EmployeeAttendance = () => {
                 params: { code: employeeCode },
             });
             alert('Check-out successful!');
-           // fetchAttendanceData(selectedMonth, selectedYear);
+            // fetchAttendanceData(selectedMonth, selectedYear);
         } catch (err) {
             alert('Check-out failed. Please try again.');
         }

@@ -30,17 +30,13 @@ const EmployeePage = () => {
 
   return (
     <div className="app-container">
-      <ESidebar expanded={isSidebarExpanded} toggleSidebar={toggleSidebar} personnel={personnel}/>
+      <ESidebar expanded={isSidebarExpanded} toggleSidebar={toggleSidebar} personnel={personnel} />
       <div
-        className="main-content"
-        style={{
-          marginLeft: isSidebarExpanded ? '250px' : '80px',
-          width: `calc(100% - ${isSidebarExpanded ? '250px' : '80px'})`, // Đảm bảo .main-content chiếm hết phần không gian còn lại sau sidebar
-        }}// Thay đổi margin-left dựa vào trạng thái sidebar
+        className={`main-content ${isSidebarExpanded ? 'expanded' : 'collapsed'}`}
       >
-        <EHeader personnel={personnel}/> {/* Header positioned at the top, next to the sidebar */}
+        <EHeader personnel={personnel} /> {/* Header positioned at the top, next to the sidebar */}
         <div className="content">
-          <Outlet context={{ personnel }}/>
+          <Outlet context={{ personnel }} />
         </div>
       </div>
     </div>

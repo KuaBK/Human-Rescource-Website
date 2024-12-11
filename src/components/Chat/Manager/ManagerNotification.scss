@@ -1,5 +1,6 @@
 .notifications-container {
   padding: 20px;
+
   h2 {
     font-size: 24px;
     margin-bottom: 20px;
@@ -54,6 +55,8 @@
     }
   }
 
+
+
   .notification-content {
     margin: 10px 0;
     font-size: 14px;
@@ -80,4 +83,47 @@
       }
     }
   }
+}
+
+
+.notifications-container .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Giãn cách giữa tiêu đề và nút */
+  margin-bottom: 16px;
+}
+
+.notifications-container .header h2 {
+  margin-right: auto;
+  /* Đẩy chữ về bên trái */
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.notifications-container .create-notification-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  /* Xóa khung đen */
+  border: none;
+  /* Xóa khung nút */
+  cursor: pointer;
+  padding: 8px;
+  font-size: 1.25rem;
+  color: #333;
+  /* Đổi màu nếu cần */
+  transition: transform 0.3s ease;
+
+  /* Thêm hiệu ứng hover */
+  &:hover {
+    transform: scale(1.1);
+    color: #000;
+    /* Màu khi hover */
+  }
+}
+
+.notifications-container .create-notification-button .material-icons {
+  font-size: 1.5rem;
 }

@@ -17,17 +17,14 @@ const ManagerPage = () => {
     <div className="app-container">
       <MSidebar expanded={isSidebarExpanded} toggleSidebar={toggleSidebar} /> {/* Truyền trạng thái và hàm vào ASidebar */}
       <div
-        className="main-content"
-        style={{
-          marginLeft: isSidebarExpanded ? '250px' : '80px',
-          width: `calc(100% - ${isSidebarExpanded ? '250px' : '80px'})`, // Đảm bảo .main-content chiếm hết phần không gian còn lại sau sidebar
-        }}// Thay đổi margin-left dựa vào trạng thái sidebar
+        className={`main-content ${isSidebarExpanded ? 'expanded' : 'collapsed'}`}
       >
-        <MHeader /> {/* Header positioned at the top, next to the sidebar */}
+        <MHeader />
         <div className="content">
           <Outlet />
         </div>
       </div>
+
     </div>
   );
 };

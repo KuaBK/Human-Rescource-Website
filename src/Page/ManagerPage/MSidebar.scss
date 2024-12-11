@@ -97,3 +97,45 @@
   background-color: #475569;
   // background-color: red;
 }
+
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 250px;
+  transition: margin-left 0.3s;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sidebar.collapsed+.main-content {
+  margin-left: 80px;
+}
+
+
+@media (max-width: 768px) {
+  .custom-navbar {
+    padding: 0 10px;
+  }
+
+  .header-icons {
+    gap: 15px;
+  }
+
+  .app-container {
+    flex-direction: column;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}

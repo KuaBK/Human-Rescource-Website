@@ -1,57 +1,155 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { PiNotePencilDuotone } from 'react-icons/pi';
-import { FaProjectDiagram, FaRegUser } from 'react-icons/fa';
+import { FaProjectDiagram, FaRegUser, FaHome } from 'react-icons/fa';
 import { GiTeamUpgrade } from 'react-icons/gi';
-import { BiLogOut, BiChat, BiX, BiChevronRight } from 'react-icons/bi'; 
+import { BiLogOut, BiChat, BiChevronDown } from 'react-icons/bi';
 import './MSidebar.scss';
 
 function MSidebar() {
   const [expanded, setExpanded] = useState(true);
+  const [projectDropdown, setProjectDropdown] = useState(false);
+  const [manager, setManager] = useState(null); // State to store manager data
 
-  const [isLogoHidden, setIsLogoHidden] = useState(false); // Trạng thái checkbox để ẩn logo
+  // Fetch manager data from API using fetch
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const accountId = localStorage.getItem("accountId");
+    console.log("accountID, token", accountId, token);
+    if (!accountId || !token) return; // Avoid making the call if accountId or token is not available
+
+    const fetchManager = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/managers/account?id=${accountId}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setManager(data);
+          console.log("manager >>>", manager);
+        } else {
+          console.error('Error fetching manager data:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching manager data:', error);
+      }
+    };
+
+    fetchManager();
+  }, []);  // Only re-run if accountId or token change
+
+  const toggleProjectDropdown = () => {
+    setProjectDropdown((prev) => !prev);
+  };
 
   return (
     <div className={`sidebar ${expanded ? 'expanded' : 'collapsed'}`}>
-
-     <div className="sidebar-header">
+      <div className="sidebar-header">
         <div className="header-row">
-          <span className={`logo ${isLogoHidden ? 'hide-text' : ''}`}>BK-MANARATE</span>
-          <button onClick={() => setExpanded((prev) => !prev)} className="toggle-btn" aria-label="Toggle Sidebar">
+          <span className="logo">BK-MANARATE</span>
+          <button
+            onClick={() => setExpanded((prev) => !prev)}
+            className="toggle-btn"
+            aria-label="Toggle Sidebar"
+          >
             {expanded ? 'X' : '>'}
           </button>
         </div>
         <div className="user-info">
-          <img className="avatar rounded-circle" src="https://randomuser.me/api/portraits/women/1.jpg" alt="User Avatar" />
-          {expanded && <span className="user-name">Manager</span>}
+          <img
+            className="avatar rounded-circle"
+            src={manager?.avatar || 'https://via.placeholder.com/50'}
+            alt="Manager Avatar"
+          />
+          {expanded && (
+            <span className="user-name">
+              {manager?.lastName && manager?.firstName
+                ? `${manager.lastName} ${manager.firstName}`
+                : 'Loading...'}
+            </span>
+          )}
         </div>
       </div>
 
-
       <div className="nav-links">
-        <Link to="infor" className="nav-link-side">
+        <NavLink to="/" className="nav-link-side" activeClassName="active-link">
+          <FaHome />
+          <span className={`link-text ${expanded ? 'show' : ''}`}>Trang chủ</span>
+        </NavLink>
+
+        <NavLink
+          to="infor"
+          className="nav-link-side"
+          activeClassName="active-link"
+        >
           <FaRegUser />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Thông tin</span>
-        </Link>
-        <Link to="attendance" className="nav-link-side">
+        </NavLink>
+
+        <NavLink
+          to="attendance"
+          className="nav-link-side"
+          activeClassName="active-link"
+        >
           <PiNotePencilDuotone />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Chấm công</span>
-        </Link>
+        </NavLink>
 
-        <Link to="project" className="nav-link-side">
+        <div className="nav-link-side dropdown" onClick={toggleProjectDropdown}>
           <FaProjectDiagram />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Dự án</span>
-        </Link>
-    
-        <Link to="notification" className="nav-link-side">
+          {expanded && (
+            <BiChevronDown
+              className={`dropdown-icon ${projectDropdown ? 'open' : ''}`}
+            />
+          )}
+        </div>
+        {expanded && projectDropdown && (
+          <div className="dropdown-content">
+            <NavLink
+              to="participation"
+              className="dropdown-item"
+              activeClassName="active-link"
+            >
+              Các dự án tham gia
+            </NavLink>
+            <NavLink
+              to="submittask"
+              className="dropdown-item"
+              activeClassName="active-link"
+            >
+              Nộp task
+            </NavLink>
+          </div>
+        )}
+
+        <NavLink
+          to="training"
+          className="nav-link-side"
+          activeClassName="active-link"
+        >
+          <GiTeamUpgrade />
+          <span className={`link-text ${expanded ? 'show' : ''}`}>Đào tạo</span>
+        </NavLink>
+        <NavLink to="notification" className="nav-link-side" activeClassName="active-link">
           <BiChat />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Thông báo</span>
-        </Link>
-        
-        <Link to="logout" className="nav-link-side">
+        </NavLink>
+        <NavLink
+          to="logout"
+          className="nav-link-side"
+          activeClassName="active-link"
+        >
           <BiLogOut />
           <span className={`link-text ${expanded ? 'show' : ''}`}>Đăng xuất</span>
-        </Link>
+        </NavLink>
       </div>
     </div>
   );
