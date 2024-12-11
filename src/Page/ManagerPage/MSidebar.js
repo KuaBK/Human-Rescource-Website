@@ -9,45 +9,50 @@ import './MSidebar.scss';
 function MSidebar() {
   const [expanded, setExpanded] = useState(true);
   const [projectDropdown, setProjectDropdown] = useState(false);
-  const [manager, setManager] = useState(null); // State to store manager data
+  const [personnel, setPersonnel] = useState(null); // State to store personnel data
 
-  // Fetch manager data from API using fetch
+
+  const [isLogoHidden, setIsLogoHidden] = useState(false); // Trạng thái checkbox để ẩn logo
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const accountId = localStorage.getItem("accountId");
-    console.log("accountID, token", accountId, token);
-    if (!accountId || !token) return; // Avoid making the call if accountId or token is not available
-
-    const fetchManager = async () => {
+    const fetchPersonnel = async () => {
       try {
+        const token = localStorage.getItem("token");
+        const accountId = localStorage.getItem("accountId");
+
+        console.log("accountID, token", accountId, token);
+        if (!accountId || !token) return; // Tránh gọi API nếu không có accountId hoặc token
+
         const response = await fetch(
           `http://localhost:8080/api/managers/account?id=${accountId}`,
           {
-            method: 'GET',
+            method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
         );
+
         if (response.ok) {
           const data = await response.json();
-          setManager(data);
-          console.log("manager >>>", manager);
+          setPersonnel(data);
+          console.log("personnel >>>", data);
         } else {
-          console.error('Error fetching manager data:', response.statusText);
+          console.error("Error fetching personnel data:", response.statusText);
         }
       } catch (error) {
-        console.error('Error fetching manager data:', error);
+        console.error("Error fetching personnel data:", error);
       }
     };
 
-    fetchManager();
-  }, []);  // Only re-run if accountId or token change
+    fetchPersonnel();
+  }, []); // Không cần thêm accountId hoặc token vào dependencies
 
   const toggleProjectDropdown = () => {
     setProjectDropdown((prev) => !prev);
   };
+
 
   return (
     <div className={`sidebar ${expanded ? 'expanded' : 'collapsed'}`}>
@@ -65,13 +70,13 @@ function MSidebar() {
         <div className="user-info">
           <img
             className="avatar rounded-circle"
-            src={manager?.avatar || 'https://via.placeholder.com/50'}
-            alt="Manager Avatar"
+            src={personnel?.avatar || 'https://via.placeholder.com/50'}
+            alt="User Avatar"
           />
           {expanded && (
             <span className="user-name">
-              {manager?.lastName && manager?.firstName
-                ? `${manager.lastName} ${manager.firstName}`
+              {personnel?.lastName && personnel?.firstName
+                ? `${personnel.lastName} ${personnel.firstName}`
                 : 'Loading...'}
             </span>
           )}

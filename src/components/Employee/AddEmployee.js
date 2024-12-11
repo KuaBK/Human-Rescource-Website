@@ -30,16 +30,6 @@ const AddEmployee = ({ onAddEmployee }) => {
     setNewEmployee({ ...newEmployee, [name]: value });
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewEmployee({ ...newEmployee, avatar: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleAddClick = () => {
     // console.log(">>>> ", newEmployee);
@@ -65,28 +55,7 @@ const AddEmployee = ({ onAddEmployee }) => {
         </div>
       ) : (
         <form className="add-employee-form">
-          {/* Avatar Preview */}
-          <div className="avatar-upload-container">
-            <label htmlFor="avatar-input">
-              <div className="avatar-wrapper">
-                {newEmployee.avatar ? (
-                  <img
-                    src={newEmployee.avatar}
-                    alt="Avatar preview"
-                    className="avatar-preview-circle"
-                  />
-                ) : (
-                  <div className="avatar-placeholder">+</div>
-                )}
-              </div>
-            </label>
-            <input
-              id="avatar-input"
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-            />
-          </div>
+          
 
           {/* Form Inputs */}
 

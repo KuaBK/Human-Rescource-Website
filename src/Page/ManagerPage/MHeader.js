@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import "./MHeader.scss";
 import { Navbar, NavDropdown, Container } from "react-bootstrap";
@@ -12,11 +13,14 @@ const MHeader = () => {
     navigate("/");
   };
 
+
+
   useEffect(() => {
     const fetchManagerName = async () => {
       try {
         const token = localStorage.getItem("token");
         const accountId = localStorage.getItem("accountId");
+
 
         if (!token || !accountId) {
           setError("Authentication token or account ID not found");
@@ -40,13 +44,14 @@ const MHeader = () => {
 
         const data = await response.json();
         setName(`${data.lastName} ${data.firstName}`);
+
       } catch (err) {
         console.error("Error fetching manager name:", err);
         setError(err.message);
       }
     };
 
-    fetchManagerName();
+
   }, []);
 
   return (
@@ -70,8 +75,9 @@ const MHeader = () => {
           <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
           <NavDropdown.Item onClick={handleLogout}>Đăng xuất</NavDropdown.Item>
         </NavDropdown>
-      </Container>
-    </Navbar>
+
+      </Container >
+    </Navbar >
   );
 };
 

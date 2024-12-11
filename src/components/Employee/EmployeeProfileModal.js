@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Modal, Form, Button, Alert } from 'react-bootstrap';
+import axios from 'axios';
 import './EmployeeProfileModal.css';
 
-const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
-    const [editEmployee, setEditEmployee] = React.useState(employee);
+const EmployeeProfileModal = ({ show, handleClose, employee, onEmployeeUpdate }) => {
+    const [editEmployee, setEditEmployee] = useState(employee);
+    const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         setEditEmployee(employee);
-        //console.log(employee);
-    }, [employee]);  // Chỉ cập nhật lại editEmployee khi employee thay đổi
-
+    }, [employee]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,9 +21,36 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
         }));
     };
 
-    const onSave = () => {
-        handleSave(editEmployee);
-        handleClose();
+    const onSave = async () => {
+        setLoading(true);
+        setSuccessMessage('');
+        setErrorMessage('');
+        try {
+            const response = await axios.patch(
+                `http://localhost:8080/api/employee/update`,
+                { ...editEmployee },
+                {
+                    params: { personnel_code: editEmployee.personnelCode }, // Use the correct parameter name
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (response.data.code === 1000) {
+                setSuccessMessage(response.data.message);
+                onEmployeeUpdate(response.data.result); // Notify parent about the updated data
+                handleClose();
+            } else {
+                setErrorMessage(response.data.message || 'Update failed');
+            }
+        } catch (error) {
+            setErrorMessage(
+                error.response?.data?.message || 'An error occurred while updating the employee.'
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -30,6 +59,8 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                 <Modal.Title>Thông tin nhân viên</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {successMessage && <Alert variant="success">{successMessage}</Alert>}
+                {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                 <Form className="employee-profile-form">
                     <Form.Group controlId="formPosition" className="mt-2">
                         <Form.Label>Chức vụ</Form.Label>
@@ -44,7 +75,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             <option value="Employee">Employee</option>
                         </Form.Control>
                     </Form.Group>
-
                     <div className="row g-3 mb-0">
                         <div className="col-sm-6">
                             <Form.Group controlId="formFirstName">
@@ -57,7 +87,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                                 />
                             </Form.Group>
                         </div>
-
                         <div className="col-sm-6">
                             <Form.Group controlId="formLastName">
                                 <Form.Label>Họ</Form.Label>
@@ -70,7 +99,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             </Form.Group>
                         </div>
                     </div>
-
                     <Form.Group controlId="formGender" className="mt-2">
                         <Form.Label>Giới tính</Form.Label>
                         <Form.Control
@@ -83,8 +111,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             <option value="FEMALE">Female</option>
                         </Form.Control>
                     </Form.Group>
-
-
                     <Form.Group controlId="formEmail" className="mt-2">
                         <Form.Label>Email</Form.Label>
                         <Form.Control
@@ -94,8 +120,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-
-
                     <Form.Group controlId="formUsername" className="mt-2">
                         <Form.Label>Tên tài khoản</Form.Label>
                         <Form.Control
@@ -105,7 +129,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-
                     <Form.Group controlId="formPassword" className="mt-2">
                         <Form.Label>Mật khẩu</Form.Label>
                         <Form.Control
@@ -115,33 +138,24 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-
-                    <div className="row g-3 mb-0">
-                        <div className="col-sm-6">
-                            <Form.Group controlId="formCity">
-                                <Form.Label>Thành phố</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="city"
-                                    value={editEmployee.city}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                        </div>
-
-                        <div className="col-sm-6">
-                            <Form.Group controlId="formstreet">
-                                <Form.Label>Đường</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="street"
-                                    value={editEmployee.street}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                        </div>
-                    </div>
-
+                    <Form.Group controlId="formCity" className="mt-2">
+                        <Form.Label>Thành phố</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="city"
+                            value={editEmployee.city}
+                            onChange={handleChange}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formStreet" className="mt-2">
+                        <Form.Label>Đường</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="street"
+                            value={editEmployee.street}
+                            onChange={handleChange}
+                        />
+                    </Form.Group>
                     <Form.Group controlId="formPhoneNumber" className="mt-2">
                         <Form.Label>Số điện thoại</Form.Label>
                         <Form.Control
@@ -151,8 +165,6 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-
-
                     {editEmployee.role === 'Manager' && (
                         <Form.Group controlId="formManagerDate" className="mt-2">
                             <Form.Label>Ngày bắt đầu quản lý</Form.Label>
@@ -164,68 +176,14 @@ const EmployeeProfileModal = ({ show, handleClose, employee, handleSave }) => {
                             />
                         </Form.Group>
                     )}
-
-                    
-                    <Form.Group controlId="formDepartment" className="mt-2">
-                        <Form.Label>Phòng ban</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="department"
-                            value={editEmployee.deptName || ''}
-                            onChange={handleChange}
-                            disabled
-                        />
-                    </Form.Group>
-
-                    {/* Nếu là Manager thì có trường manageDate */}
-
-
-                    {/* Nếu là Employee thì có các trường taskComplete và project */}
-                    {editEmployee.position === 'Employee' && (
-                        <>
-                            {/* 
-                            <Form.Group controlId="formProject" className="mt-2">
-                                <Form.Label>Dự án hiện tại</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="project"
-                                    value={editEmployee.project}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group> */}
-                        </>
-                    )}
-
-                    <Form.Group controlId="formDeptId" className="mt-2">
-                        <Form.Label>Mã phòng ban</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="deptId"
-                            value={editEmployee.deptId || ''}
-                            onChange={handleChange}
-                            disabled
-                        />
-                    </Form.Group>
-
-                    {/* 
-                    <Form.Group controlId="formJob" className="mt-2">
-                        <Form.Label>Mô tả công việc</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="job"
-                            value={editEmployee.job}
-                            onChange={handleChange}
-                        />
-                    </Form.Group> */}
-
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={handleClose} disabled={loading}>
                     Đóng
                 </Button>
-                <Button variant="primary" onClick={onSave}>
-                    Lưu
+                <Button variant="primary" onClick={onSave} disabled={loading}>
+                    {loading ? 'Đang lưu...' : 'Lưu'}
                 </Button>
             </Modal.Footer>
         </Modal>
