@@ -11,6 +11,8 @@ import java.util.UUID;
 import com.Phong.BackEnd.entity.personnel.Personnel;
 import com.Phong.BackEnd.repository.PersonnelRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.Phong.BackEnd.dto.request.AuthenticationRequest;
@@ -72,11 +74,12 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var user = accountRepository
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        boolean authenticated = (Objects.equals(request.getPassword(), user.getPassword()));
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         var token = generateToken(user);
