@@ -5,10 +5,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://quangly.mysql.database.azure.com:3306/BackEnd_DA?useSSL=true&requireSSL=true
+    url: jdbc:mysql://avnadmin:AVNS_N9gRNT-R5Pz1SXtY5HC@mysql-232a0259-lythanhnhatquangthongnhat2004-4191.l.aivencloud.com:13388/HRW?ssl-mode=REQUIRED
     driverClassName: "com.mysql.cj.jdbc.Driver"
-    username: quanglee
-    password: domixi@2024
+    username: avnadmin
+    password: AVNS_N9gRNT-R5Pz1SXtY5HC
   jpa:
     hibernate:
       ddl-auto: update
