@@ -1,12 +1,16 @@
 .dashboard {
-  width: 70vw; /* Full viewport width */
+  // width: 70vw; /* Full viewport width */
+
+
   background-color: #f4f4f4;
   flex-grow: 1;
-  padding: 0; /* Remove extra padding */
+  padding: 0;
+  /* Remove extra padding */
 }
 
 .welcome-section {
-  width: 100%; /* Full width of the container */
+  width: 100%;
+  /* Full width of the container */
   background-color: #e0e7ff;
   border-radius: 8px;
   display: flex;
@@ -43,11 +47,13 @@
 }
 
 .widget-grid {
-  width: 100%; /* Full width of the container */
+  width: 100%;
+  /* Full width of the container */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  padding: 0 20px; /* Optional: add padding on sides for balance */
+  padding: 0 20px;
+  /* Optional: add padding on sides for balance */
 
   .frame {
     display: flex;

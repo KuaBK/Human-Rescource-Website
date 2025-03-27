@@ -1,182 +1,174 @@
 import React, { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './EmployeeAttendance.scss';
 
 const EmployeeAttendance = () => {
-    const [value, setValue] = useState(new Date());
-    const [schedule, setSchedule] = useState({});
-    const [isCheckedIn, setIsCheckedIn] = useState(false);
-    const [showOvertime, setShowOvertime] = useState(false);
-    const [overtimeHours, setOvertimeHours] = useState(0);
-    const [showRequestOff, setShowRequestOff] = useState(false);
-    const [leaveReason, setLeaveReason] = useState("");
-    const [leaveStartDate, setLeaveStartDate] = useState(null);
-    const [leaveEndDate, setLeaveEndDate] = useState(null);
+    const [attendanceData, setAttendanceData] = useState([]);
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const employeeCode = localStorage.getItem('personelCode');
+
+    const fetchAttendanceData = async (month, year) => {
+        setLoading(true);
+        setError(null);
+
+        if (!employeeCode) {
+            setError('Employee code not found in local storage.');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await axios.get('http://localhost:8080/api/attendance/all/employee', {
+                params: { code: employeeCode },
+            });
+
+            const { code, result } = response.data;
+            if (code === 1000) {
+                const filteredData = result.filter((attendance) => {
+                    const attendanceDate = new Date(attendance.date);
+                    return (
+                        attendanceDate.getMonth() === month - 1 &&
+                        attendanceDate.getFullYear() === year
+                    );
+                });
+                setAttendanceData(filteredData);
+            } else {
+                setError('Failed to fetch attendance records.');
+            }
+        } catch (err) {
+            setError('Error while fetching attendance data.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        // Initialize mock schedule data if needed
-        setSchedule({
-            '2024-11-05': { type: 'work', overtime: 2 },
-            '2024-11-12': { type: 'work', overtime: 0 },
+        fetchAttendanceData(selectedMonth, selectedYear);
+    }, [selectedMonth, selectedYear]);
+
+    const handleCheckIn = async () => {
+        try {
+            await axios.post(`http://localhost:8080/api/attendance/checkIn`, null, {
+                params: { code: employeeCode },
+            });
+            toast.success('You have successfully checked in!');
+
+            alert('Check-in successful!');
+            //  fetchAttendanceData(selectedMonth, selectedYear);
+
+        } catch (err) {
+            toast.error('Check-in failed. Please try again.');
+        }
+    };
+
+    const handleCheckOut = async () => {
+        try {
+            await axios.post(`http://localhost:8080/api/attendance/checkOut`, null, {
+                params: { code: employeeCode },
+            });
+            toast.success('You have successfully checked out!');
+
+        } catch (err) {
+            toast.error('Check-out failed. Please try again.');
+        }
+    };
+
+    const calculateDurationInMinutes = (duration) => {
+        if (!duration) {
+            return 0; // Default to 0 if duration is null or undefined
+        }
+        const [hours, minutes] = duration.split(':').map(Number);
+        return hours * 60 + minutes;
+    };
+
+    const getDayStatus = (day) => {
+        const match = attendanceData.find((attendance) => {
+            const attendanceDate = new Date(attendance.date);
+            return attendanceDate.getDate() === day;
         });
-    }, []);
 
-    const handleDateChange = (date) => {
-        setValue(date);
-        const dateKey = date.toISOString().split('T')[0];
-        setIsCheckedIn(schedule[dateKey]?.type === 'work');
-        setOvertimeHours(schedule[dateKey]?.overtime || 0);
-    };
-
-    const handleCheckInOut = () => {
-        const dateKey = value.toISOString().split('T')[0];
-        setSchedule((prevSchedule) => ({
-            ...prevSchedule,
-            [dateKey]: {
-                ...prevSchedule[dateKey],
-                type: isCheckedIn ? 'none' : 'work',
-            },
-        }));
-        setIsCheckedIn(!isCheckedIn);
-    };
-
-    const handleOvertimeToggle = () => {
-        setShowOvertime(!showOvertime);
-    };
-
-    const handleOvertimeSelect = (event) => {
-        const hours = parseInt(event.target.value, 10);
-        setOvertimeHours(hours);
-        const dateKey = value.toISOString().split('T')[0];
-        setSchedule((prevSchedule) => ({
-            ...prevSchedule,
-            [dateKey]: {
-                ...prevSchedule[dateKey],
-                overtime: hours,
-            },
-        }));
-    };
-
-    const handleRequestOffToggle = () => {
-        setShowRequestOff(!showRequestOff);
-    };
-
-    const handleLeaveReasonChange = (event) => {
-        setLeaveReason(event.target.value);
-    };
-
-    const handleStartDateChange = (event) => {
-        setLeaveStartDate(event.target.value);
-    };
-
-    const handleEndDateChange = (event) => {
-        setLeaveEndDate(event.target.value);
-    };
-
-    const handleSubmitLeaveRequest = () => {
-        if (!leaveStartDate || !leaveEndDate || !leaveReason) return;
-
-        const start = new Date(leaveStartDate);
-        const end = new Date(leaveEndDate);
-        const newSchedule = { ...schedule };
-
-        // Iterate through each day in the range and mark as "off"
-        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-            const dateKey = d.toISOString().split('T')[0];
-            newSchedule[dateKey] = {
-                type: 'off',
-                reason: leaveReason,
-            };
+        if (!match) {
+            const today = new Date();
+            const isFuture = new Date(selectedYear, selectedMonth - 1, day) > today;
+            return isFuture ? { color: 'transparent', text: '' } : { color: '#ff4d4f', text: 'Absent' };
         }
-        
-        setSchedule(newSchedule);
-        setLeaveReason("");
-        setLeaveStartDate(null);
-        setLeaveEndDate(null);
-        setShowRequestOff(false);
-    };
 
-    const renderTileContent = ({ date, view }) => {
-        if (view === 'month') {
-            const dateKey = date.toISOString().split('T')[0];
-            const dayInfo = schedule[dateKey];
-            return (
-                <div className="tile-content">
-                    {dayInfo?.type === 'work' && <div className="day-label work-day">Worked</div>}
-                    {dayInfo?.overtime > 0 && (
-                        <div className="day-label overtime-label">Overtime: {dayInfo.overtime}h</div>
-                    )}
-                    {dayInfo?.type === 'off' && (
-                        <div className="day-label off-day">
-                            Off - {dayInfo.reason}
-                        </div>
-                    )}
-                </div>
-            );
+        const durationMinutes = calculateDurationInMinutes(match.duration);
+        let durationStatus = '';
+        let color = '';
+
+        if (durationMinutes >= 5) {
+            durationStatus = 'Full work';
+            color = '#52c41a'; // Green for full work
+        } else if (durationMinutes >= 3 && durationMinutes < 5) {
+            durationStatus = 'Half work';
+            color = '#faad14'; // Yellow for half work
+        } else {
+            durationStatus = 'Absent';
+            color = '#ff4d4f'; // Red for absent
         }
-        return null;
+
+        return { color, text: durationStatus };
     };
 
     return (
-        <div className="attendance-container">
-            <h2 className="attendance-title">Lịch làm việc của tôi</h2>
-            <div className="calendar-and-controls">
-                <div className="calendar-container">
-                    <Calendar
-                        onChange={handleDateChange}
-                        value={value}
-                        tileContent={renderTileContent}
-                        tileDisabled={({ date }) => date > new Date()}
+        <div className="employee-attendance">
+            <ToastContainer />
+            <div className="header">
+                <h2 className="title">My Attendance</h2>
+                <div className="filters">
+                    <label>Month:</label>
+                    <select
+                        value={selectedMonth}
+                        onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+                    >
+                        {[...Array(12).keys()].map((i) => (
+                            <option key={i + 1} value={i + 1}>
+                                {i + 1}
+                            </option>
+                        ))}
+                    </select>
+                    <label>Year:</label>
+                    <input
+                        type="number"
+                        value={selectedYear}
+                        onChange={(e) => setSelectedYear(parseInt(e.target.value))}
                     />
                 </div>
-                <div className="controls-container">
-                    <button className="check-button" onClick={handleCheckInOut}>
-                        {isCheckedIn ? 'Check Out' : 'Check In'}
-                    </button>
-                    <button className="overtime-button" onClick={handleOvertimeToggle}>
-                       Đăng ký OT
-                    </button>
-                    {showOvertime && (
-                        <div className="overtime-dropdown">
-                            <label htmlFor="overtime-hours">Số giờ OT</label>
-                            <select id="overtime-hours" value={overtimeHours} onChange={handleOvertimeSelect}>
-                                <option value="0">Chọn số giờ</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                    )}
-                    <button className="request-off-button" onClick={handleRequestOffToggle}>
-                       Xin nghỉ phép
-                    </button>
-                    {showRequestOff && (
-                        <div className="request-off-box">
-                            <label htmlFor="leave-start">Từ</label>
-                            <input
-                                type="date"
-                                id="leave-start"
-                                value={leaveStartDate || ""}
-                                onChange={handleStartDateChange}
-                            />
-                            <label htmlFor="leave-end">Đến</label>
-                            <input
-                                type="date"
-                                id="leave-end"
-                                value={leaveEndDate || ""}
-                                onChange={handleEndDateChange}
-                            />
-                            <label htmlFor="leave-reason">Lý do nghỉ</label>
-                            <textarea
-                                id="leave-reason"
-                                value={leaveReason}
-                                onChange={handleLeaveReasonChange}
-                                placeholder="Enter reason here..."
-                            />
-                            <button onClick={handleSubmitLeaveRequest}>Gửi yêu cầu</button>
-                        </div>
-                    )}
+                <div className="actions">
+                    <button onClick={handleCheckIn} className="check-in">Check-In</button>
+                    <button onClick={handleCheckOut} className="check-out">Check-Out</button>
+                </div>
+            </div>
+
+            <div className="calendar">
+                <div className="calendar-row">
+                    {Array.from(
+                        { length: new Date(selectedYear, selectedMonth, 0).getDate() },
+                        (_, i) => i + 1
+                    ).map((day) => {
+                        const { color, text } = getDayStatus(day);
+                        return (
+                            <div
+                                key={day}
+                                className="calendar-day"
+                                style={{
+                                    backgroundColor: color,
+                                    borderRadius: '8px',
+                                    color: color === 'transparent' ? '#000' : '#fff',
+                                }}
+                            >
+                                <div className="day-number">{day}</div>
+                                <div className="day-status">{text}</div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>

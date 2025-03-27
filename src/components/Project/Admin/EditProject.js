@@ -1,8 +1,8 @@
-// EditTask.js
+c// EditTask.js
 import React, { useState } from 'react';
-import './EditTask.css';
+import './EditProject.css';
 
-const EditTask = ({ project, onClose, onSave }) => {
+const EditProject = ({ project, onClose, onSave }) => {
     const [name, setName] = useState(project.name);
     const [company, setCompany] = useState(project.company);
     const [startDate, setStartDate] = useState('');
@@ -25,7 +25,7 @@ const EditTask = ({ project, onClose, onSave }) => {
     return (
         <div className="edit-task-modal">
             <div className="edit-task-content">
-                <h3>Edit Project</h3>
+                <h3></h3>
                 <label>
                     Project Name:
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -53,4 +53,4 @@ const EditTask = ({ project, onClose, onSave }) => {
     );
 };
 
-export default EditTask;
+export default EditProject;
